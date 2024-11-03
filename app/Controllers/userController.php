@@ -28,6 +28,18 @@ class userController extends BaseController
         $foto = $this->request->getFile('file-upload');
         $kategori = $this->request->getPost('category');
 
+        $klienModel = new klienModel();
+        $mahasiswaModel = new mahasiswaModel();
+        $psikologModel = new psikologModel();
+
+        $isUsernameTaken = $klienModel->where('username', $username)->first() ||
+                           $mahasiswaModel->where('username', $username)->first() ||
+                           $psikologModel->where('username', $username)->first();
+
+        if ($isUsernameTaken) {
+           return redirect()->back()->with('error', 'Maaf username kamu sudah terpakai, tolong ganti yahh');
+      }
+
         if (strcasecmp($kategori, 'Klien') === 0) {
             $model = new klienModel();
 
