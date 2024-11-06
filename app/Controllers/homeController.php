@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Models\klienModel;
 use App\Models\mahasiswaModel;
 use App\Models\psikologModel;
+use App\Models\adminModel;
 
 class homeController extends BaseController
 {
@@ -13,48 +14,51 @@ class homeController extends BaseController
     {
         return view('homepage');
     }
-
     public function index()
     {
         $loggedInUsername = session()->get('username');
-
-        // Inisialisasi model untuk setiap peran
+    
         $klienModel = new KlienModel();
         $mahasiswaModel = new MahasiswaModel();
         $psikologModel = new PsikologModel();
-
-        // Cek akun yang cocok dengan username yang login
+        $adminModel = new AdminModel();
+    
+        // Check user role and render the appropriate view
         $klienData = $klienModel->where('username', $loggedInUsername)->first();
         if ($klienData) {
             return view('homeKlien', ['userData' => $klienData]);
         }
-
+    
         $mahasiswaData = $mahasiswaModel->where('username', $loggedInUsername)->first();
         if ($mahasiswaData) {
-            return view('homeMahasiswa', ['userData' => $mahasiswaData]);
+            return view('homeKlien', ['userData' => $mahasiswaData]);
         }
-
+    
         $psikologData = $psikologModel->where('username', $loggedInUsername)->first();
         if ($psikologData) {
             return view('homePsikolog', ['userData' => $psikologData]);
         }
-
-        // Jika tidak ada data yang ditemukan, redirect ke halaman login dengan pesan error
+    
+        $adminData = $adminModel->where('username', $loggedInUsername)->first();
+        if ($adminData) {
+            // Render the view for admin without needing a separate route
+            return view('viewDashboard', ['userData' => $adminData]);
+        }
+    
+        // Redirect to login if no user data is found
         return redirect()->to('/login')->with('error', 'Akun tidak ditemukan.');
     }
-
+    
     public function getProfilePicture($username)
     {
         $model = new klienModel();
-        $user = $model->where('username', $username)->first(); // Fetch user by username
+        $user = $model->where('username', $username)->first();
 
         if ($user && $user['foto']) {
-            // Set the appropriate header
-            $this->response->setHeader('Content-Type', 'image/jpg'); // Change to the correct image type if necessary
+            $this->response->setHeader('Content-Type', 'image/jpg');
             echo $user['foto'];
         } else {
-            // Handle the case where the user or picture is not found
-            return redirect()->to('/path/to/default/image.jpg'); // Fallback image
+            return redirect()->to('/path/to/default/image.jpg');
         }
     }
 }

@@ -83,10 +83,18 @@
                     <img src="<?= base_url('images/Logo Bercerita.com.png') ?>" alt="Bercerita.com" class="logo">
                 </a>
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <button class="nav-link" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebar "><?= strtoupper($userData['username']) ?> <img src="<?= site_url('homeController/foto/' . $userData['username']) ?>" class="profile rounded-circle"></button>
-                    </li>
-                </ul>
+                <li class="nav-item">
+                    <button class="nav-link" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebar" aria-label="Buka menu samping">
+                        <?= strtoupper($userData['username']) ?> 
+                        <img src="<?= base_url($userData['foto']); ?>" alt="Foto Profil" style="width:150px; height:150px;" class="profile rounded-circle">
+                    </button>
+
+                    <!-- NI DEBUG YAA, HASILNYA EMANG KEBACA TAPI GA BISA DI TAMPILIN KENAPA YAAA ANJENGGGGG -->
+                    <!-- <pre><?php print_r($userData); ?></pre> -->
+                     <!-- MASAK HARUS PAKE CLOUD??? SIAPA YANG MAU BAYARRRRRRRRRR :( -->
+                      
+                </li>
+            </ul>
             </div>
         </nav>
         <div id="demo" class="carousel slide" data-bs-ride="carousel" data-bs-interval="2000">
@@ -105,7 +113,7 @@
             <!-- The slideshow/carousel -->
             <div class="carousel-inner">
                 <div class="carousel-item active">
-                    <img src="<?= base_url('images/Burnout.jpeg') ?>" alt="Burnout" class="d-block w-100">
+                    <img src="<?= base_url('images/Burnout.png') ?>" alt="Burnout" class="d-block w-100">
                     <div class="carousel-caption">
                         <h3>Burnout: Ketika Kelelahan Mental Menjadi Hambatan</h3>
                         <p>Burnout adalah kondisi kelelahan fisik, emosional, dan mental akibat tekanan pekerjaan atau tanggung jawab berlebih.
@@ -115,7 +123,7 @@
                     </div>
                 </div>
                 <div class="carousel-item">
-                    <img src="<?= base_url('images/Loneliness.jpeg') ?>" alt="Loneliness" class="d-block w-100">
+                    <img src="<?= base_url('images/Loneliness.png') ?>" alt="Loneliness" class="d-block w-100">
                     <div class="carousel-caption">
                         <h3>Kesepian: Memahami Perasaan yang Menghantui</h3>
                         <p>Kesepian adalah pengalaman emosional yang dapat dialami oleh siapa saja, meskipun dikelilingi oleh orang lain.
@@ -126,7 +134,7 @@
                     </div>
                 </div>
                 <div class="carousel-item">
-                    <img src="<?= base_url('images/Anxiety.jpeg') ?>" alt="Anxiety" class="d-block w-100">
+                    <img src="<?= base_url('images/Anxiety.png') ?>" alt="Anxiety" class="d-block w-100">
                     <div class="carousel-caption">
                         <h3>Kecemasan: Menghadapi Perasaan Takut yang Berlebihan</h3>
                         <p>Kecemasan adalah perasaan ketakutan atau kekhawatiran yang sering muncul tanpa alasan yang jelas.
@@ -137,7 +145,7 @@
                     </div>
                 </div>
                 <div class="carousel-item">
-                    <img src="<?= base_url('images/Frustasi.jpeg') ?>" alt="Frustasi" class="d-block w-100">
+                    <img src="<?= base_url('images/Frustasi.png') ?>" alt="Frustasi" class="d-block w-100">
                     <div class="carousel-caption">
                         <h3>Frustrasi: Ketika Harapan Tidak Sesuai Kenyataan</h3>
                         <p>Frustrasi adalah perasaan kesal atau kecewa yang muncul ketika sesuatu tidak berjalan sesuai harapan.
@@ -147,7 +155,7 @@
                     </div>
                 </div>
                 <div class="carousel-item">
-                    <img src="<?= base_url('images/Trauma.jpeg') ?>" alt="Trauma" class="d-block w-100">
+                    <img src="<?= base_url('images/Trauma.png') ?>" alt="Trauma" class="d-block w-100">
                     <div class="carousel-caption">
                         <h3>Trauma: Luka Emosional yang Tersimpan di Dalam Diri</h3>
                         <p>Trauma adalah respons emosional terhadap peristiwa yang sangat mengejutkan atau menyakitkan, seperti kecelakaan,
@@ -158,7 +166,7 @@
                     </div>
                 </div>
                 <div class="carousel-item">
-                    <img src="<?= base_url('images/Hopeless.jpeg') ?>" alt="Hopeless" class="d-block w-100">
+                    <img src="<?= base_url('images/Hopeless.png') ?>" alt="Hopeless" class="d-block w-100">
                     <div class="carousel-caption">
                         <h3>Putus Asa: Saat Harapan Mulai Hilang</h3>
                         <p>Putus asa adalah perasaan kehilangan harapan atau keyakinan bahwa keadaan akan membaik.
@@ -170,7 +178,7 @@
                     </div>
                 </div>
                 <div class="carousel-item">
-                    <img src="<?= base_url('images/Family & Relation.jpeg') ?>" alt="Family & Relation" class="d-block w-100">
+                    <img src="<?= base_url('images/Family & Relation.png') ?>" alt="Family & Relation" class="d-block w-100">
                     <div class="carousel-caption">
                         <h3>Keluarga & Hubungan: Fondasi Penting dalam Kehidupan</h3>
                         <p>Keluarga dan hubungan merupakan pilar utama yang memberikan dukungan emosional, rasa aman, dan kebahagiaan dalam hidup.
@@ -181,7 +189,7 @@
                     </div>
                 </div>
                 <div class="carousel-item">
-                    <img src="<?= base_url('images/Jealousy.jpeg') ?>" alt="Jealousy" class="d-block w-100">
+                    <img src="<?= base_url('images/Jealousy.png') ?>" alt="Jealousy" class="d-block w-100">
                     <div class="carousel-caption">
                         <h3>Cemburu: Mengelola Perasaan Iri yang Mengganggu</h3>
                         <p>Cemburu adalah emosi yang muncul ketika seseorang merasa takut kehilangan perhatian, cinta, atau kedudukan karena orang lain.
