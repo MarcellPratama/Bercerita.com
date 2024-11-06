@@ -10,12 +10,24 @@
         .nav-link {
             font-family: 'Poppins', sans-serif;
             font-weight: 700;
-            font-size: 20px;
+            font-size: 14px;
             color: #282928; /* Ensuring the text color is white */
             display: flex;
             align-items: center;
         }
 
+        .offcanvas-title {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            font-size: 14px;
+            color: #282928; /* Ensuring the text color is white */
+            display: flex;
+            
+            align-items: center;
+        }
+        svg {
+            margin-right: 10px;
+        }
 
 
     }
