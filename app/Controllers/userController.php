@@ -106,17 +106,14 @@ class userController extends BaseController
         $admin = $adminModel->where('username', $username)->first();
         // dd($admin);
         if ($admin) {
-            // dd("masuk");
-            // Debugging to check if password matches
-            // if (password_verify($password, $admin['password'])) {
-            if ($password == $admin['password']) {
+            if ($password == trim($admin['password'])) { // Menggunakan trim untuk menghilangkan spasi tambahan
                 session()->set([
                     'username' => $username,
                     'role' => 'admin'
                 ]);
                 return redirect()->to('/beranda');
             } else {
-                // dd("ini masuk else");
+                session()->setFlashdata('error', 'Nama pengguna/kata sandi tidak sesuai.');
                 return redirect()->to('/login');
             }
         }
@@ -133,7 +130,7 @@ class userController extends BaseController
             ]);
             return redirect()->to('/beranda');
         }
-
+        session()->setFlashdata('error', 'Nama pengguna/kata sandi tidak sesuai.');
         return redirect()->to('/login');
     }
 
