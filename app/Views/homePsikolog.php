@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Selamat Datang, Psikolog</title>
     <style>
-        /* Mengatur gaya latar belakang */
         body,
         html {
             height: 100%;
@@ -18,45 +17,37 @@
             color: white;
         }
 
-        /* Gaya latar belakang dengan blur dan saturasi hitam */
         .background {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-image: url('/images/welcomeimage.png');
-            /* Ganti dengan path gambar yang Anda inginkan */
+            background-image: url('/images/psikologBC.jpg');
             background-size: cover;
             background-position: center;
             filter: blur(5px) brightness(0.5);
-            /* Efek blur dan kegelapan */
             z-index: -1;
         }
 
-        /* Kontainer utama untuk teks dan tombol */
         .container {
             text-align: center;
             background-color: rgba(0, 0, 0, 0.6);
-            /* Lapisan transparan di belakang teks */
             padding: 40px;
             border-radius: 10px;
             max-width: 600px;
         }
 
-        /* Logo */
         .logo img {
             max-width: 150px;
             margin-bottom: 20px;
         }
 
-        /* Judul dan deskripsi */
         .title {
             font-size: 24px;
             margin: 20px 0;
         }
 
-        /* Tombol */
         .button {
             display: inline-block;
             background-color: white;
@@ -78,7 +69,7 @@
 </head>
 
 <body>
-    <div class="background"></div> <!-- Latar belakang blur -->
+    <div class="background"></div> 
 
     <!-- Logo -->
     <div class="container">

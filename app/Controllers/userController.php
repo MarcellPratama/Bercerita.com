@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Models\klienModel;
 use App\Models\mahasiswaModel;
 use App\Models\psikologModel;
+use App\Models\adminModel;
 
 class userController extends BaseController
 {
@@ -32,11 +33,13 @@ class userController extends BaseController
         $mahasiswaModel = new mahasiswaModel();
         $psikologModel = new psikologModel();
 
+        // Check if username is already taken
         $isUsernameTaken = $klienModel->where('username', $username)->first() ||
             $mahasiswaModel->where('username', $username)->first() ||
             $psikologModel->where('username', $username)->first();
 
         if ($isUsernameTaken) {
+<<<<<<< HEAD
             return redirect()->back()->with('error', 'Maaf username kamu sudah terpakai, tolong ganti yahh');
         }
 
@@ -81,9 +84,59 @@ class userController extends BaseController
                 'fotolisensi' => $lisensi,
                 'foto' => $foto
             ]);
+=======
+            return redirect()->back()->with('error', 'Maaf, username ini sudah terpakai. Silakan gunakan yang lain.');
+>>>>>>> ae3808d23618273f6ad8e19b4479bdfc68d4e5a1
         }
 
-        return redirect()->to('/login');
+        // Upload profile picture
+        $fotoPath = null;
+        if ($foto && $foto->isValid() && !$foto->hasMoved()) {
+            $fotoName = $foto->getRandomName();
+            $fotoPath = 'uploads/' . $fotoName;
+            $foto->move('public/uploads', $fotoName);
+        }
+
+        // Choose model based on user category
+        $model = null;
+        if (strcasecmp($kategori, 'klien') === 0) {
+            $model = $klienModel;
+        } elseif (strcasecmp($kategori, 'mhs') === 0) {
+            $model = $mahasiswaModel;
+            $model->save([
+                'username' => $username,
+                'password' => password_hash($password, PASSWORD_BCRYPT),
+                'email' => $email,
+                'foto' => $fotoPath,
+                'nim' => $this->request->getPost('nim'),
+                'asal_univ' => $this->request->getPost('asal_univ'),
+                'fotoKTM' => $this->uploadFile('fotoKTM')
+            ]);
+            return redirect()->to('login');
+        } elseif (strcasecmp($kategori, 'psikolog') === 0) {
+            $model = $psikologModel;
+            $model->save([
+                'username' => $username,
+                'password' => password_hash($password, PASSWORD_BCRYPT),
+                'email' => $email,
+                'domisili' => $this->request->getPost('domisili'),
+                'ktp' => $this->uploadFile('ktp'),
+                'lisensi' => $this->uploadFile('license'),
+                'foto' => $fotoPath
+            ]);
+            return redirect()->to('login');
+        }
+
+        // Save user data for 'klien' category
+        if ($model) {
+            $model->save([
+                'username' => $username,
+                'password' => password_hash($password, PASSWORD_BCRYPT),
+                'email' => $email,
+                'foto' => $fotoPath
+            ]);
+            return redirect()->to('login');
+        }
     }
 
     public function login()
@@ -91,32 +144,61 @@ class userController extends BaseController
         $username = $this->request->getVar('username');
         $password = $this->request->getVar('password');
 
-        //loads the models
         $klienModel = new klienModel();
         $mahasiswaModel = new mahasiswaModel();
         $psikologModel = new psikologModel();
+        $adminModel = new adminModel();
 
-        // Check if username exists in any of the tables
-        $user = $klienModel->where('username', $username)->first() ??
-            $mahasiswaModel->where('username', $username)->first() ??
-            $psikologModel->where('username', $username)->first();
-
-        if ($user) {
-            if ($user['password'] === md5($password)) {
-                session()->set('username', $username);
+        // Check if user is admin
+        $admin = $adminModel->where('username', $username)->first();
+        // dd($admin);
+        if ($admin) {
+            // dd("masuk");
+            // Debugging to check if password matches
+            // if (password_verify($password, $admin['password'])) {
+            if ($password == $admin['password']) {
+                session()->set([
+                    'username' => $username,
+                    'role' => 'admin'
+                ]);
                 return redirect()->to('/beranda');
             } else {
-                return redirect()->back()->with('error', 'Password salah');
+                // dd("ini masuk else");
+                return redirect()->to('/login');
             }
-        } else {
-            return redirect()->back()->with('error', 'Username tidak ditemukan');
         }
+
+        // Check if user is a client, student, or psychologist
+        $user = $klienModel->where('username', $username)->first() ??
+                $mahasiswaModel->where('username', $username)->first() ??
+                $psikologModel->where('username', $username)->first();
+
+        if ($user && password_verify($password, $user['password'])) {
+            session()->set([
+                'username' => $username,
+                'role' => 'user'
+            ]);
+            return redirect()->to('/beranda');
+        }
+
+        return redirect()->to('/login');
     }
 
     public function logout()
     {
-        $session = session();
-        $session->destroy();
+        session()->destroy();
         return redirect()->to('/');
+    }
+
+    private function uploadFile($fileInputName)
+    {
+        $file = $this->request->getFile($fileInputName);
+        if ($file && $file->isValid() && !$file->hasMoved()) {
+            $fileName = $file->getRandomName();
+            $filePath = 'uploads/' . $fileName;
+            $file->move('public/uploads', $fileName);
+            return $filePath;
+        }
+        return null;
     }
 }

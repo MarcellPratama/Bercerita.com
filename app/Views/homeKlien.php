@@ -83,10 +83,18 @@
                     <img src="<?= base_url('images/Logo Bercerita.com.png') ?>" alt="Bercerita.com" class="logo">
                 </a>
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <button class="nav-link" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebar "><?= strtoupper($userData['username']) ?> <img src="<?= site_url('homeController/foto/' . $userData['username']) ?>" class="profile rounded-circle"></button>
-                    </li>
-                </ul>
+                <li class="nav-item">
+                    <button class="nav-link" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebar" aria-label="Buka menu samping">
+                        <?= strtoupper($userData['username']) ?> 
+                        <img src="<?= base_url($userData['foto']); ?>" alt="Foto Profil" style="width:150px; height:150px;" class="profile rounded-circle">
+                    </button>
+
+                    <!-- NI DEBUG YAA, HASILNYA EMANG KEBACA TAPI GA BISA DI TAMPILIN KENAPA YAAA ANJENGGGGG -->
+                    <!-- <pre><?php print_r($userData); ?></pre> -->
+                     <!-- MASAK HARUS PAKE CLOUD??? SIAPA YANG MAU BAYARRRRRRRRRR :( -->
+                      
+                </li>
+            </ul>
             </div>
         </nav>
         <div id="demo" class="carousel slide" data-bs-ride="carousel" data-bs-interval="2000">
