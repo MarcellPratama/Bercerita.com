@@ -86,7 +86,7 @@
                 <li class="nav-item">
                     <button class="nav-link" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebar" aria-label="Buka menu samping">
                         <?= strtoupper($userData['username']) ?> 
-                        <img src="<?= base_url($userData['foto']); ?>" alt="Foto Profil" style="width:150px; height:150px;" class="profile rounded-circle">
+                        <img src="<?= base_url('images/psikolog1.jpeg'); ?>" alt="Foto Profil" class="profile rounded-circle">
                     </button>
 
                     <!-- NI DEBUG YAA, HASILNYA EMANG KEBACA TAPI GA BISA DI TAMPILIN KENAPA YAAA ANJENGGGGG -->
