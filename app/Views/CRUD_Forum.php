@@ -163,7 +163,7 @@
                     </td>
                     <td>
                         <form action="<?= base_url('forum/delete/' . $forum['kode_forum']) ?>" method="POST">
-                            <button type="submit" onclick="return confirm('Yakin ingin menghapus?')">Hapus</button>
+                         <button type="submit" onclick="return confirm('Yakin ingin menghapus?')" class="btn btn-danger">Hapus</button>
                         </form>
                     </td>
                 </tr>
