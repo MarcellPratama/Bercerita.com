@@ -62,8 +62,14 @@ class ForumController extends BaseController {
         return redirect()->to('/forum')->with('success', 'Forum berhasil ditambahkan');
     }
 
-    // Menghapus forum
     public function deleteForum($kode_forum) {
+        // Pastikan forum ada
+        $forum = $this->forumModel->find($kode_forum);
+        if (!$forum) {
+            return redirect()->to('/forum')->with('error', 'Forum tidak ditemukan');
+        }
+    
+        // Hapus forum
         $this->forumModel->deleteForum($kode_forum);
         return redirect()->to('/forum')->with('success', 'Forum berhasil dihapus');
     }
