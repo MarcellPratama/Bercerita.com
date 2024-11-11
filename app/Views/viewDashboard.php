@@ -22,23 +22,14 @@
         display: flex;
     }
 
-    /* .sidebar {
-        width: 250px;
-        height: 100vh;
-        background-color: #00c2cb;
-        padding: 20px;
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        color: white;
-        border-radius: 0 10px 10px 0;
-    } */
 
     .user-profile {
         display: flex;
         flex-direction: column;
         align-items: center;
         margin-bottom: 30px;
+        margin-left: 35px;
+
     }
 
     .user-img {
@@ -49,15 +40,6 @@
         margin-bottom: 10px;
     }
 
-    /* .menu {
-        list-style: none;
-        padding: 0;
-        width: 100%;
-    }
-
-    .menu li {
-        margin: 15px 0;
-    } */
 
     .menu a {
         display: flex;
@@ -94,7 +76,7 @@
 
     .logo {
         height: 50px;
-        margin-left: 920px;
+        margin-left: 1045px;
     }
 
     .grid-layout {
@@ -178,8 +160,9 @@
         font-size: 25px;
     }
 
+
     .sidebar {
-        width: 250px;
+        width: 245px;
         height: 100vh;
         background-color: #00c2cb;
         padding: 20px;
@@ -197,72 +180,71 @@
         /* Remove default padding */
         margin: 0;
         /* Remove default margin */
+
     }
 
-    .menu li {
-        position: relative;
-        /* Needed for dropdown positioning */
-        margin: 15px 0;
-        /* Spacing between menu items */
-    }
-
-    .dropdown-toggle {
-        display: flex;
-        /* Align items */
-        align-items: center;
-        /* Center vertically */
-        text-decoration: none;
-        /* Remove underline from links */
-        color: white;
-        /* Text color */
-        font-size: 18px;
-        /* Font size */
-    }
-
-    .dropdown-toggle i {
-        margin-left: auto;
-        /* Push the dropdown icon to the right */
-    }
-
-    .dropdown-menu {
-        display: none;
-        /* Hide dropdown by default */
+    .sidebar ul {
         list-style: none;
-        /* Remove bullet points */
-        padding: 0;
-        /* Remove padding */
-        margin: 0;
-        /* Remove margin */
-        position: absolute;
-        /* Position below the menu item */
-        background-color: #00c2cb;
-        /* Match the sidebar color */
         width: 100%;
-        /* Full width of the parent */
-        border-radius: 5px;
-        /* Round the corners */
-        z-index: 1000;
-        /* Ensure it appears above other content */
-    }
-
-    .menu li:hover .dropdown-menu {
-        display: block;
-        /* Show dropdown on hover */
-    }
-
-    .dropdown-menu a {
-        padding: 10px;
-        /* Spacing within dropdown items */
         color: white;
-        /* Text color */
-        text-decoration: none;
-        /* Remove underline */
+    }
+
+    .sidebar ul li {
+        position: relative;
+        margin: 15px 0;
+        color: white;
+    }
+
+    .sidebar ul li a {
         display: flex;
-        /* Flex for icon and text alignment */
         align-items: center;
-        /* Center vertically */
-        gap: 10px;
-        /* Space between icon and text */
+        padding: 10px 20px;
+        text-decoration: none;
+        color: #b0bec5;
+        transition: background 0.3s;
+        border-radius: 5px;
+        font-size: 18px;
+        color: white;
+    }
+
+    .sidebar ul li a:hover {
+        color: #fff;
+    }
+
+    .sidebar ul li a i {
+        margin-right: 15px;
+        font-size: 18px;
+        color: white;
+    }
+
+    .sidebar ul li a.active {
+        background-color: #088395;
+    }
+
+    /* Submenu */
+    .submenu {
+        display: none;
+        padding-left: 20px;
+        background-color: #00c2cb;
+        border-radius: 5px;
+    }
+
+    .submenu li a {
+        padding: 10px 15px;
+        font-size: 14px;
+        color: #b0bec5;
+        text-decoration: none;
+    }
+
+    .submenu li a:hover {
+        color: #fff;
+    }
+
+    /* Panah untuk indikator submenu */
+    .toggle-submenu {
+        margin-left: auto;
+        font-size: 14px;
+        cursor: pointer;
     }
     </style>
 </head>
@@ -275,16 +257,20 @@
         </div>
 
         <ul class="menu">
-            <li><a href="#"><i class="fas fa-home"></i> Beranda</a></li>
+            <li><a href="#" class="active"><i class="fas fa-home"></i> Beranda</a></li>
             <li><a href="#"><i class="fas fa-check-circle"></i> Verifikasi</a></li>
+
             <li>
-            <li>
-                <a href="#" class="dropdown-toggle"><i class="fas fa-users"></i> Pengguna </i></a>
-                <ul class="dropdown-menu">
+                <a href="#" class="dropdown-toggle" onclick="toggleSubmenu(this)">
+                    <i class="fas fa-users"></i> Pengguna
+                    <!-- <span class="toggle-submenu">&#9662;</span> -->
+                </a>
+                <ul class="submenu">
                     <li><a href="#"><i class="fas fa-user"></i> Psikolog</a></li>
                     <li><a href="#"><i class="fas fa-user-graduate"></i> Mahasiswa Psikologi</a></li>
                 </ul>
             </li>
+
             <li><a href="/login"><i class="fas fa-sign-out-alt"></i> Keluar</a></li>
         </ul>
     </div>
@@ -394,18 +380,14 @@
     const dropdownToggle = document.querySelector('.dropdown-toggle');
     const dropdownMenu = document.querySelector('.dropdown-menu');
 
-    // Add event listener for click
-    dropdownToggle.addEventListener('click', function(e) {
-        e.preventDefault(); // Prevent the default anchor behavior
-        dropdownMenu.classList.toggle('show'); // Toggle the show class
-    });
+    function toggleSubmenu(element) {
+        const submenu = element.nextElementSibling;
+        submenu.style.display = submenu.style.display === "block" ? "none" : "block";
 
-    // Close the dropdown if clicked outside
-    window.addEventListener('click', function(e) {
-        if (!dropdownToggle.contains(e.target) && !dropdownMenu.contains(e.target)) {
-            dropdownMenu.classList.remove('show'); // Hide dropdown
-        }
-    });
+        // Mengubah panah untuk menunjukkan apakah submenu terbuka atau tertutup
+        const arrow = element.querySelector('.toggle-submenu');
+        arrow.innerHTML = submenu.style.display === "block" ? "&#9652;" : "&#9662;";
+    }
     </script>
 </body>
 
