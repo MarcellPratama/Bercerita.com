@@ -12,3 +12,4 @@ $routes->post('prosesLogin', 'userController::login');
 $routes->get('registrasi', 'userController::viewRegistrasi');
 $routes->post('prosesRegistrasi', 'userController::registrasi');
 $routes->get('logout', 'userController::logout');
+$routes->get('forum', 'homeKlienController::forumView');

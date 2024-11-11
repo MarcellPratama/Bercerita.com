@@ -40,6 +40,10 @@ class userController extends BaseController
             return redirect()->back()->with('error', 'Maaf username kamu sudah terpakai, tolong ganti yahh');
         }
 
+        if ($foto->isValid() && !$foto->hasMoved()) {
+            $fileFoto = addslashes(file_get_contents($foto->getTempName()));
+        }
+
         if (strcasecmp($kategori, 'Klien') === 0) {
             $model = new klienModel();
 
@@ -47,7 +51,7 @@ class userController extends BaseController
                 'username' => $username,
                 'password' => md5($password),
                 'email' => $email,
-                'foto' => $foto
+                'foto' => $fileFoto
             ]);
         } else if (strcasecmp($kategori, 'mhs') === 0) {
             $nim = $this->request->getPost('nim');
@@ -63,7 +67,7 @@ class userController extends BaseController
                 'nim' => $nim,
                 'asal_univ' => $asalUniv,
                 'fotoKTM' => $ktm,
-                'foto' => $foto
+                'foto' => $fileFoto
             ]);
         } else if (strcasecmp($kategori, 'psikolog') === 0) {
             $domisili = $this->request->getPost('domisili');
@@ -79,7 +83,7 @@ class userController extends BaseController
                 'domisili' => $domisili,
                 'fotoKTP' => $ktp,
                 'fotolisensi' => $lisensi,
-                'foto' => $foto
+                'foto' => $fileFoto
             ]);
         }
 
