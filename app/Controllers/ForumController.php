@@ -35,6 +35,7 @@ class ForumController extends BaseController {
         if (!$this->validate([
             'nama_forum' => 'required|min_length[3]',
             'kategori_forum' => 'required',
+            'deskripsi' => 'required',
             'tanggal' => 'required|valid_date',
             'jumlah_peserta' => 'required|numeric|greater_than[0]',
             'foto' => 'uploaded[foto]|is_image[foto]|max_size[foto,2048]'
@@ -45,6 +46,7 @@ class ForumController extends BaseController {
         $data = [
             'nama_forum' => $this->request->getPost('nama_forum'),
             'kategori_forum' => $this->request->getPost('kategori_forum'),
+            'deskripsi' => $this->request->getPost('deskripsi'),
             'tanggal' => $this->request->getPost('tanggal'),
             'jumlah_peserta' => $this->request->getPost('jumlah_peserta'),
             'foto' => $this->request->getFile('foto')->getName(),
@@ -62,11 +64,18 @@ class ForumController extends BaseController {
         return redirect()->to('/forum')->with('success', 'Forum berhasil ditambahkan');
     }
 
-    // Menghapus forum
     public function deleteForum($kode_forum) {
+        // Pastikan forum ada
+        $forum = $this->forumModel->find($kode_forum);
+        if (!$forum) {
+            return redirect()->to('/forum')->with('error', 'Forum tidak ditemukan');
+        }
+    
+        // Hapus forum
         $this->forumModel->deleteForum($kode_forum);
         return redirect()->to('/forum')->with('success', 'Forum berhasil dihapus');
     }
+    
 
     // Menghapus anggota forum
     public function removeAnggota($kode_forum, $kd_klien) {

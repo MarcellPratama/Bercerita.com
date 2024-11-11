@@ -107,15 +107,19 @@ body {
     margin: 46.5px 0;
 }
 
-/* Tabel Forum dengan Strip */
 table {
     width: 100%;
-    margin-top: 20px;
+    background-color: white;
     border-collapse: collapse;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    overflow: hidden;
 }
 
 table, th, td {
-    border: 1px solid #ddd;
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #f0f0f0;
 }
 
 th, td {

@@ -152,6 +152,7 @@
                     <td><?= esc($forum['kode_forum']) ?></td>
                     <td><?= esc($forum['nama_forum']) ?></td>
                     <td><?= esc($forum['kategori_forum']) ?></td>
+                    <td><?= esc($forum['deskripsi']) ?></td>
                     <td><?= esc($forum['tanggal']) ?></td>
                     <td><?= esc($forum['jumlah_peserta']) ?></td>
                     <td>
@@ -162,9 +163,10 @@
                         <?php endif; ?>
                     </td>
                     <td>
-                        <form action="<?= base_url('forum/delete/' . $forum['kode_forum']) ?>" method="POST">
-                            <button type="submit" onclick="return confirm('Yakin ingin menghapus?')">Hapus</button>
-                        </form>
+                    <form action="<?= base_url('forum/delete/' . $forum['kode_forum']) ?>" method="POST">
+                         <button type="submit" onclick="return confirm('Yakin ingin menghapus?')" class="btn btn-danger">Hapus</button>
+                    </form>
+
                     </td>
                 </tr>
             <?php endforeach; ?>
@@ -184,6 +186,10 @@
                 <div class="form-group">
                     <label for="kategori_forum">Kategori Forum</label>
                     <input type="text" id="kategori_forum" name="kategori_forum" placeholder="Masukkan kategori forum" required>
+                </div>
+                <div class="form-group">
+                    <label for="deskripsi">Deskripsi Forum</label>
+                    <input type="text" id="deskripsi" name="deskripsi" placeholder="Masukkan deskrpsi forum" required>
                 </div>
                 <div class="form-group">
                     <label for="tanggal">Tanggal</label>
