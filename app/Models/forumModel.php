@@ -6,7 +6,7 @@ class forumModel extends Model {
     protected $table = 'forum';
     protected $primaryKey = 'kode_forum';
     protected $useAutoIncrement = true;
-    protected $allowedFields = ['nama_forum', 'kategori_forum', 'tanggal', 'jumlah_peserta', 'foto'];
+    protected $allowedFields = ['nama_forum', 'kategori_forum', 'tanggal', 'jumlah_peserta', 'foto', 'deskripsi'];
     // Fungsi untuk mengambil semua forum
     public function getAllForums() {
         return $this->findAll();
@@ -26,4 +26,4 @@ class forumModel extends Model {
     public function updateForum($kode_forum, $data) {
         return $this->update($kode_forum, $data);
     }
- }
+}

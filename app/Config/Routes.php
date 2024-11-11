@@ -12,4 +12,10 @@ $routes->post('prosesLogin', 'userController::login');
 $routes->get('registrasi', 'userController::viewRegistrasi');
 $routes->post('prosesRegistrasi', 'userController::registrasi');
 $routes->get('logout', 'userController::logout');
-$routes->get('forum', 'homeKlienController::forumView');
+$routes->get('forum', 'homeKlienController::forum');
+$routes->get('/forum/(:num)', 'homeKlienController::viewForumDetail/$1');
+
+$routes->get('/forum', 'ForumController::index');
+$routes->post('/forum/add', 'ForumController::addForum');
+$routes->post('/forum/delete/(:num)', 'ForumController::deleteForum/$1');
+$routes->get('/forum/removeAnggota/(:num)/(:num)', 'ForumController::removeAnggota/$1/$2');

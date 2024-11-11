@@ -101,134 +101,58 @@
 
         <div class="forum-list">
             <div class="row mt-5">
-                <div class="col-md-6 mb-4">
-                    <a href="#joinForum" data-bs-toggle="modal">
-                        <div class="card">
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <img class="card-img rounded-circle me-3" src="<?= base_url('images/Forum1.jpg') ?>">
+                <?php foreach ($forums as $forum): ?>
+                    <div class="col-md-6 mb-4">
+                        <a href="#joinForum" data-bs-toggle="modal">
+                            <div class="card">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <img class="card-img rounded-circle me-3" src="<?= base_url('uploads/forum/' . $forum['foto']) ?>">
+                                    </div>
+                                    <div class="col-md-8 align-self-center">
+                                        <h2 class="fw-bold"><?= esc($forum['nama_forum']) ?></h2>
+                                        <p style="font-weight: 600;"><?= esc($forum['kategori_forum']) ?></p>
+                                    </div>
                                 </div>
-                                <div class="col-md-8 align-self-center">
-                                    <h2 class="fw-bold">Never Alone</h2>
-                                    <p style="font-weight: 600;">Isolasi Sosial dan Kesepian</p>
-                                </div>
                             </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-md-6 mb-4">
-                    <div class="card">
-                        <div class="row">
-                            <div class="col-md-4">
-                                <img class="card-img rounded-circle me-3" src="<?= base_url('images/Forum2.jpg') ?>">
-                            </div>
-                            <div class="col-md-8 align-self-center">
-                                <h2 class="fw-bold">You Strong</h2>
-                                <p style="font-weight: 600;">Trauma dan Penyembuhan</p>
-                            </div>
-                        </div>
+                        </a>
                     </div>
-                </div>
-                <div class="col-md-6 mb-4">
-                    <div class="card">
-                        <div class="row">
-                            <div class="col-md-4">
-                                <img class="card-img rounded-circle me-3" src="<?= base_url('images/Forum3.jpg') ?>">
-                            </div>
-                            <div class="col-md-8 align-self-center">
-                                <h2 class="fw-bold">Terus Bernapas!</h2>
-                                <p style="font-weight: 600;">Tips dan Dukungan</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 mb-4">
-                    <div class="card">
-                        <div class="row">
-                            <div class="col-md-4">
-                                <img class="card-img rounded-circle me-3" src="<?= base_url('images/Forum4.jpg') ?>">
-                            </div>
-                            <div class="col-md-8 align-self-center">
-                                <h2 class="fw-bold">Tempat Pulang!</h2>
-                                <p style="font-weight: 600;">Tips dan Dukungan</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 mb-4">
-                    <div class="card">
-                        <div class="row">
-                            <div class="col-md-4">
-                                <img class="card-img rounded-circle me-3" src="<?= base_url('images/Forum4.jpg') ?>">
-                            </div>
-                            <div class="col-md-8 align-self-center">
-                                <h2 class="fw-bold">Tempat Pulang!</h2>
-                                <p style="font-weight: 600;">Tips dan Dukungan</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 mb-4">
-                    <div class="card">
-                        <div class="row">
-                            <div class="col-md-4">
-                                <img class="card-img rounded-circle me-3" src="<?= base_url('images/Forum4.jpg') ?>">
-                            </div>
-                            <div class="col-md-8 align-self-center">
-                                <h2 class="fw-bold">Tempat Pulang!</h2>
-                                <p style="font-weight: 600;">Tips dan Dukungan</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 mb-4">
-                    <div class="card">
-                        <div class="row">
-                            <div class="col-md-4">
-                                <img class="card-img rounded-circle me-3" src="<?= base_url('images/Forum4.jpg') ?>">
-                            </div>
-                            <div class="col-md-8 align-self-center">
-                                <h2 class="fw-bold">Tempat Pulang!</h2>
-                                <p style="font-weight: 600;">Tips dan Dukungan</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <?php endforeach; ?>
             </div>
         </div>
     </div>
 
     <!-- The Modal -->
-    <div class="modal" id="joinForum">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
+        <div class="modal" id="joinForum">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
 
-                <!-- Modal Header -->
-                <div class="modal-header">
-                    <div class="row">
-                        <div class="col-md-4">
-                            <img class="card-img-modal rounded-circle me-3" src="<?= base_url('images/Forum1.jpg') ?>">
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <img class="card-img-modal rounded-circle me-3" src="<?= base_url('uploads/forum/' . $forum['foto']) ?>">
+                            </div>
+                            <div class="col-md-8 align-self-center">
+                                <h2 class="title-modal"><-title-></h2>
+                                <p class=" subtitle-modal"><-subtitle-></p>
+                            </div>
                         </div>
-                        <div class="col-md-8 align-self-center">
-                            <h2 class="title-modal">Never Alone</h2>
-                            <p class=" subtitle-modal">Isolasi Sosial dan Kesepian</p>
-                        </div>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                     </div>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
 
-                <!-- Modal body -->
-                <div class="modal-body">
-                    <p>Tempat berbagi pengalaman tentang trauma, baik itu trauma fisik, emosional, maupun psikologis. Di sini, kalian dapat menceritakan perjalanan kalian dalam menghadapi, mengelola, dan menyembuhkan trauma yang dialami. Ruang aman untuk saling mendukung.</p>
-                </div>
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                        <p><-Deskripsi-></p>
+                    </div>
 
-                <!-- Modal footer -->
-                <div class="modal-footer">
-                    <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#confirmForum">Bergabung</button>
+                    <!-- Modal footer -->
+                    <div class="modal-footer">
+                        <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#confirmForum">Bergabung</button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
     <!-- Modal Konfirmasi Join Forum -->
     <div class="modal" id="confirmForum">

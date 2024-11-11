@@ -13,7 +13,7 @@ class ForumController extends BaseController {
     public function __construct() {
         // Inisialisasi model
         $this->forumModel = new forumModel();
-        $this->forumKlienModel = new forum_klienModel();
+        //$this->forumKlienModel = new forum_klienModel();
         $this->mahasiswaModel = new mahasiswaModel();
     }
 
@@ -47,7 +47,7 @@ class ForumController extends BaseController {
             'kategori_forum' => $this->request->getPost('kategori_forum'),
             'tanggal' => $this->request->getPost('tanggal'),
             'jumlah_peserta' => $this->request->getPost('jumlah_peserta'),
-            'foto' => $this->request->getFile('foto')->getRandomName(),
+            'foto' => $this->request->getFile('foto')->getName(),
         ];
 
         // Upload file
