@@ -6,6 +6,7 @@ use App\Models\klienModel;
 use App\Models\mahasiswaModel;
 use App\Models\psikologModel;
 use App\Models\adminModel;
+use App\Models\forumModel;
 
 class homeController extends BaseController
 {
@@ -47,5 +48,33 @@ class homeController extends BaseController
 
         // Redirect to login if no user data is found
         return redirect()->to('/login')->with('error', 'Akun tidak ditemukan.');
+    }
+
+    public function forum(): string
+    {
+        $loggedInUsername = session()->get('username');
+    
+        $klienModel = new KlienModel();
+        $forumModel = new forumModel();
+        //$this->forumKlienModel = new forum_klienModel();
+        $mahasiswaModel = new mahasiswaModel();
+
+
+        $klienData = $klienModel->where('username', $loggedInUsername)->first();
+        $forums = $forumModel->getAllForums();
+        $mahasiswa = $mahasiswaModel->find(session()->get('kd_mahasiswa'));
+
+        if ($klienData) {
+            return view('forumKlien', [
+                'userData' => $klienData,
+                'forums' => $forums,
+                'mahasiswa' => $mahasiswa
+            ]);
+        } elseif ($mahasiswa) {
+            return view('CRUD_Forum', [
+                'forums' => $forums,
+                'mahasiswa' => $mahasiswa
+            ]);
+        }
     }
 }
