@@ -42,54 +42,84 @@ class userController extends BaseController
             return redirect()->back()->with('error', 'Maaf, username ini sudah terpakai. Silakan gunakan yang lain.');
         }
 
-        // Upload profile picture
-        $fotoPath = null;
-        if ($foto && $foto->isValid() && !$foto->hasMoved()) {
-            $fotoName = $foto->getRandomName();
-            $fotoPath = 'uploads/' . $fotoName;
-            $foto->move('public/uploads', $fotoName);
-        }
+        // Get the file content as binary data for 'foto'
+        $fotoData = $this->getFileContent($foto);
+
+        // Generate unique ID based on category
+        $newId = $this->generateUniqueId($kategori);
 
         // Choose model based on user category
-        $model = null;
         if (strcasecmp($kategori, 'klien') === 0) {
-            $model = $klienModel;
-        } elseif (strcasecmp($kategori, 'mhs') === 0) {
-            $model = $mahasiswaModel;
-            $model->save([
+            $klienModel->save([
+                'kd_klien' => $newId,
                 'username' => $username,
                 'password' => password_hash($password, PASSWORD_BCRYPT),
                 'email' => $email,
-                'foto' => $fotoPath,
+                'foto' => $fotoData
+            ]);
+        } elseif (strcasecmp($kategori, 'mhs') === 0) {
+            $mahasiswaModel->save([
+                'kd_mahasiswa' => $newId,
+                'username' => $username,
+                'password' => password_hash($password, PASSWORD_BCRYPT),
+                'email' => $email,
+                'foto' => $fotoData,
                 'nim' => $this->request->getPost('nim'),
                 'asal_univ' => $this->request->getPost('asal_univ'),
-                'fotoKTM' => $this->uploadFile('fotoKTM')
+                'fotoKTM' => $this->getFileContent($this->request->getFile('fotoKTM')) // KTM file as binary
             ]);
-            return redirect()->to('login');
         } elseif (strcasecmp($kategori, 'psikolog') === 0) {
-            $model = $psikologModel;
-            $model->save([
+            $psikologModel->save([
+                'kd_psikolog' => $newId,
                 'username' => $username,
                 'password' => password_hash($password, PASSWORD_BCRYPT),
                 'email' => $email,
                 'domisili' => $this->request->getPost('domisili'),
-                'ktp' => $this->uploadFile('ktp'),
-                'lisensi' => $this->uploadFile('license'),
-                'foto' => $fotoPath
+                'ktp' => $this->getFileContent($this->request->getFile('ktp')), // KTP file as binary
+                'lisensi' => $this->getFileContent($this->request->getFile('license')), // License file as binary
+                'foto' => $fotoData
             ]);
-            return redirect()->to('login');
         }
 
-        // Save user data for 'klien' category
-        if ($model) {
-            $model->save([
-                'username' => $username,
-                'password' => password_hash($password, PASSWORD_BCRYPT),
-                'email' => $email,
-                'foto' => $fotoPath
-            ]);
-            return redirect()->to('login');
+        return redirect()->to('login');
+    }
+
+    // Function to generate unique ID based on user category
+    private function generateUniqueId($kategori)
+    {
+        $db = \Config\Database::connect();
+
+        if (strcasecmp($kategori, 'klien') === 0) {
+            $builder = $db->table('klien');
+            $lastEntry = $builder->select('kd_klien')->orderBy('kd_klien', 'DESC')->get(1)->getRow();
+            $lastId = $lastEntry ? intval(str_replace('KL', '', $lastEntry->kd_klien)) : 0;
+            return 'KL' . str_pad($lastId + 1, 4, '0', STR_PAD_LEFT); // Example: KL0001
         }
+
+        if (strcasecmp($kategori, 'mhs') === 0) {
+            $builder = $db->table('mhspsikologi');
+            $lastEntry = $builder->select('kd_mahasiswa')->orderBy('kd_mahasiswa', 'DESC')->get(1)->getRow();
+            $lastId = $lastEntry ? intval(str_replace('MHS', '', $lastEntry->kd_mahasiswa)) : 0;
+            return 'MHS' . str_pad($lastId + 1, 4, '0', STR_PAD_LEFT); // Example: MHS0001
+        }
+
+        if (strcasecmp($kategori, 'psikolog') === 0) {
+            $builder = $db->table('psikolog');
+            $lastEntry = $builder->select('kd_psikolog')->orderBy('kd_psikolog', 'DESC')->get(1)->getRow();
+            $lastId = $lastEntry ? intval(str_replace('PSK', '', $lastEntry->kd_psikolog)) : 0;
+            return 'PSK' . str_pad($lastId + 1, 4, '0', STR_PAD_LEFT); // Example: PSK0001
+        }
+
+        return null; // Fallback
+    }
+
+    // Function to get file content as binary data
+    private function getFileContent($file)
+    {
+        if ($file && $file->isValid() && !$file->hasMoved()) {
+            return file_get_contents($file->getTempName()); // Read file content as binary data
+        }
+        return null;
     }
 
     public function login()
@@ -104,9 +134,8 @@ class userController extends BaseController
 
         // Check if user is admin
         $admin = $adminModel->where('username', $username)->first();
-        // dd($admin);
         if ($admin) {
-            if ($password == trim($admin['password'])) { // Menggunakan trim untuk menghilangkan spasi tambahan
+            if ($password == trim($admin['password'])) { // Use trim to remove extra spaces
                 session()->set([
                     'username' => $username,
                     'role' => 'admin'
@@ -138,17 +167,5 @@ class userController extends BaseController
     {
         session()->destroy();
         return redirect()->to('/');
-    }
-
-    private function uploadFile($fileInputName)
-    {
-        $file = $this->request->getFile($fileInputName);
-        if ($file && $file->isValid() && !$file->hasMoved()) {
-            $fileName = $file->getRandomName();
-            $filePath = 'uploads/' . $fileName;
-            $file->move('public/uploads', $fileName);
-            return $filePath;
-        }
-        return null;
     }
 }

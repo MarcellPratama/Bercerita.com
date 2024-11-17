@@ -34,6 +34,60 @@
         border-radius: 0 10px 10px 0;
     }
 
+    .sidebar ul {
+        list-style: none;
+        width: 100%;
+        color: white;
+    }
+
+    .sidebar ul li {
+        position: relative;
+        margin: 15px 0;
+        color: white;
+    }
+
+    .sidebar ul li a {
+        display: flex;
+        align-items: center;
+        padding: 10px 20px;
+        text-decoration: none;
+        color: #b0bec5;
+        transition: background 0.3s;
+        border-radius: 5px;
+        font-size: 18px;
+        color: white;
+    }
+
+    .sidebar ul li a:hover {
+        color: #fff;
+    }
+
+    .sidebar ul li a i {
+        margin-right: 15px;
+        font-size: 18px;
+        color: white;
+    }
+
+    .sidebar ul li a.active {
+        /* background-color: #37474f; */
+        color: #fff;
+    }
+
+    .user-profile {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-bottom: 30px;
+    }
+
+    .user-img {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin-bottom: 10px;
+    }
+
     .user-profile {
         display: flex;
         flex-direction: column;
@@ -109,83 +163,18 @@
         height: 50px;
     }
 
-    .sidebar ul {
-        list-style: none;
-        width: 100%;
-        color: white;
-    }
-
-    .sidebar ul li {
-        position: relative;
-        margin: 15px 0;
-        color: white;
-    }
-
-    .sidebar ul li a {
-        display: flex;
-        align-items: center;
-        padding: 10px 20px;
-        text-decoration: none;
-        color: #b0bec5;
-        transition: background 0.3s;
-        border-radius: 5px;
-        font-size: 18px;
-        color: white;
-    }
-
-    .sidebar ul li a:hover {
-        color: #fff;
-    }
-
-    .sidebar ul li a i {
-        margin-right: 15px;
-        font-size: 18px;
-        color: white;
-    }
-
-    .sidebar ul li a.active {
-        /* background-color: #37474f; */
-        color: #fff;
-    }
-
-    /* Submenu */
-    .submenu {
-        display: none;
-        padding-left: 20px;
-        background-color: #00c2cb;
-        border-radius: 5px;
-    }
-
-    .submenu li a {
-        padding: 10px 15px;
-        font-size: 14px;
-        color: #b0bec5;
-        text-decoration: none;
-    }
-
-    .submenu li a:hover {
-        color: #fff;
-    }
-
-    /* Panah untuk indikator submenu */
-    .toggle-submenu {
-        margin-left: auto;
-        font-size: 14px;
-        cursor: pointer;
-    }
-
     .container-table {
-        margin-top: 5px;
         background-color: #ffffff;
         border-radius: 10px;
         padding: 7px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        margin-top: 5px;
     }
 
     table {
-        width: 100%;
+        width: 80%;
         border-collapse: collapse;
-        margin-top: 10px;
+        margin: 10px auto; 
     }
 
     th,
@@ -203,6 +192,14 @@
 
     td {
         border-bottom: 1px solid #ddd;
+    }
+
+    .btn-action {
+        background-color: #ff4b5c;
+        color: white;
+        border: none;
+        padding: 5px 10px;
+        border-radius: 5px;
     }
 
     .action-btn {
@@ -247,11 +244,10 @@
 
     .pagination .page-item {
         font-size: 14px;
-        padding: 3px 4px;
-        /* Kurangi padding untuk ukuran kotak lebih kecil */
         border-radius: 4px;
         cursor: pointer;
         transition: background-color 0.3s, color 0.3s;
+        padding: 3px 4px; /* Kurangi padding untuk ukuran kotak lebih kecil */
     }
 
     .pagination .page-item a {
@@ -269,7 +265,6 @@
         border: none;
     }
 
-
     .pagination .page-item:not(.active) {
         /* background-color: #e0e0e0; */
         color: #333;
@@ -278,62 +273,6 @@
 
     .pagination .page-item:not(.active):hover {
         background-color: #ffffff;
-    }
-
-    .modal {
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        background-color: rgba(0, 0, 0, 0.3);
-        /* Transparent gray */
-        /* Transparent white */
-        padding: 20px;
-        border-radius: 10px;
-        /* box-shadow: 0 0 15px rgba(0, 0, 0, 0.2); */
-        z-index: 1000;
-        width: 1700px;
-        text-align: center;
-        /* Optional: Adds a blur effect */
-    }
-
-    .modal-content {
-        margin-top: 230px;
-        flex-direction: column;
-        align-items: center;
-        background-color: white;
-        margin-left: 700px;
-        margin-right: 700px;
-        width: 400px;
-        height: 180px;
-    }
-
-    .modal-content i {
-        margin-top: 20px;
-        /* Adjust as needed */
-        margin-bottom: 10px;
-    }
-
-    .modal p {
-        font-size: 18px;
-        font-weight: bold;
-        color: #333;
-        margin: 0;
-        margin-top: 10px;
-    }
-
-    #modalCloseBtn {
-        margin-top: 20px;
-        background-color: #00c2cb;
-        color: white;
-        border: none;
-        padding: 8px 16px;
-        border-radius: 5px;
-        cursor: pointer;
-    }
-
-    #modalCloseBtn:hover {
-        background-color: #00a5a6;
     }
 
     .search-container {
@@ -383,14 +322,14 @@
 
         <ul class="menu">
             <li><a href="adminDashboard"><i class="fas fa-home"></i> Beranda</a></li>
-            <li><a href="#" class="active"><i class="fas fa-check-circle"></i> Verifikasi</a></li>
+            <li><a href="adminVerifikasi"><i class="fas fa-check-circle"></i> Verifikasi</a></li>
             <li>
                 <a href="#" class="dropdown-toggle" onclick="toggleSubmenu(this)">
                     <i class="fas fa-users"></i> Pengguna
                 </a>
                 <ul class="submenu">
                     <li><a href="adminLihatPsikolog"><i class="fas fa-user"></i> Psikolog</a></li>
-                    <li><a href="adminLihatMhs"><i class="fas fa-user-graduate"></i> Mahasiswa Psikologi</a></li>
+                    <li><a href="#"class="active"><i class="fas fa-user-graduate"></i> Mahasiswa Psikologi</a></li>
                 </ul>
             </li>
             <li><a href="/login"><i class="fas fa-sign-out-alt"></i> Keluar</a></li>
@@ -400,16 +339,14 @@
     <!-- Main Content -->
     <div class="main-content">
         <div class="header">
-            <h2><span class="bold-text">Verifikasi</span> <span class="regular-text">Pengguna</span></h2>
+            <h2><span class="bold-text">Tampilan</span> <span class="regular-text">Mahasiswa Psikologi</span></h2>
             <img src="/bercerita.png" alt="Bercerita Logo" class="logo" />
         </div>
-
         <div class="container-table">
             <div class="search-container mb-3">
                 <i class="fas fa-search search-icon"></i>
                 <input type="text" id="searchInput" class="form-control" placeholder="Search" />
             </div>
-
             <table>
                 <thead>
                     <tr>
@@ -425,8 +362,6 @@
                         <td>Putri Ala Syakari</td>
                         <td>Mahasiswa Psikologi</td>
                         <td>
-                            <span class="action-btn reject"><i class="fas fa-times"></i></span>
-                            <span class="action-btn approve"><i class="fas fa-check"></i></span>
                             <span class="action-btn view"><i class="fas fa-eye"></i></span>
                         </td>
                     </tr>
@@ -435,8 +370,6 @@
                         <td>Lisa Akalia Mali</td>
                         <td>Mahasiswa Psikologi</td>
                         <td>
-                            <span class="action-btn reject"><i class="fas fa-times"></i></span>
-                            <span class="action-btn approve"><i class="fas fa-check"></i></span>
                             <span class="action-btn view"><i class="fas fa-eye"></i></span>
                         </td>
                     </tr>
@@ -445,28 +378,22 @@
                         <td>Budiman Setiadi</td>
                         <td>Mahasiswa Psikologi</td>
                         <td>
-                            <span class="action-btn reject"><i class="fas fa-times"></i></span>
-                            <span class="action-btn approve"><i class="fas fa-check"></i></span>
                             <span class="action-btn view"><i class="fas fa-eye"></i></span>
                         </td>
                     </tr>
                     <tr>
                         <td>4</td>
                         <td>Rio Martin Rendi</td>
-                        <td>Psikolog</td>
+                        <td>Mahasiswa Psikologi</td>
                         <td>
-                            <span class="action-btn reject"><i class="fas fa-times"></i></span>
-                            <span class="action-btn approve"><i class="fas fa-check"></i></span>
                             <span class="action-btn view"><i class="fas fa-eye"></i></span>
                         </td>
                     </tr>
                     <tr>
                         <td>5</td>
                         <td>Amelia Sanjaya</td>
-                        <td>Psikolog</td>
+                        <td>Mahasiswa Psikologi</td>
                         <td>
-                            <span class="action-btn reject"><i class="fas fa-times"></i></span>
-                            <span class="action-btn approve"><i class="fas fa-check"></i></span>
                             <span class="action-btn view"><i class="fas fa-eye"></i></span>
                         </td>
                     </tr>
@@ -475,8 +402,6 @@
                         <td>Rina Andira</td>
                         <td>Mahasiswa Psikologi</td>
                         <td>
-                            <span class="action-btn reject"><i class="fas fa-times"></i></span>
-                            <span class="action-btn approve"><i class="fas fa-check"></i></span>
                             <span class="action-btn view"><i class="fas fa-eye"></i></span>
                         </td>
                     </tr>
@@ -485,8 +410,6 @@
                         <td>Joko Mardika</td>
                         <td>Mahasiswa Psikologi</td>
                         <td>
-                            <span class="action-btn reject"><i class="fas fa-times"></i></span>
-                            <span class="action-btn approve"><i class="fas fa-check"></i></span>
                             <span class="action-btn view"><i class="fas fa-eye"></i></span>
                         </td>
                     </tr>
@@ -495,8 +418,6 @@
                         <td>Adi Surya</td>
                         <td>Mahasiswa Psikologi</td>
                         <td>
-                            <span class="action-btn reject"><i class="fas fa-times"></i></span>
-                            <span class="action-btn approve"><i class="fas fa-check"></i></span>
                             <span class="action-btn view"><i class="fas fa-eye"></i></span>
                         </td>
                     </tr>
@@ -505,18 +426,14 @@
                         <td>Desi Rachmawati</td>
                         <td>Mahasiswa Psikologi</td>
                         <td>
-                            <span class="action-btn reject"><i class="fas fa-times"></i></span>
-                            <span class="action-btn approve"><i class="fas fa-check"></i></span>
                             <span class="action-btn view"><i class="fas fa-eye"></i></span>
                         </td>
                     </tr>
                     <tr>
                         <td>10</td>
                         <td>Farhan Irawan</td>
-                        <td>Psikolog</td>
+                        <td>Mahasiswa Psikologi</td>
                         <td>
-                            <span class="action-btn reject"><i class="fas fa-times"></i></span>
-                            <span class="action-btn approve"><i class="fas fa-check"></i></span>
                             <span class="action-btn view"><i class="fas fa-eye"></i></span>
                         </td>
                     </tr>
@@ -534,13 +451,6 @@
                     </nav>
                 </div>
             </div>
-            <div class="modal" id="topUpModal" style="display: none;">
-                <div class="modal-content">
-                    <i class="fas fa-check-circle" style="color: #28a745; font-size: 40px;"></i>
-                    <p>Berhasil Verifikasi</p>
-                    <button class="btn btn-primary" id="modalCloseBtn">OK</button>
-                </div>
-            </div>
         </div>
     </div>
 </body>
@@ -553,7 +463,6 @@ function toggleSubmenu(element) {
     const arrow = element.querySelector('.toggle-submenu');
     arrow.innerHTML = submenu.style.display === "block" ? "&#9652;" : "&#9662;";
 }
-
 document.getElementById("searchInput").addEventListener("input", function() {
     const searchValue = this.value.toLowerCase();
     const rows = document.querySelectorAll("#tableBody tr");
@@ -632,30 +541,6 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // Initial rendering of the pagination
     renderPagination();
-});
-document.addEventListener("DOMContentLoaded", function() {
-    // Select all approve buttons (checkmark buttons)
-    const approveButtons = document.querySelectorAll(".action-btn.approve");
-    const modal = document.getElementById("topUpModal");
-    const modalCloseBtn = document.getElementById("modalCloseBtn");
-
-    // Function to show the modal
-    function showModal() {
-        modal.style.display = "block";
-    }
-
-    // Function to close the modal
-    function closeModal() {
-        modal.style.display = "none";
-    }
-
-    // Attach event listeners to each approve button
-    approveButtons.forEach(button => {
-        button.addEventListener("click", showModal);
-    });
-
-    // Close the modal when the OK button is clicked
-    modalCloseBtn.addEventListener("click", closeModal);
 });
 </script>
 

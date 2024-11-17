@@ -18,10 +18,21 @@
 
     body {
         margin: 0;
-        background-color: #f5f5f5;
         display: flex;
+        background-color: #f5f5f5;
     }
 
+    .sidebar {
+        width: 245px;
+        height: 100vh;
+        background-color: #00c2cb;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        color: white;
+        border-radius: 0 10px 10px 0;
+    }
 
     .user-profile {
         display: flex;
@@ -29,7 +40,6 @@
         align-items: center;
         margin-bottom: 30px;
         margin-left: 35px;
-
     }
 
     .user-img {
@@ -40,6 +50,14 @@
         margin-bottom: 10px;
     }
 
+    .menu {
+        list-style: none;
+        /* Remove bullet points */
+        padding: 0;
+        /* Remove default padding */
+        margin: 0;
+        /* Remove default margin */
+    }
 
     .menu a {
         display: flex;
@@ -58,13 +76,17 @@
         background-color: #03b5c1;
     }
 
-    .menu i {
-        font-size: 24px;
+    .menu a.active {
+        background-color: #088395;
     }
 
     .main-content {
-        flex: 1;
+        flex-grow: 1;
         padding: 20px;
+        margin-right: 20px;
+        /* Control right margin space */
+        display: flex;
+        flex-direction: column;
     }
 
     .header {
@@ -74,10 +96,70 @@
         margin-bottom: 20px;
     }
 
+    .header h2 {
+        font-size: 24px;
+        color: #333;
+    }
+
+    .header .bold-text {
+        font-weight: 700;
+    }
+
+    .header .regular-text {
+        font-weight: 400;
+    }
+
     .logo {
         height: 50px;
         margin-left: 1045px;
     }
+
+    .sidebar ul {
+        list-style: none;
+        width: 100%;
+        color: white;
+    }
+
+    .sidebar ul li {
+        position: relative;
+        margin: 15px 0;
+        color: white;
+    }
+
+    .sidebar ul li a {
+        display: flex;
+        align-items: center;
+        padding: 10px 20px;
+        text-decoration: none;
+        color: #b0bec5;
+        transition: background 0.3s;
+        border-radius: 5px;
+        font-size: 18px;
+        color: white;
+    }
+
+    .sidebar ul li a:hover {
+        color: #fff;
+    }
+
+    .sidebar ul li a i {
+        margin-right: 15px;
+        font-size: 18px;
+        color: white;
+    }
+
+    .sidebar ul li a.active {
+        /* background-color: #37474f; */
+        color: #fff;
+    }
+
+    /* Panah untuk indikator submenu */
+    .toggle-submenu {
+        margin-left: auto;
+        font-size: 14px;
+        cursor: pointer;
+    }
+
 
     .grid-layout {
         display: grid;
@@ -160,67 +242,6 @@
         font-size: 25px;
     }
 
-
-    .sidebar {
-        width: 245px;
-        height: 100vh;
-        background-color: #00c2cb;
-        padding: 20px;
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        color: white;
-        border-radius: 0 10px 10px 0;
-    }
-
-    .menu {
-        list-style: none;
-        /* Remove bullet points */
-        padding: 0;
-        /* Remove default padding */
-        margin: 0;
-        /* Remove default margin */
-
-    }
-
-    .sidebar ul {
-        list-style: none;
-        width: 100%;
-        color: white;
-    }
-
-    .sidebar ul li {
-        position: relative;
-        margin: 15px 0;
-        color: white;
-    }
-
-    .sidebar ul li a {
-        display: flex;
-        align-items: center;
-        padding: 10px 20px;
-        text-decoration: none;
-        color: #b0bec5;
-        transition: background 0.3s;
-        border-radius: 5px;
-        font-size: 18px;
-        color: white;
-    }
-
-    .sidebar ul li a:hover {
-        color: #fff;
-    }
-
-    .sidebar ul li a i {
-        margin-right: 15px;
-        font-size: 18px;
-        color: white;
-    }
-
-    .sidebar ul li a.active {
-        background-color: #088395;
-    }
-
     /* Submenu */
     .submenu {
         display: none;
@@ -239,13 +260,6 @@
     .submenu li a:hover {
         color: #fff;
     }
-
-    /* Panah untuk indikator submenu */
-    .toggle-submenu {
-        margin-left: auto;
-        font-size: 14px;
-        cursor: pointer;
-    }
     </style>
 </head>
 
@@ -257,17 +271,16 @@
         </div>
 
         <ul class="menu">
-            <li><a href="#" class="active"><i class="fas fa-home"></i> Beranda</a></li>
-            <li><a href="#"><i class="fas fa-check-circle"></i> Verifikasi</a></li>
+            <li><a href="adminDashboard" class="active"><i class="fas fa-home"></i> Beranda</a></li>
+            <li><a href="adminVerifikasi"><i class="fas fa-check-circle"></i> Verifikasi</a></li>
 
             <li>
                 <a href="#" class="dropdown-toggle" onclick="toggleSubmenu(this)">
                     <i class="fas fa-users"></i> Pengguna
-                    <!-- <span class="toggle-submenu">&#9662;</span> -->
                 </a>
                 <ul class="submenu">
-                    <li><a href="#"><i class="fas fa-user"></i> Psikolog</a></li>
-                    <li><a href="#"><i class="fas fa-user-graduate"></i> Mahasiswa Psikologi</a></li>
+                    <li><a href="adminLihatPsikolog"><i class="fas fa-user"></i> Psikolog</a></li>
+                    <li><a href="adminLihatMhs"><i class="fas fa-user-graduate"></i> Mahasiswa Psikologi</a></li>
                 </ul>
             </li>
 
