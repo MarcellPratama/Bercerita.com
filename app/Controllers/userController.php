@@ -35,15 +35,21 @@ class userController extends BaseController
 
         // Check if username is already taken
         $isUsernameTaken = $klienModel->where('username', $username)->first() ||
-                           $mahasiswaModel->where('username', $username)->first() ||
-                           $psikologModel->where('username', $username)->first();
+            $mahasiswaModel->where('username', $username)->first() ||
+            $psikologModel->where('username', $username)->first();
 
         if ($isUsernameTaken) {
             return redirect()->back()->with('error', 'Maaf, username ini sudah terpakai. Silakan gunakan yang lain.');
         }
 
-        // Get the file content as binary data for 'foto'
-        $fotoData = $this->getFileContent($foto);
+        // Handle the upload of 'foto'
+        if ($foto && $foto->isValid() && !$foto->hasMoved()) {
+            $fileFoto = $foto->getName();
+            $foto->move('uploads/FOTO/', $fileFoto);
+            $fotoPath = '/uploads/FOTO/' . $fileFoto; // Path yang akan disimpan di database
+        } else {
+            return redirect()->back()->with('error', 'Gagal mengunggah foto.');
+        }
 
         // Choose model based on user category
         if (strcasecmp($kategori, 'klien') === 0) {
@@ -51,40 +57,54 @@ class userController extends BaseController
                 'username' => $username,
                 'password' => password_hash($password, PASSWORD_BCRYPT),
                 'email' => $email,
-                'foto' => $fotoData
+                'foto' => $fotoPath
             ]);
         } elseif (strcasecmp($kategori, 'mhs') === 0) {
+            $fotoKTM = $this->request->getFile('fotoKTM');
+
+            if ($fotoKTM && $fotoKTM->isValid() && !$fotoKTM->hasMoved()) {
+                $fotoKTMName = $fotoKTM->getName();
+                $fotoKTM->move('uploads/KTM/', $fotoKTMName);
+                $fotoKTMPath = '/uploads/KTM/' . $fotoKTMName;
+            }
+
             $mahasiswaModel->save([
                 'username' => $username,
                 'password' => password_hash($password, PASSWORD_BCRYPT),
                 'email' => $email,
-                'foto' => $fotoData,
+                'foto' => $fotoPath,
                 'nim' => $this->request->getPost('nim'),
                 'asal_univ' => $this->request->getPost('asal_univ'),
-                'fotoKTM' => $this->getFileContent($this->request->getFile('fotoKTM')) // KTM file as binary
+                'fotoKTM' => $fotoKTMPath
             ]);
         } elseif (strcasecmp($kategori, 'psikolog') === 0) {
+            $ktp = $this->request->getFile('ktp');
+            $license = $this->request->getFile('license');
+
+            if ($ktp && $ktp->isValid() && !$ktp->hasMoved()) {
+                $ktpName = $ktp->getName();
+                $ktp->move('uploads/KTP/', $ktpName);
+                $ktpPath = '/uploads/KTP/' . $ktpName;
+            }
+    
+            if ($license && $license->isValid() && !$license->hasMoved()) {
+                $licenseName = $license->getName();
+                $license->move('uploads/LisensiPsikolog/', $licenseName);
+                $licensePath = '/uploads/LisensiPsikolog/' . $licenseName;
+            }
+
             $psikologModel->save([
                 'username' => $username,
                 'password' => password_hash($password, PASSWORD_BCRYPT),
                 'email' => $email,
                 'domisili' => $this->request->getPost('domisili'),
-                'ktp' => $this->getFileContent($this->request->getFile('ktp')), // KTP file as binary
-                'lisensi' => $this->getFileContent($this->request->getFile('license')), // License file as binary
-                'foto' => $fotoData
+                'ktp' => $ktpPath,
+                'lisensi' => $licensePath,
+                'foto' => $fotoPath
             ]);
         }
 
         return redirect()->to('login');
-    }
-
-    // Function to get file content as binary data
-    private function getFileContent($file)
-    {
-        if ($file && $file->isValid() && !$file->hasMoved()) {
-            return file_get_contents($file->getTempName()); // Read file content as binary data
-        }
-        return null;
     }
 
     public function login()
@@ -114,8 +134,8 @@ class userController extends BaseController
 
         // Check if user is a client, student, or psychologist
         $user = $klienModel->where('username', $username)->first() ??
-                $mahasiswaModel->where('username', $username)->first() ??
-                $psikologModel->where('username', $username)->first();
+            $mahasiswaModel->where('username', $username)->first() ??
+            $psikologModel->where('username', $username)->first();
 
         if ($user && password_verify($password, $user['password'])) {
             session()->set([

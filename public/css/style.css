@@ -22,7 +22,6 @@
             font-size: 14px;
             color: #282928; /* Ensuring the text color is white */
             display: flex;
-            
             align-items: center;
         }
         svg {

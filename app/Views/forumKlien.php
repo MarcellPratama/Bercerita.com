@@ -97,12 +97,41 @@
 
     <div class="container my-3">
         <p class="headline">Ruang untuk berbagi, tempat untuk didengar</p>
-        <p class="sub-headline">Sampaikan ceritamu, temukan dukungan dari mereka yang peduli. Di sini, setiap cerita berharga</p>
+        <div class="row align-items-center">
+            <div class="col-md-6">
+                <p class="sub-headline mb-0">Sampaikan ceritamu, temukan dukungan dari mereka yang peduli. Di sini, setiap cerita berharga</p>
+            </div>
+            <div class="col-md-6 d-flex justify-content-end">
+                <!-- Input Form Pencarian -->
+                <form class="d-flex search me-2">
+                    <input id="searchInput" class="form-control me-2" type="text" placeholder="Cari...">
+                    <button class="btn btn-primary me-2" type="button">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
+                        </svg>
+                    </button>
+                </form>
+                <div class="dropdown dropdown-menu-end">
+                    <button class="btn btn-primary dropdown-toggle d-flex align-items-center" type="button" data-bs-toggle="dropdown">
+                        Kategori
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list ms-2" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5" />
+                        </svg>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#">Link 1</a></li>
+                        <li><a class="dropdown-item" href="#">Link 2</a></li>
+                        <li><a class="dropdown-item" href="#">Link 3</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
 
+        <!-- Daftar Forum -->
         <div class="forum-list">
-            <div class="row mt-5">
+            <div class="row mt-5" id="forumContainer">
                 <?php foreach ($forums as $forum): ?>
-                    <div class="col-md-6 mb-4">
+                    <div class="col-md-6 mb-4 filter-item">
                         <a href="#joinForum" data-bs-toggle="modal">
                             <div class="card">
                                 <div class="row">
@@ -123,36 +152,36 @@
     </div>
 
     <!-- The Modal -->
-        <div class="modal" id="joinForum">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
+    <div class="modal" id="joinForum">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
 
-                    <!-- Modal Header -->
-                    <div class="modal-header">
-                        <div class="row">
-                            <div class="col-md-4">
-                                <img class="card-img-modal rounded-circle me-3" src="<?= base_url('uploads/forum/' . $forum['foto']) ?>">
-                            </div>
-                            <div class="col-md-8 align-self-center">
-                                <h2 class="title-modal"><-title-></h2>
-                                <p class=" subtitle-modal"><-subtitle-></p>
-                            </div>
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <img class="card-img-modal rounded-circle me-3" src="<?= base_url('uploads/forum/' . $forum['foto']) ?>">
                         </div>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        <div class="col-md-8 align-self-center">
+                            <h2 class="title-modal"><-title-></h2>
+                            <p class=" subtitle-modal"><-subtitle-></p>
+                        </div>
                     </div>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
 
-                    <!-- Modal body -->
-                    <div class="modal-body">
-                        <p><-Deskripsi-></p>
-                    </div>
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <p><-Deskripsi-></p>
+                </div>
 
-                    <!-- Modal footer -->
-                    <div class="modal-footer">
-                        <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#confirmForum">Bergabung</button>
-                    </div>
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#confirmForum">Bergabung</button>
                 </div>
             </div>
         </div>
+    </div>
 
     <!-- Modal Konfirmasi Join Forum -->
     <div class="modal" id="confirmForum">
@@ -167,6 +196,25 @@
             </div>
         </div>
     </div>
+
+    <!-- Script JavaScript untuk Filter Real-Time Berdasarkan Title -->
+    <script>
+        document.getElementById('searchInput').addEventListener('input', function() {
+            const query = this.value.toLowerCase();
+            const items = document.querySelectorAll('#forumContainer .filter-item');
+
+            items.forEach(item => {
+                const title = item.querySelector('h2').textContent.toLowerCase();
+
+                // Cek apakah title mengandung query pencarian
+                if (title.includes(query)) {
+                    item.style.display = ''; // Tampilkan item
+                } else {
+                    item.style.display = 'none'; // Sembunyikan item
+                }
+            });
+        });
+    </script>
 </body>
 
 </html>
