@@ -35,91 +35,76 @@ class userController extends BaseController
 
         // Check if username is already taken
         $isUsernameTaken = $klienModel->where('username', $username)->first() ||
-                           $mahasiswaModel->where('username', $username)->first() ||
-                           $psikologModel->where('username', $username)->first();
+            $mahasiswaModel->where('username', $username)->first() ||
+            $psikologModel->where('username', $username)->first();
 
         if ($isUsernameTaken) {
             return redirect()->back()->with('error', 'Maaf, username ini sudah terpakai. Silakan gunakan yang lain.');
         }
 
-        // Get the file content as binary data for 'foto'
-        $fotoData = $this->getFileContent($foto);
-
-        // Generate unique ID based on category
-        $newId = $this->generateUniqueId($kategori);
+        // Handle the upload of 'foto'
+        if ($foto && $foto->isValid() && !$foto->hasMoved()) {
+            $fileFoto = $foto->getName();
+            $foto->move('uploads/FOTO/', $fileFoto);
+            $fotoPath = '/uploads/FOTO/' . $fileFoto; // Path yang akan disimpan di database
+        } else {
+            return redirect()->back()->with('error', 'Gagal mengunggah foto.');
+        }
 
         // Choose model based on user category
         if (strcasecmp($kategori, 'klien') === 0) {
             $klienModel->save([
-                'kd_klien' => $newId,
                 'username' => $username,
                 'password' => password_hash($password, PASSWORD_BCRYPT),
                 'email' => $email,
-                'foto' => $fotoData
+                'foto' => $fotoPath
             ]);
         } elseif (strcasecmp($kategori, 'mhs') === 0) {
+            $fotoKTM = $this->request->getFile('fotoKTM');
+
+            if ($fotoKTM && $fotoKTM->isValid() && !$fotoKTM->hasMoved()) {
+                $fotoKTMName = $fotoKTM->getName();
+                $fotoKTM->move('uploads/KTM/', $fotoKTMName);
+                $fotoKTMPath = '/uploads/KTM/' . $fotoKTMName;
+            }
+
             $mahasiswaModel->save([
-                'kd_mahasiswa' => $newId,
                 'username' => $username,
                 'password' => password_hash($password, PASSWORD_BCRYPT),
                 'email' => $email,
-                'foto' => $fotoData,
+                'foto' => $fotoPath,
                 'nim' => $this->request->getPost('nim'),
                 'asal_univ' => $this->request->getPost('asal_univ'),
-                'fotoKTM' => $this->getFileContent($this->request->getFile('fotoKTM')) // KTM file as binary
+                'fotoKTM' => $fotoKTMPath
             ]);
         } elseif (strcasecmp($kategori, 'psikolog') === 0) {
+            $ktp = $this->request->getFile('ktp');
+            $license = $this->request->getFile('license');
+
+            if ($ktp && $ktp->isValid() && !$ktp->hasMoved()) {
+                $ktpName = $ktp->getName();
+                $ktp->move('uploads/KTP/', $ktpName);
+                $ktpPath = '/uploads/KTP/' . $ktpName;
+            }
+    
+            if ($license && $license->isValid() && !$license->hasMoved()) {
+                $licenseName = $license->getName();
+                $license->move('uploads/LisensiPsikolog/', $licenseName);
+                $licensePath = '/uploads/LisensiPsikolog/' . $licenseName;
+            }
+
             $psikologModel->save([
-                'kd_psikolog' => $newId,
                 'username' => $username,
                 'password' => password_hash($password, PASSWORD_BCRYPT),
                 'email' => $email,
                 'domisili' => $this->request->getPost('domisili'),
-                'ktp' => $this->getFileContent($this->request->getFile('ktp')), // KTP file as binary
-                'lisensi' => $this->getFileContent($this->request->getFile('license')), // License file as binary
-                'foto' => $fotoData
+                'ktp' => $ktpPath,
+                'lisensi' => $licensePath,
+                'foto' => $fotoPath
             ]);
         }
 
         return redirect()->to('login');
-    }
-
-    // Function to generate unique ID based on user category
-    private function generateUniqueId($kategori)
-    {
-        $db = \Config\Database::connect();
-
-        if (strcasecmp($kategori, 'klien') === 0) {
-            $builder = $db->table('klien');
-            $lastEntry = $builder->select('kd_klien')->orderBy('kd_klien', 'DESC')->get(1)->getRow();
-            $lastId = $lastEntry ? intval(str_replace('KL', '', $lastEntry->kd_klien)) : 0;
-            return 'KL' . str_pad($lastId + 1, 4, '0', STR_PAD_LEFT); // Example: KL0001
-        }
-
-        if (strcasecmp($kategori, 'mhs') === 0) {
-            $builder = $db->table('mhspsikologi');
-            $lastEntry = $builder->select('kd_mahasiswa')->orderBy('kd_mahasiswa', 'DESC')->get(1)->getRow();
-            $lastId = $lastEntry ? intval(str_replace('MHS', '', $lastEntry->kd_mahasiswa)) : 0;
-            return 'MHS' . str_pad($lastId + 1, 4, '0', STR_PAD_LEFT); // Example: MHS0001
-        }
-
-        if (strcasecmp($kategori, 'psikolog') === 0) {
-            $builder = $db->table('psikolog');
-            $lastEntry = $builder->select('kd_psikolog')->orderBy('kd_psikolog', 'DESC')->get(1)->getRow();
-            $lastId = $lastEntry ? intval(str_replace('PSK', '', $lastEntry->kd_psikolog)) : 0;
-            return 'PSK' . str_pad($lastId + 1, 4, '0', STR_PAD_LEFT); // Example: PSK0001
-        }
-
-        return null; // Fallback
-    }
-
-    // Function to get file content as binary data
-    private function getFileContent($file)
-    {
-        if ($file && $file->isValid() && !$file->hasMoved()) {
-            return file_get_contents($file->getTempName()); // Read file content as binary data
-        }
-        return null;
     }
 
     public function login()
@@ -149,8 +134,8 @@ class userController extends BaseController
 
         // Check if user is a client, student, or psychologist
         $user = $klienModel->where('username', $username)->first() ??
-                $mahasiswaModel->where('username', $username)->first() ??
-                $psikologModel->where('username', $username)->first();
+            $mahasiswaModel->where('username', $username)->first() ??
+            $psikologModel->where('username', $username)->first();
 
         if ($user && password_verify($password, $user['password'])) {
             session()->set([

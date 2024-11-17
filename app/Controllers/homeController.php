@@ -6,6 +6,7 @@ use App\Models\klienModel;
 use App\Models\mahasiswaModel;
 use App\Models\psikologModel;
 use App\Models\adminModel;
+use App\Models\forumModel;
 
 class homeController extends BaseController
 {
@@ -17,48 +18,63 @@ class homeController extends BaseController
     public function index()
     {
         $loggedInUsername = session()->get('username');
-    
+
         $klienModel = new KlienModel();
         $mahasiswaModel = new MahasiswaModel();
         $psikologModel = new PsikologModel();
         $adminModel = new AdminModel();
-    
+
         // Check user role and render the appropriate view
         $klienData = $klienModel->where('username', $loggedInUsername)->first();
         if ($klienData) {
             return view('homeKlien', ['userData' => $klienData]);
         }
-    
+
         $mahasiswaData = $mahasiswaModel->where('username', $loggedInUsername)->first();
         if ($mahasiswaData) {
             return view('homeKlien', ['userData' => $mahasiswaData]);
         }
-    
+
         $psikologData = $psikologModel->where('username', $loggedInUsername)->first();
         if ($psikologData) {
             return view('homePsikolog', ['userData' => $psikologData]);
         }
-    
+
         $adminData = $adminModel->where('username', $loggedInUsername)->first();
         if ($adminData) {
             // Render the view for admin without needing a separate route
             return view('viewDashboard', ['userData' => $adminData]);
         }
-    
+
         // Redirect to login if no user data is found
         return redirect()->to('/login')->with('error', 'Akun tidak ditemukan.');
     }
-    
-    public function getProfilePicture($username)
-    {
-        $model = new klienModel();
-        $user = $model->where('username', $username)->first();
 
-        if ($user && $user['foto']) {
-            $this->response->setHeader('Content-Type', 'image/jpg');
-            echo $user['foto'];
-        } else {
-            return redirect()->to('/path/to/default/image.jpg');
+    public function forum(): string
+    {
+        $loggedInUsername = session()->get('username');
+    
+        $klienModel = new KlienModel();
+        $forumModel = new forumModel();
+        //$this->forumKlienModel = new forum_klienModel();
+        $mahasiswaModel = new mahasiswaModel();
+
+
+        $klienData = $klienModel->where('username', $loggedInUsername)->first();
+        $forums = $forumModel->getAllForums();
+        $mahasiswa = $mahasiswaModel->find(session()->get('kd_mahasiswa'));
+
+        if ($klienData) {
+            return view('forumKlien', [
+                'userData' => $klienData,
+                'forums' => $forums,
+                'mahasiswa' => $mahasiswa
+            ]);
+        } elseif ($mahasiswa) {
+            return view('CRUD_Forum', [
+                'forums' => $forums,
+                'mahasiswa' => $mahasiswa
+            ]);
         }
     }
 }
