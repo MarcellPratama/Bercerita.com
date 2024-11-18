@@ -5,8 +5,6 @@ namespace App\Controllers;
 use App\Models\klienModel;
 use App\Models\mahasiswaModel;
 use App\Models\psikologModel;
-use App\Models\adminModel;
-use App\Models\forumModel;
 
 class homeController extends BaseController
 {
@@ -15,16 +13,17 @@ class homeController extends BaseController
     {
         return view('homepage');
     }
+
     public function index()
     {
         $loggedInUsername = session()->get('username');
 
+        // Inisialisasi model untuk setiap peran
         $klienModel = new KlienModel();
         $mahasiswaModel = new MahasiswaModel();
         $psikologModel = new PsikologModel();
-        $adminModel = new AdminModel();
 
-        // Check user role and render the appropriate view
+        // Cek akun yang cocok dengan username yang login
         $klienData = $klienModel->where('username', $loggedInUsername)->first();
         if ($klienData) {
             return view('homeKlien', ['userData' => $klienData]);
@@ -32,7 +31,7 @@ class homeController extends BaseController
 
         $mahasiswaData = $mahasiswaModel->where('username', $loggedInUsername)->first();
         if ($mahasiswaData) {
-            return view('homeKlien', ['userData' => $mahasiswaData]);
+            return view('homeMahasiswa', ['userData' => $mahasiswaData]);
         }
 
         $psikologData = $psikologModel->where('username', $loggedInUsername)->first();
@@ -40,41 +39,22 @@ class homeController extends BaseController
             return view('homePsikolog', ['userData' => $psikologData]);
         }
 
-        $adminData = $adminModel->where('username', $loggedInUsername)->first();
-        if ($adminData) {
-            // Render the view for admin without needing a separate route
-            return view('viewDashboard', ['userData' => $adminData]);
-        }
-
-        // Redirect to login if no user data is found
+        // Jika tidak ada data yang ditemukan, redirect ke halaman login dengan pesan error
         return redirect()->to('/login')->with('error', 'Akun tidak ditemukan.');
     }
 
-    public function forum(): string
+    public function getProfilePicture($username)
     {
-        $loggedInUsername = session()->get('username');
-    
-        $klienModel = new KlienModel();
-        $forumModel = new forumModel();
-        //$this->forumKlienModel = new forum_klienModel();
-        $mahasiswaModel = new mahasiswaModel();
+        $model = new klienModel();
+        $user = $model->where('username', $username)->first(); // Fetch user by username
 
-
-        $klienData = $klienModel->where('username', $loggedInUsername)->first();
-        $forums = $forumModel->getAllForums();
-        $mahasiswa = $mahasiswaModel->find(session()->get('kd_mahasiswa'));
-
-        if ($klienData) {
-            return view('forumKlien', [
-                'userData' => $klienData,
-                'forums' => $forums,
-                'mahasiswa' => $mahasiswa
-            ]);
-        } elseif ($mahasiswa) {
-            return view('CRUD_Forum', [
-                'forums' => $forums,
-                'mahasiswa' => $mahasiswa
-            ]);
+        if ($user && $user['foto']) {
+            // Set the appropriate header
+            $this->response->setHeader('Content-Type', 'image/jpg'); // Change to the correct image type if necessary
+            echo $user['foto'];
+        } else {
+            // Handle the case where the user or picture is not found
+            return redirect()->to('/path/to/default/image.jpg'); // Fallback image
         }
     }
 }
