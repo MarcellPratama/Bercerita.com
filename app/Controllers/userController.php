@@ -6,6 +6,7 @@ use App\Models\klienModel;
 use App\Models\mahasiswaModel;
 use App\Models\psikologModel;
 use App\Models\adminModel;
+use App\Models\registrasiModel;
 
 class userController extends BaseController
 {
@@ -22,26 +23,27 @@ class userController extends BaseController
     public function registrasi()
     {
         helper('form');
-
+    
         $username = $this->request->getPost('username');
         $password = $this->request->getPost('password');
         $email = $this->request->getPost('email');
         $foto = $this->request->getFile('file-upload');
         $kategori = $this->request->getPost('category');
-
+    
         $klienModel = new klienModel();
         $mahasiswaModel = new mahasiswaModel();
         $psikologModel = new psikologModel();
-
+        $registrasiModel = new registrasiModel();
+    
         // Check if username is already taken
         $isUsernameTaken = $klienModel->where('username', $username)->first() ||
             $mahasiswaModel->where('username', $username)->first() ||
             $psikologModel->where('username', $username)->first();
-
+    
         if ($isUsernameTaken) {
-            return redirect()->back()->with('error', 'Maaf, username ini sudah terpakai. Silakan gunakan yang lain.');
+            return redirect()->back()->with('error', 'Username ini sudah terpakai.');
         }
-
+    
         // Handle the upload of 'foto'
         if ($foto && $foto->isValid() && !$foto->hasMoved()) {
             $fileFoto = $foto->getName();
@@ -50,25 +52,42 @@ class userController extends BaseController
         } else {
             return redirect()->back()->with('error', 'Gagal mengunggah foto.');
         }
-
+    
+        $kd_user = null; // Variable to hold user ID for registration
+        $tanggal_registrasi = date('Y-m-d'); // Current date
+    
         // Choose model based on user category
         if (strcasecmp($kategori, 'klien') === 0) {
-            $klienModel->save([
+            // Insert klien data
+            $kd_klien = $klienModel->insert([
                 'username' => $username,
                 'password' => password_hash($password, PASSWORD_BCRYPT),
                 'email' => $email,
                 'foto' => $fotoPath
+            ], true);
+    
+            if (!$kd_klien) {
+                return redirect()->back()->with('error', 'Gagal menyimpan data klien.');
+            }
+    
+            // Insert to registrasi table with correct ID and set others to null
+            $registrasiModel->insert([
+                'tanggal_registrasi' => $tanggal_registrasi,
+                'kd_klien' => $kd_klien, // Save ID of klien in registrasi
+                'kd_psikolog' => null, // Set null for psikolog
+                'kd_mahasiswa' => null  // Set null for mahasiswa
             ]);
         } elseif (strcasecmp($kategori, 'mhs') === 0) {
+            // Handle mahasiswa
             $fotoKTM = $this->request->getFile('fotoKTM');
-
             if ($fotoKTM && $fotoKTM->isValid() && !$fotoKTM->hasMoved()) {
                 $fotoKTMName = $fotoKTM->getName();
                 $fotoKTM->move('uploads/KTM/', $fotoKTMName);
                 $fotoKTMPath = '/uploads/KTM/' . $fotoKTMName;
             }
-
-            $mahasiswaModel->save([
+    
+            // Insert mahasiswa data
+            $kd_mahasiswa = $mahasiswaModel->insert([
                 'username' => $username,
                 'password' => password_hash($password, PASSWORD_BCRYPT),
                 'email' => $email,
@@ -76,11 +95,24 @@ class userController extends BaseController
                 'nim' => $this->request->getPost('nim'),
                 'asal_univ' => $this->request->getPost('asal_univ'),
                 'fotoKTM' => $fotoKTMPath
+            ], true);
+    
+            if (!$kd_mahasiswa) {
+                return redirect()->back()->with('error', 'Gagal menyimpan data mahasiswa.');
+            }
+    
+            // Insert to registrasi table with correct ID and set others to null
+            $registrasiModel->insert([
+                'tanggal_registrasi' => $tanggal_registrasi,
+                'kd_mahasiswa' => $kd_mahasiswa, // Save ID of mahasiswa in registrasi
+                'kd_psikolog' => null, // Set null for psikolog
+                'kd_klien' => null  // Set null for klien
             ]);
         } elseif (strcasecmp($kategori, 'psikolog') === 0) {
+            // Handle psikolog
             $ktp = $this->request->getFile('ktp');
             $license = $this->request->getFile('license');
-
+    
             if ($ktp && $ktp->isValid() && !$ktp->hasMoved()) {
                 $ktpName = $ktp->getName();
                 $ktp->move('uploads/KTP/', $ktpName);
@@ -92,8 +124,9 @@ class userController extends BaseController
                 $license->move('uploads/LisensiPsikolog/', $licenseName);
                 $licensePath = '/uploads/LisensiPsikolog/' . $licenseName;
             }
-
-            $psikologModel->save([
+    
+            // Insert psikolog data
+            $kd_psikolog = $psikologModel->insert([
                 'username' => $username,
                 'password' => password_hash($password, PASSWORD_BCRYPT),
                 'email' => $email,
@@ -101,11 +134,23 @@ class userController extends BaseController
                 'ktp' => $ktpPath,
                 'lisensi' => $licensePath,
                 'foto' => $fotoPath
+            ], true);
+    
+            if (!$kd_psikolog) {
+                return redirect()->back()->with('error', 'Gagal menyimpan data psikolog.');
+            }
+    
+            // Insert to registrasi table with correct ID and set others to null
+            $registrasiModel->insert([
+                'tanggal_registrasi' => $tanggal_registrasi,
+                'kd_psikolog' => $kd_psikolog, // Save ID of psikolog in registrasi
+                'kd_klien' => null, // Set null for klien
+                'kd_mahasiswa' => null  // Set null for mahasiswa
             ]);
         }
-
+    
         return redirect()->to('login');
-    }
+    }    
 
     public function login()
     {

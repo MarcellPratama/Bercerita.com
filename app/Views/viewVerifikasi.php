@@ -420,106 +420,29 @@
                     </tr>
                 </thead>
                 <tbody>
+                    <?php $no = 1; ?>
+                    <?php foreach ($pengguna as $user): ?>
                     <tr>
-                        <td>1</td>
-                        <td>Putri Ala Syakari</td>
-                        <td>Mahasiswa Psikologi</td>
+                        <td><?= $no++; ?></td>
+                        <td>
+                            <?php
+            // Menampilkan nama pengguna
+            echo isset($user['username']) ? $user['username'] : 'Nama Tidak Tersedia';
+            ?>
+                        </td>
+                        <td>
+                            <?php
+            // Cek apakah kategori ada sebelum ditampilkan
+            echo isset($user['kategori']) ? $user['kategori'] : 'Kategori Tidak Diketahui';
+            ?>
+                        </td>
                         <td>
                             <span class="action-btn reject"><i class="fas fa-times"></i></span>
                             <span class="action-btn approve"><i class="fas fa-check"></i></span>
                             <span class="action-btn view"><i class="fas fa-eye"></i></span>
                         </td>
                     </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>Lisa Akalia Mali</td>
-                        <td>Mahasiswa Psikologi</td>
-                        <td>
-                            <span class="action-btn reject"><i class="fas fa-times"></i></span>
-                            <span class="action-btn approve"><i class="fas fa-check"></i></span>
-                            <span class="action-btn view"><i class="fas fa-eye"></i></span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>3</td>
-                        <td>Budiman Setiadi</td>
-                        <td>Mahasiswa Psikologi</td>
-                        <td>
-                            <span class="action-btn reject"><i class="fas fa-times"></i></span>
-                            <span class="action-btn approve"><i class="fas fa-check"></i></span>
-                            <span class="action-btn view"><i class="fas fa-eye"></i></span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>4</td>
-                        <td>Rio Martin Rendi</td>
-                        <td>Psikolog</td>
-                        <td>
-                            <span class="action-btn reject"><i class="fas fa-times"></i></span>
-                            <span class="action-btn approve"><i class="fas fa-check"></i></span>
-                            <span class="action-btn view"><i class="fas fa-eye"></i></span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>5</td>
-                        <td>Amelia Sanjaya</td>
-                        <td>Psikolog</td>
-                        <td>
-                            <span class="action-btn reject"><i class="fas fa-times"></i></span>
-                            <span class="action-btn approve"><i class="fas fa-check"></i></span>
-                            <span class="action-btn view"><i class="fas fa-eye"></i></span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>6</td>
-                        <td>Rina Andira</td>
-                        <td>Mahasiswa Psikologi</td>
-                        <td>
-                            <span class="action-btn reject"><i class="fas fa-times"></i></span>
-                            <span class="action-btn approve"><i class="fas fa-check"></i></span>
-                            <span class="action-btn view"><i class="fas fa-eye"></i></span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>7</td>
-                        <td>Joko Mardika</td>
-                        <td>Mahasiswa Psikologi</td>
-                        <td>
-                            <span class="action-btn reject"><i class="fas fa-times"></i></span>
-                            <span class="action-btn approve"><i class="fas fa-check"></i></span>
-                            <span class="action-btn view"><i class="fas fa-eye"></i></span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>8</td>
-                        <td>Adi Surya</td>
-                        <td>Mahasiswa Psikologi</td>
-                        <td>
-                            <span class="action-btn reject"><i class="fas fa-times"></i></span>
-                            <span class="action-btn approve"><i class="fas fa-check"></i></span>
-                            <span class="action-btn view"><i class="fas fa-eye"></i></span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>9</td>
-                        <td>Desi Rachmawati</td>
-                        <td>Mahasiswa Psikologi</td>
-                        <td>
-                            <span class="action-btn reject"><i class="fas fa-times"></i></span>
-                            <span class="action-btn approve"><i class="fas fa-check"></i></span>
-                            <span class="action-btn view"><i class="fas fa-eye"></i></span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>10</td>
-                        <td>Farhan Irawan</td>
-                        <td>Psikolog</td>
-                        <td>
-                            <span class="action-btn reject"><i class="fas fa-times"></i></span>
-                            <span class="action-btn approve"><i class="fas fa-check"></i></span>
-                            <span class="action-btn view"><i class="fas fa-eye"></i></span>
-                        </td>
-                    </tr>
+                    <?php endforeach; ?>
                 </tbody>
             </table>
 

@@ -1,19 +1,55 @@
 <?php
-
 namespace App\Models;
+
 use CodeIgniter\Model;
 
 class registrasiModel extends Model
 {
-    // Menentukan nama tabel yang digunakan oleh model
-    protected $table = 'registrasi';
+    protected $table = 'registrasi'; // Nama tabel
+    protected $primaryKey = 'kd_registrasi'; // Primary key
+    protected $useAutoIncrement = false; // Tidak menggunakan auto increment
+    protected $allowedFields = [
+        'kd_registrasi',
+        'tanggal_registrasi',
+        'kd_psikolog',
+        'kd_klien',
+        'kd_mahasiswa'
+    ];
+    protected $keyType = 'string'; // Primary key berupa string
 
-    // Menentukan primary key dari tabel
-    protected $primaryKey = 'kd_registrasi';
+    // Override fungsi `insert` untuk menghasilkan ID otomatis
+    public function insert($data = null, $returnID = true)
+    {
+        // Jika ID belum ada di data, buat ID baru
+        if (!isset($data['kd_registrasi']) || empty($data['kd_registrasi'])) {
+            $data['kd_registrasi'] = $this->generateNewId();
+        }
 
-    // Menentukan apakah model menggunakan auto increment
-    protected $useAutoIncrement = true;
+        // Panggil fungsi insert asli milik Model
+        return parent::insert($data, $returnID);
+    }
 
-    // Menentukan kolom yang dapat diisi atau diubah oleh pengguna
-    protected $allowedFields = ['tanggal_registrasi', 'kd_psikolog', 'kd_klien', 'kd_mahasiswa'];
+    // Fungsi untuk menghasilkan ID registrasi baru
+    private function generateNewId()
+    {
+        $db = \Config\Database::connect();
+        $builder = $db->table($this->table);
+
+        // Ambil ID registrasi terakhir dari tabel
+        $lastRow = $builder->select($this->primaryKey)
+            ->orderBy($this->primaryKey, 'DESC')
+            ->get(1)
+            ->getRow();
+
+        if (!$lastRow) {
+            $nextIdNumber = 1; // Jika tidak ada data, ID pertama dimulai dari 1
+        } else {
+            // Ekstrak angka dari ID terakhir
+            $lastIdNumber = (int) str_replace('REG', '', $lastRow->kd_registrasi);
+            $nextIdNumber = $lastIdNumber + 1;
+        }
+
+        // Kembalikan ID baru dengan format "REG[number]"
+        return 'REG' . str_pad($nextIdNumber, 4, '0', STR_PAD_LEFT); // Contoh: REG0001
+    }
 }
