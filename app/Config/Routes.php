@@ -15,10 +15,7 @@ $routes->get('logout', 'userController::logout');
 $routes->get('/adminVerifikasi', 'adminController::verifikasi');
 $routes->get('adminDashboard', 'adminController::dashboard');
 $routes->get('adminLihatPsikolog', 'adminController::lihatPsikolog');
-$routes->get('adminLihatMhs', 'adminController::lihatMhs');
-
-$routes->get('forumKlien', 'homeController::forum');
-
+$routes->get('adminLihatMhs', 'adminController::lihatMhs');$routes->get('forumKlien', 'homeController::forum');
 $routes->get('/forum', 'ForumController::index');
 $routes->post('/forum/add', 'ForumController::addForum');
 $routes->post('/forum/delete/(:num)', 'ForumController::deleteForum/$1');
