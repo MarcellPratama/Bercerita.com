@@ -236,7 +236,6 @@
         /* Set fixed height for the container */
     }
 
-
     .keterangan-tampilan {
         font-size: 14px;
         color: #666;
@@ -296,15 +295,12 @@
         left: 50%;
         transform: translate(-50%, -50%);
         background-color: rgba(0, 0, 0, 0.3);
-        /* Transparent gray */
-        /* Transparent white */
         padding: 20px;
         border-radius: 10px;
-        /* box-shadow: 0 0 15px rgba(0, 0, 0, 0.2); */
         z-index: 1000;
         width: 1700px;
         text-align: center;
-        /* Optional: Adds a blur effect */
+
     }
 
     .modal-content {
@@ -379,6 +375,45 @@
         outline: none;
         border-color: #00c2cb;
         box-shadow: 0 0 4px rgba(0, 194, 203, 0.3);
+    }
+
+    .modal-content-reject {
+        margin-top: 220px;
+        flex-direction: column;
+        align-items: center;
+        background-color: white;
+        margin-left: 690px;
+        margin-right: 600px;
+        width: 500px;
+        height: 220px;
+        border-radius: 5px;
+    }
+
+    .modal-content-reject i {
+        font-size: 40px;
+        margin-bottom: 20px;
+        margin-top: 20px;
+    }
+
+    .modal-content-reject p {
+        font-size: 18px;
+        font-weight: bold;
+        color: #333;
+        margin-bottom: 20px;
+        margin-top: 10px;
+    }
+
+    .modal-content-reject .btn {
+        padding: 10px 20px;
+        /* Jarak dalam tombol */
+        font-size: 16px;
+        /* Ukuran teks */
+        border-radius: 5px;
+        /* Membuat sudut tombol melengkung */
+        width: 100px;
+        /* Lebar tombol yang sama */
+        text-align: center;
+        /* Pusatkan teks di tombol */
     }
     </style>
 </head>
@@ -469,6 +504,17 @@
                     </nav>
                 </div>
             </div>
+
+            <div class="modal" id="rejectModal" style="display: none;">
+                <div class="modal-content-reject">
+                    <i class="fas fa-times-circle" style="color: #ff6b6b; font-size: 40px;"></i>
+                    <p>Apakah Anda yakin menolak?</p>
+                    <!-- <div style="margin-top: 5px;"> -->
+                    <button class="btn btn-secondary" id="rejectNoBtn" style="margin-right: 10px;">Tidak</button>
+                    <button class="btn btn-danger" id="rejectYesBtn">Ya</button>
+                    <!-- </div> -->
+                </div>
+            </div>
             <div class="modal" id="topUpModal" style="display: none;">
                 <div class="modal-content">
                     <i class="fas fa-check-circle" style="color: #28a745; font-size: 40px;"></i>
@@ -480,6 +526,38 @@
     </div>
 </body>
 <script>
+document.addEventListener("DOMContentLoaded", function() {
+    // Select all reject buttons (cross buttons)
+    const rejectButtons = document.querySelectorAll(".action-btn.reject");
+    const rejectModal = document.getElementById("rejectModal");
+    const rejectYesBtn = document.getElementById("rejectYesBtn");
+    const rejectNoBtn = document.getElementById("rejectNoBtn");
+
+    // Function to show the reject modal
+    function showRejectModal() {
+        rejectModal.style.display = "flex";
+    }
+
+    // Function to close the reject modal
+    function closeRejectModal() {
+        rejectModal.style.display = "none";
+    }
+
+    // Attach event listeners to each reject button
+    rejectButtons.forEach(button => {
+        button.addEventListener("click", showRejectModal);
+    });
+
+    // Close the reject modal when the "No" button is clicked
+    rejectNoBtn.addEventListener("click", closeRejectModal);
+
+    // Handle "Yes" button in the reject modal
+    rejectYesBtn.addEventListener("click", function() {
+        // alert("Pengguna berhasil ditolak!"); // Tambahkan logika untuk aksi penolakan di sini
+        closeRejectModal();
+    });
+});
+
 function toggleSubmenu(element) {
     const submenu = element.nextElementSibling;
     submenu.style.display = submenu.style.display === "block" ? "none" : "block";
