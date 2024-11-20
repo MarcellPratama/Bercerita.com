@@ -77,7 +77,7 @@
             <img src="<?= base_url('images/Logo Bercerita.com.png') ?>" alt="Bercerita.com Logo">
         </div>
         <p class="title">Selamat Datang, Psikolog...<br>Ayo mulai Konsultasimu kita hari ini!</p>
-        <a href="#" class="button">Ayo, mulai</a>
+        <a href="<?= base_url('dashboardpsikolog') ?>" class="button">Ayo, mulai</a>
     </div>
 </body>
 

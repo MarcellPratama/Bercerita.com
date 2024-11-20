@@ -180,6 +180,7 @@
         border-radius: 10px;
         padding: 7px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        height: 630px;
     }
 
     table {
@@ -231,24 +232,33 @@
         justify-content: space-between;
         align-items: center;
         margin-top: 30px;
+        height: 250px;
+        /* Set fixed height for the container */
     }
+
 
     .keterangan-tampilan {
         font-size: 14px;
         color: #666;
         margin: 0;
+        flex: 1;
+        /* Allow the text to take up available space on the left */
+        text-align: left;
+        /* Align the text to the left */
     }
 
     .pagination {
         display: flex;
         align-items: center;
         gap: 3px;
+        justify-content: flex-end;
+        /* Ensure pagination buttons stay on the right */
     }
 
     .pagination .page-item {
         font-size: 14px;
         padding: 3px 4px;
-        /* Kurangi padding untuk ukuran kotak lebih kecil */
+        /* Reduce padding for smaller box size */
         border-radius: 4px;
         cursor: pointer;
         transition: background-color 0.3s, color 0.3s;
@@ -416,6 +426,7 @@
                         <th>No</th>
                         <th>Nama</th>
                         <th>Kategori</th>
+                        <th>Status</th>
                         <th>Aksi</th>
                     </tr>
                 </thead>
@@ -436,6 +447,7 @@
             echo isset($user['kategori']) ? $user['kategori'] : 'Kategori Tidak Diketahui';
             ?>
                         </td>
+                        <td>Belum Diverifikasi</td> <!-- Status Kolom -->
                         <td>
                             <span class="action-btn reject"><i class="fas fa-times"></i></span>
                             <span class="action-btn approve"><i class="fas fa-check"></i></span>
