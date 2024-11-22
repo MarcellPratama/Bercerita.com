@@ -2,7 +2,7 @@
 
 namespace App\Controllers;
 
-use App\Models\klienModel;
+
 use App\Models\mahasiswaModel;
 use App\Models\psikologModel;
 use App\Models\registrasiModel;
@@ -41,17 +41,61 @@ class adminController extends BaseController
                 continue;  // Skip data klien
             }
         
-            // Menambahkan ID registrasi dan kategori
-            $userData['kd_registrasi'] = $registrasi['kd_registrasi'];
-        
-            // Menambahkan ke array pengguna
-            $data['pengguna'][] = $userData;
+            // Tambahkan ID registrasi
+            if (!empty($userData)) {
+                $userData['id'] = $registrasi['kd_registrasi']; // Pastikan key 'id' ada
+                $data['pengguna'][] = $userData;
+            }
         }
         
         // Kirim data ke view
         return view('viewVerifikasi', $data);  // Kirim array 'pengguna' ke view
     }
 
+    public function lihatDetailMhs($id)
+    {
+        $registrasiModel = new registrasiModel();
+        $mahasiswaModel = new mahasiswaModel();
+    
+        // Cari data registrasi untuk mendapatkan kd_mahasiswa
+        $registrasi = $registrasiModel->where('kd_registrasi', $id)->first();
+    
+        if (!$registrasi || empty($registrasi['kd_mahasiswa'])) {
+            return redirect()->to('/adminVerifikasi')->with('error', 'Data mahasiswa tidak ditemukan.');
+        }
+    
+        // Cari data mahasiswa berdasarkan kd_mahasiswa
+        $data['mahasiswa'] = $mahasiswaModel->find($registrasi['kd_mahasiswa']);
+    
+        if (!$data['mahasiswa']) {
+            return redirect()->to('/adminVerifikasi')->with('error', 'Data mahasiswa tidak ditemukan.');
+        }
+    
+        return view('viewLihatDetailMhsPsikologi', $data);
+    }
+    
+    public function lihatDetailPsikolog($id)
+    {
+        $registrasiModel = new registrasiModel();
+        $psikologModel = new psikologModel();
+        
+         // Cari data registrasi untuk mendapatkan kd_mahasiswa
+         $registrasi = $registrasiModel->where('kd_registrasi', $id)->first();
+    
+         if (!$registrasi || empty($registrasi['kd_psikolog'])) {
+             return redirect()->to('/adminVerifikasi')->with('error', 'Data psikolog tidak ditemukan.');
+         }
+     
+         // Cari data mahasiswa berdasarkan kd_mahasiswa
+         $data['psikolog'] = $psikologModel->find($registrasi['kd_psikolog']);
+     
+         if (!$data['psikolog']) {
+             return redirect()->to('/adminVerifikasi')->with('error', 'Data psikolog tidak ditemukan.');
+         }
+     
+         return view('viewLihatDetailPsikolog', $data);
+    }
+        
     // Method untuk halaman Dashboard
     public function dashboard()
     {

@@ -188,17 +188,17 @@
     .detail-row {
         display: flex;
         flex-direction: column;
-        padding: 10px;
+        padding: 8px;
         background-color: #e9ecef;
         border-radius: 5px;
-        margin-bottom: 2px;
+        margin-bottom: 1px;
     }
 
     .detail-label {
         font-weight: bold;
         color: #333;
         font-size: 14px;
-        margin-bottom: 3px;
+        /* margin-bottom: 1px; */
     }
 
     .detail-value {
@@ -219,7 +219,7 @@
         text-decoration: none;
         text-align: center;
         width: 100px;
-        margin-top: 50px;
+        margin-top: 16px;
     }
 
     .back-btn:hover {
@@ -227,7 +227,7 @@
     }
 
     a.detail-link {
-        color: #800080; 
+        color: #800080;
         text-decoration: none;
         margin-right: 10px;
     }
@@ -247,15 +247,15 @@
         </div>
 
         <ul class="menu">
-            <li><a href="#"><i class="fas fa-home"></i> Beranda</a></li>
-            <li><a href="#" class="active"><i class="fas fa-check-circle"></i> Verifikasi</a></li>
+            <li><a href="adminDashboard"><i class="fas fa-home"></i> Beranda</a></li>
+            <li><a href="adminVerifikasi" class="active"><i class="fas fa-check-circle"></i> Verifikasi</a></li>
             <li>
                 <a href="#" class="dropdown-toggle" onclick="toggleSubmenu(this)">
                     <i class="fas fa-users"></i> Pengguna
                 </a>
                 <ul class="submenu">
-                    <li><a href="adminLihatPengguna"><i class="fas fa-user"></i> Psikolog</a></li>
-                    <li><a href="#"><i class="fas fa-user-graduate"></i> Mahasiswa Psikologi</a></li>
+                    <li><a href="adminLihatPsikolog"><i class="fas fa-user"></i> Psikolog</a></li>
+                    <li><a href="adminLihatMhs"><i class="fas fa-user-graduate"></i> Mahasiswa Psikologi</a></li>
                 </ul>
             </li>
             <li><a href="/login"><i class="fas fa-sign-out-alt"></i> Keluar</a></li>
@@ -265,40 +265,38 @@
     <!-- Main Content -->
     <div class="main-content">
         <div class="header">
-            <h2><span class="bold-text">Tampilan</span> <span class="regular-text">Mahasiswa Psikologi | Putri Ala
-                    Syakari</span></h2>
+            <h2><span class="bold-text">Tampilan</span> <span class="regular-text">Mahasiswa Psikologi |
+                    <?= htmlspecialchars($mahasiswa['username']); ?></span></h2>
             <img src="/bercerita.png" alt="Bercerita Logo" class="logo" />
         </div>
         <div class="detail-container">
             <div class="detail-row">
-                <span class="detail-label">User ID</span>
-                <span class="detail-value">M-0012345711721</span>
-            </div>
-            <div class="detail-row">
                 <span class="detail-label">Nama Pengguna</span>
-                <span class="detail-value">Putri Ala Syakari</span>
+                <span class="detail-value"><?= $mahasiswa['username']; ?></span>
             </div>
             <div class="detail-row">
                 <span class="detail-label">Email</span>
-                <span class="detail-value">Putrialia@gmail.com</span>
+                <span class="detail-value"><?= $mahasiswa['email']; ?></span>
             </div>
             <div class="detail-row">
                 <span class="detail-label">NIM</span>
-                <span class="detail-value">1726181918212</span>
+                <span class="detail-value"><?= $mahasiswa['nim']; ?></span>
             </div>
             <div class="detail-row">
                 <span class="detail-label">Asal Universitas</span>
-                <span class="detail-value">Universitas Sanata Dharma</span>
+                <span class="detail-value"><?= $mahasiswa['asal_univ']; ?></span>
             </div>
             <div class="detail-row">
                 <span class="detail-label">Foto Diri</span>
-                <span class="detail-value"><a href="#" target="_blank" class="detail-link">Lihat Foto</a></span>
+                <span class="detail-value"><a href="<?= $mahasiswa['foto']; ?>" target="_blank"
+                        class="detail-link">Lihat Foto</a></span>
             </div>
             <div class="detail-row">
                 <span class="detail-label">Foto KTM</span>
-                <span class="detail-value"><a href="#" target="_blank" class="detail-link">Lihat Foto</a></span>
+                <span class="detail-value"><a href="<?= $mahasiswa['fotoKTM']; ?>" target="_blank"
+                        class="detail-link">Lihat Foto</a></span>
             </div>
-            <a href="#" class="back-btn">Kembali</a>
+            <a href="/adminVerifikasi" class="back-btn">Kembali</a>
         </div>
     </div>
 </body>

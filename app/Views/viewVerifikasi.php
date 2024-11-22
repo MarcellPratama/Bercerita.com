@@ -24,7 +24,7 @@
 
     .sidebar {
         width: 245px;
-        height: 100vh;
+        height: 112vh;
         background-color: #00c2cb;
         padding: 20px;
         display: flex;
@@ -471,26 +471,35 @@
                     <tr>
                         <td><?= $no++; ?></td>
                         <td>
-                            <?php
-            // Menampilkan nama pengguna
-            echo isset($user['username']) ? $user['username'] : 'Nama Tidak Tersedia';
-            ?>
+                            <?= isset($user['username']) ? $user['username'] : 'Nama Tidak Tersedia'; ?>
                         </td>
                         <td>
-                            <?php
-            // Cek apakah kategori ada sebelum ditampilkan
-            echo isset($user['kategori']) ? $user['kategori'] : 'Kategori Tidak Diketahui';
-            ?>
+                            <?= isset($user['kategori']) ? $user['kategori'] : 'Kategori Tidak Diketahui'; ?>
                         </td>
                         <td>Belum Diverifikasi</td> <!-- Status Kolom -->
                         <td>
-                            <span class="action-btn reject"><i class="fas fa-times"></i></span>
-                            <span class="action-btn approve"><i class="fas fa-check"></i></span>
-                            <span class="action-btn view"><i class="fas fa-eye"></i></span>
+                            <span class="action-btn reject" title="Tolak"><i class="fas fa-times"></i></span>
+                            <span class="action-btn approve" title="Setujui"><i class="fas fa-check"></i></span>
+                            <?php if ($user['kategori'] === 'Mahasiswa Psikologi'): ?>
+                            <a href="/adminLihatDetailMhs/<?= $user['id']; ?>" class="action-btn view"
+                                title="Lihat Detail Mahasiswa">
+                                <i class="fas fa-eye"></i>
+                            </a>
+                            <?php elseif ($user['kategori'] === 'Psikolog'): ?>
+                            <a href="/adminLihatDetailPsikolog/<?= $user['id']; ?>" class="action-btn view"
+                                title="Lihat Detail Psikolog">
+                                <i class="fas fa-eye"></i>
+                            </a>
+                            <?php else: ?>
+                            <span class="action-btn disabled" title="Kategori Tidak Valid">
+                                <i class="fas fa-eye-slash"></i>
+                            </span>
+                            <?php endif; ?>
                         </td>
                     </tr>
                     <?php endforeach; ?>
                 </tbody>
+
             </table>
 
             <!-- Pagination -->
