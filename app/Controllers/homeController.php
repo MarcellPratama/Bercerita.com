@@ -7,6 +7,7 @@ use App\Models\mahasiswaModel;
 use App\Models\psikologModel;
 use App\Models\adminModel;
 use App\Models\forumModel;
+use App\Models\catatanModel;
 
 class homeController extends BaseController
 {
@@ -61,19 +62,45 @@ class homeController extends BaseController
 
 
         $klienData = $klienModel->where('username', $loggedInUsername)->first();
+        $mhsData = $mahasiswaModel->where('username', $loggedInUsername)->first();
         $forums = $forumModel->getAllForums();
-        $mahasiswa = $mahasiswaModel->find(session()->get('kd_mahasiswa'));
 
         if ($klienData) {
             return view('forumKlien', [
                 'userData' => $klienData,
                 'forums' => $forums,
-                'mahasiswa' => $mahasiswa
             ]);
-        } elseif ($mahasiswa) {
+        } elseif ($mhsData) {
             return view('CRUD_Forum', [
-                'forums' => $forums,
-                'mahasiswa' => $mahasiswa
+                'mhsData' => $mhsData,
+                'forums' => $forums
+            ]);
+        }
+    }
+
+    public function jejakPerasaan(): string {
+        $loggedInUsername = session()->get('username');
+
+        $klienModel = new KlienModel();
+        $catatanModel = new catatanModel();
+        $mahasiswaModel = new mahasiswaModel();
+
+        // Hapus catatan yang sudah lebih dari 24 jam
+        $catatanModel->deleteExpiredNotes();
+
+        $klienData = $klienModel->where('username', $loggedInUsername)->first();
+        $mhsData = $mahasiswaModel->where('username', $loggedInUsername)->first();
+        $catatan = $catatanModel->findAll();
+
+        if ($klienData) {
+            return view('jejakPerasaan', [
+                'userData' => $klienData,
+                'catatan' => $catatan
+            ]);
+        } elseif ($mhsData) {
+            return view('jejakPerasaan', [
+                'userData' => $mhsData,
+                'catatan' => $catatan
             ]);
         }
     }

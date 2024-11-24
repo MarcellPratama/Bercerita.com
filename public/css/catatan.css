@@ -134,7 +134,7 @@ body {
         cursor:pointer; 
     }
 
-    .forum-list {
+    .catatan-list {
         max-height: 480px;
         overflow-y: auto;
         overflow-x: hidden;
@@ -146,17 +146,26 @@ body {
     }
     
     /* Custom Scrollbar */
-    .forum-list::-webkit-scrollbar {
+    .catatan-list::-webkit-scrollbar {
         display: none;
     }
 
     .modal-content {
-        background-color: #36C2CE;
+        background-color: #FFF68B;
         font-family: 'Poppins', sans-serif;
+        
+        textarea {
+            background-color: rgba(246, 246, 246, 0.5); /* Warna dengan opacity */
+            font-size: 24px;
+            font-weight: 500;
+            resize: none;
+        }
 
         .btn {
-            background-color: #f6f6f6;
+            background-color: #36C2CE;
+            color: #F6F6F6;
             border-radius: 5px;
+            border: none;
             box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
         }
 
@@ -211,4 +220,26 @@ body {
             transition: background-color 0.3s ease;
         }
     }
+
+    .card {
+        box-shadow: 0px 4px 4px rgba(0, 0, 0, 1);
+        height: 170px;
+        border-radius: 0px;
+    }
+
+    .card-body {
+        font-family: 'Poppins', sans-serif;
+        font-size: 20px;
+        font-weight: bold;
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .card.green { background-color: #CDFC93;}
+    .card.blue { background-color: #71D7FF;}
+    .card.yellow { background-color: #FFF68B;}
+    .card.pink { background-color: #FF7ECD;}
+    .card.purple { background-color: #CE81FF;}
 }

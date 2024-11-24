@@ -9,8 +9,8 @@
 
     <!-- Latest compiled JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <link rel="stylesheet" href="<?= base_url('css/klien.css') ?>">
-    <title>Ruang Bercerita</title>
+    <link rel="stylesheet" href="<?= base_url('css/catatan.css') ?>">
+    <title>Jejak Perasaan</title>
 </head>
 
 <body>
@@ -49,7 +49,7 @@
                     </div>
                 </li>
                 <li class="nav-item">
-                    <a href="/jejakPerasaan" class="nav-link">
+                    <a href="/financial" class="nav-link">
                         <svg width="32" height="32" viewBox="0 0 38 29" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M12.5771 28.5271C12.0049 28.5271 11.5153 28.3223 11.1083 27.9125C10.7014 27.5028 10.4972 27.0125 10.4958 26.4417V22.275H16.2646V15.5042C14.9424 15.782 13.5875 15.7403 12.2 15.3792C10.8125 15.0167 9.66736 14.3799 8.76458 13.4688V10.5375H5.80625L0 4.72711C1.19722 3.63822 2.55556 2.82364 4.075 2.28336C5.59444 1.74309 7.15764 1.47364 8.76458 1.47503C10.0993 1.47503 11.3972 1.66461 12.6583 2.04378C13.9194 2.42295 15.1215 3.01739 16.2646 3.82711V3.05176e-05H37.0979V24.3584C37.0979 25.5347 36.6972 26.5229 35.8958 27.3229C35.0944 28.1229 34.1063 28.5243 32.9312 28.5271H12.5771ZM18.3479 22.2771H30.8479V24.3604C30.8479 24.9493 31.0479 25.4438 31.4479 25.8438C31.8479 26.2438 32.3424 26.4431 32.9312 26.4417C33.5201 26.4403 34.0153 26.241 34.4167 25.8438C34.8181 25.4466 35.0174 24.9514 35.0146 24.3584V2.08336H18.3479V5.4167L29.8062 16.875V18.35H28.3312L21.9937 12.0104L20.8167 13.1896C20.4097 13.5952 20.0104 13.9354 19.6187 14.2104C19.2271 14.4854 18.8035 14.7271 18.3479 14.9354V22.2771ZM6.69792 8.45211H10.8479V12.5292C11.559 12.9681 12.2201 13.2667 12.8313 13.425C13.4424 13.5834 14.0368 13.6618 14.6146 13.6604C15.5632 13.6604 16.425 13.4986 17.2 13.175C17.9764 12.8514 18.7035 12.3507 19.3813 11.6729L20.5187 10.5354L16.8812 6.89795C15.7674 5.78406 14.5188 4.94864 13.1354 4.3917C11.7521 3.83475 10.2951 3.55697 8.76458 3.55836C7.75069 3.55836 6.76389 3.69031 5.80417 3.9542C4.84583 4.21809 3.98681 4.56114 3.22708 4.98336L6.69792 8.45211ZM28.7646 24.3584H12.5771V26.4417H29.3979C29.1604 26.157 28.9951 25.8361 28.9021 25.4792C28.8104 25.1236 28.7646 24.7507 28.7646 24.3604" fill="black" />
                         </svg> Jejak Perasaan
@@ -96,122 +96,91 @@
     </nav>
 
     <div class="container my-3">
-        <p class="headline">Ruang untuk berbagi, tempat untuk didengar</p>
         <div class="row align-items-center">
-            <div class="col-md-6">
-                <p class="sub-headline mb-0">Sampaikan ceritamu, temukan dukungan dari mereka yang peduli. Di sini, setiap cerita berharga</p>
+            <div class="col-md-8">
+                <p class="headline">Ungkapkan isi hati, rasakan lega di setiap kata</p>
+                <p class="sub-headline mb-0">Tulis dan bebaskan perasaanmu dengan cara yang nyaman</p>
             </div>
-            <div class="col-md-6 d-flex justify-content-end">
-                <!-- Input Form Pencarian -->
-                <form class="d-flex search me-2">
-                    <input id="searchInput" class="form-control me-2" type="text" placeholder="Cari...">
-                    <button class="btn btn-primary me-2" type="button">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
-                            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
-                        </svg>
-                    </button>
-                </form>
-                <div class="dropdown dropdown-menu-end">
-                    <button class="btn btn-primary dropdown-toggle d-flex align-items-center" type="button" data-bs-toggle="dropdown">
-                        Kategori
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list ms-2" viewBox="0 0 16 16">
-                            <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5" />
-                        </svg>
-                    </button>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">Link 1</a></li>
-                        <li><a class="dropdown-item" href="#">Link 2</a></li>
-                        <li><a class="dropdown-item" href="#">Link 3</a></li>
-                    </ul>
-                </div>
+            <div class="col-md-4 d-flex justify-content-end">
+                <button class="btn btn-primary d-flex align-items-center" type="button" data-bs-toggle="modal" data-bs-target="#addcatatan">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-plus-square" viewBox="0 0 16 16">
+                        <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z" />
+                        <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
+                    </svg>
+                </button>
             </div>
         </div>
 
-        <!-- Daftar Forum -->
-        <div class="forum-list">
-            <div class="row mt-5" id="forumContainer">
-                <?php foreach ($forums as $forum): ?>
-                    <div class="col-md-6 mb-4 filter-item">
-                        <a href="#joinForum" data-bs-toggle="modal">
-                            <div class="card">
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <img class="card-img rounded-circle me-3" src="<?= base_url('uploads/forum/' . $forum['foto']) ?>">
-                                    </div>
-                                    <div class="col-md-8 align-self-center">
-                                        <h2 class="fw-bold"><?= esc($forum['nama_forum']) ?></h2>
-                                        <p style="font-weight: 600;"><?= esc($forum['kategori_forum']) ?></p>
-                                    </div>
-                                </div>
+        <form action="/simpan-catatan" method="post">
+            <?= csrf_field() ?>
+            <!-- Modal add Catatan -->
+            <div class="modal" id="addcatatan">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <!-- Modal body -->
+                        <div class="modal-body">
+                            <textarea class="form-control mx-auto" id="catatanText" name="isi_catatan" rows="5" maxlength="50" placeholder="Tulis jejak perasaanmu..."></textarea>
+                            <div class="text-end mt-1">
+                                <small id="charCount">0/50</small>
                             </div>
-                        </a>
-                    </div>
-                <?php endforeach; ?>
-            </div>
-        </div>
-    </div>
-
-    <!-- The Modal -->
-    <div class="modal" id="joinForum">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-
-                <!-- Modal Header -->
-                <div class="modal-header">
-                    <div class="row">
-                        <div class="col-md-4">
-                            <img class="card-img-modal rounded-circle me-3" src="<?= base_url('uploads/forum/' . $forum['foto']) ?>">
                         </div>
-                        <div class="col-md-8 align-self-center">
-                            <h2 class="title-modal"><-title-></h2>
-                            <p class=" subtitle-modal"><-subtitle-></p>
+
+                        <!-- Modal footer -->
+                        <div class="modal-footer">
+                            <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#confirmCatatan">Simpan</button>
                         </div>
                     </div>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-
-                <!-- Modal body -->
-                <div class="modal-body">
-                    <p><-Deskripsi-></p>
-                </div>
-
-                <!-- Modal footer -->
-                <div class="modal-footer">
-                    <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#confirmForum">Bergabung</button>
                 </div>
             </div>
+
+            <!-- Modal Konfirmasi add Catatan -->
+            <div class="modal" id="confirmCatatan">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content modal-confirm">
+                        <!-- Modal body -->
+                        <div class="modal-body">
+                            <button type="button" class="btn-close" data-bs-toggle="modal" data-bs-target="#addcatatan"></button>
+                            <p>Perasaan Anda Berhasil Tercatat!</p>
+                            <button type="submit" class="btn" data-bs-dismiss="modal">OK</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        <?php
+        // Daftar kelas kartu
+        $cardClasses = ['green', 'blue', 'yellow', 'pink', 'purple'];
+        ?>
+
+        <!-- Daftar Jejak Perasaan -->
+        <div class="catatan-list row mt-5">
+            <?php foreach ($catatan as $index => $note): ?>
+                <?php
+                // Pilih kelas kartu secara berurutan
+                $classIndex = $index % count($cardClasses);
+                $cardClass = $cardClasses[$classIndex];
+                ?>
+
+                <div class="col-md-3 <?= ($index % 2 === 1) ? 'mt-5' : '' ?>">
+                    <div class="card <?= $cardClass ?>">
+                        <div class="card-body">
+                            <p class="card-text"><?= esc($note['isi_catatan']) ?></p>
+                        </div>
+                    </div>
+                </div>
+            <?php endforeach; ?>
         </div>
     </div>
 
-    <!-- Modal Konfirmasi Join Forum -->
-    <div class="modal" id="confirmForum">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content modal-confirm">
-                <!-- Modal body -->
-                <div class="modal-body">
-                    <button type="button" class="btn-close" data-bs-toggle="modal" data-bs-target="#joinForum"></button>
-                    <p>Selamat Bergabung di Forum!</p>
-                    <button type="button" class="btn" data-bs-dismiss="modal">OK</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Script JavaScript untuk Filter Real-Time Berdasarkan Title -->
     <script>
-        document.getElementById('searchInput').addEventListener('input', function() {
-            const query = this.value.toLowerCase();
-            const items = document.querySelectorAll('#forumContainer .filter-item');
+        document.addEventListener("DOMContentLoaded", function() {
+            const textarea = document.getElementById("catatanText");
+            const charCount = document.getElementById("charCount");
 
-            items.forEach(item => {
-                const title = item.querySelector('h2').textContent.toLowerCase();
-
-                // Cek apakah title mengandung query pencarian
-                if (title.includes(query)) {
-                    item.style.display = ''; // Tampilkan item
-                } else {
-                    item.style.display = 'none'; // Sembunyikan item
-                }
+            textarea.addEventListener("input", () => {
+                const currentLength = textarea.value.length;
+                charCount.textContent = `${currentLength}/50`;
             });
         });
     </script>
