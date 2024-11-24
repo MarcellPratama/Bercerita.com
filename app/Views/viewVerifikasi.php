@@ -24,7 +24,7 @@
 
     .sidebar {
         width: 245px;
-        height: 100vh;
+        height: 112vh;
         background-color: #00c2cb;
         padding: 20px;
         display: flex;
@@ -180,6 +180,7 @@
         border-radius: 10px;
         padding: 7px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        height: 630px;
     }
 
     table {
@@ -231,24 +232,32 @@
         justify-content: space-between;
         align-items: center;
         margin-top: 30px;
+        height: 250px;
+        /* Set fixed height for the container */
     }
 
     .keterangan-tampilan {
         font-size: 14px;
         color: #666;
         margin: 0;
+        flex: 1;
+        /* Allow the text to take up available space on the left */
+        text-align: left;
+        /* Align the text to the left */
     }
 
     .pagination {
         display: flex;
         align-items: center;
         gap: 3px;
+        justify-content: flex-end;
+        /* Ensure pagination buttons stay on the right */
     }
 
     .pagination .page-item {
         font-size: 14px;
         padding: 3px 4px;
-        /* Kurangi padding untuk ukuran kotak lebih kecil */
+        /* Reduce padding for smaller box size */
         border-radius: 4px;
         cursor: pointer;
         transition: background-color 0.3s, color 0.3s;
@@ -286,15 +295,12 @@
         left: 50%;
         transform: translate(-50%, -50%);
         background-color: rgba(0, 0, 0, 0.3);
-        /* Transparent gray */
-        /* Transparent white */
         padding: 20px;
         border-radius: 10px;
-        /* box-shadow: 0 0 15px rgba(0, 0, 0, 0.2); */
         z-index: 1000;
         width: 1700px;
         text-align: center;
-        /* Optional: Adds a blur effect */
+
     }
 
     .modal-content {
@@ -370,6 +376,45 @@
         border-color: #00c2cb;
         box-shadow: 0 0 4px rgba(0, 194, 203, 0.3);
     }
+
+    .modal-content-reject {
+        margin-top: 220px;
+        flex-direction: column;
+        align-items: center;
+        background-color: white;
+        margin-left: 690px;
+        margin-right: 600px;
+        width: 500px;
+        height: 220px;
+        border-radius: 5px;
+    }
+
+    .modal-content-reject i {
+        font-size: 40px;
+        margin-bottom: 20px;
+        margin-top: 20px;
+    }
+
+    .modal-content-reject p {
+        font-size: 18px;
+        font-weight: bold;
+        color: #333;
+        margin-bottom: 20px;
+        margin-top: 10px;
+    }
+
+    .modal-content-reject .btn {
+        padding: 10px 20px;
+        /* Jarak dalam tombol */
+        font-size: 16px;
+        /* Ukuran teks */
+        border-radius: 5px;
+        /* Membuat sudut tombol melengkung */
+        width: 100px;
+        /* Lebar tombol yang sama */
+        text-align: center;
+        /* Pusatkan teks di tombol */
+    }
     </style>
 </head>
 
@@ -416,111 +461,45 @@
                         <th>No</th>
                         <th>Nama</th>
                         <th>Kategori</th>
+                        <th>Status</th>
                         <th>Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
+                    <?php $no = 1; ?>
+                    <?php foreach ($pengguna as $user): ?>
                     <tr>
-                        <td>1</td>
-                        <td>Putri Ala Syakari</td>
-                        <td>Mahasiswa Psikologi</td>
+                        <td><?= $no++; ?></td>
                         <td>
-                            <span class="action-btn reject"><i class="fas fa-times"></i></span>
-                            <span class="action-btn approve"><i class="fas fa-check"></i></span>
-                            <span class="action-btn view"><i class="fas fa-eye"></i></span>
+                            <?= isset($user['username']) ? $user['username'] : 'Nama Tidak Tersedia'; ?>
+                        </td>
+                        <td>
+                            <?= isset($user['kategori']) ? $user['kategori'] : 'Kategori Tidak Diketahui'; ?>
+                        </td>
+                        <td>Belum Diverifikasi</td> <!-- Status Kolom -->
+                        <td>
+                            <span class="action-btn reject" title="Tolak"><i class="fas fa-times"></i></span>
+                            <span class="action-btn approve" title="Setujui"><i class="fas fa-check"></i></span>
+                            <?php if ($user['kategori'] === 'Mahasiswa Psikologi'): ?>
+                            <a href="/adminLihatDetailMhs/<?= $user['id']; ?>" class="action-btn view"
+                                title="Lihat Detail Mahasiswa">
+                                <i class="fas fa-eye"></i>
+                            </a>
+                            <?php elseif ($user['kategori'] === 'Psikolog'): ?>
+                            <a href="/adminLihatDetailPsikolog/<?= $user['id']; ?>" class="action-btn view"
+                                title="Lihat Detail Psikolog">
+                                <i class="fas fa-eye"></i>
+                            </a>
+                            <?php else: ?>
+                            <span class="action-btn disabled" title="Kategori Tidak Valid">
+                                <i class="fas fa-eye-slash"></i>
+                            </span>
+                            <?php endif; ?>
                         </td>
                     </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>Lisa Akalia Mali</td>
-                        <td>Mahasiswa Psikologi</td>
-                        <td>
-                            <span class="action-btn reject"><i class="fas fa-times"></i></span>
-                            <span class="action-btn approve"><i class="fas fa-check"></i></span>
-                            <span class="action-btn view"><i class="fas fa-eye"></i></span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>3</td>
-                        <td>Budiman Setiadi</td>
-                        <td>Mahasiswa Psikologi</td>
-                        <td>
-                            <span class="action-btn reject"><i class="fas fa-times"></i></span>
-                            <span class="action-btn approve"><i class="fas fa-check"></i></span>
-                            <span class="action-btn view"><i class="fas fa-eye"></i></span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>4</td>
-                        <td>Rio Martin Rendi</td>
-                        <td>Psikolog</td>
-                        <td>
-                            <span class="action-btn reject"><i class="fas fa-times"></i></span>
-                            <span class="action-btn approve"><i class="fas fa-check"></i></span>
-                            <span class="action-btn view"><i class="fas fa-eye"></i></span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>5</td>
-                        <td>Amelia Sanjaya</td>
-                        <td>Psikolog</td>
-                        <td>
-                            <span class="action-btn reject"><i class="fas fa-times"></i></span>
-                            <span class="action-btn approve"><i class="fas fa-check"></i></span>
-                            <span class="action-btn view"><i class="fas fa-eye"></i></span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>6</td>
-                        <td>Rina Andira</td>
-                        <td>Mahasiswa Psikologi</td>
-                        <td>
-                            <span class="action-btn reject"><i class="fas fa-times"></i></span>
-                            <span class="action-btn approve"><i class="fas fa-check"></i></span>
-                            <span class="action-btn view"><i class="fas fa-eye"></i></span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>7</td>
-                        <td>Joko Mardika</td>
-                        <td>Mahasiswa Psikologi</td>
-                        <td>
-                            <span class="action-btn reject"><i class="fas fa-times"></i></span>
-                            <span class="action-btn approve"><i class="fas fa-check"></i></span>
-                            <span class="action-btn view"><i class="fas fa-eye"></i></span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>8</td>
-                        <td>Adi Surya</td>
-                        <td>Mahasiswa Psikologi</td>
-                        <td>
-                            <span class="action-btn reject"><i class="fas fa-times"></i></span>
-                            <span class="action-btn approve"><i class="fas fa-check"></i></span>
-                            <span class="action-btn view"><i class="fas fa-eye"></i></span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>9</td>
-                        <td>Desi Rachmawati</td>
-                        <td>Mahasiswa Psikologi</td>
-                        <td>
-                            <span class="action-btn reject"><i class="fas fa-times"></i></span>
-                            <span class="action-btn approve"><i class="fas fa-check"></i></span>
-                            <span class="action-btn view"><i class="fas fa-eye"></i></span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>10</td>
-                        <td>Farhan Irawan</td>
-                        <td>Psikolog</td>
-                        <td>
-                            <span class="action-btn reject"><i class="fas fa-times"></i></span>
-                            <span class="action-btn approve"><i class="fas fa-check"></i></span>
-                            <span class="action-btn view"><i class="fas fa-eye"></i></span>
-                        </td>
-                    </tr>
+                    <?php endforeach; ?>
                 </tbody>
+
             </table>
 
             <!-- Pagination -->
@@ -534,6 +513,17 @@
                     </nav>
                 </div>
             </div>
+
+            <div class="modal" id="rejectModal" style="display: none;">
+                <div class="modal-content-reject">
+                    <i class="fas fa-times-circle" style="color: #ff6b6b; font-size: 40px;"></i>
+                    <p>Apakah Anda yakin menolak?</p>
+                    <!-- <div style="margin-top: 5px;"> -->
+                    <button class="btn btn-secondary" id="rejectNoBtn" style="margin-right: 10px;">Tidak</button>
+                    <button class="btn btn-danger" id="rejectYesBtn">Ya</button>
+                    <!-- </div> -->
+                </div>
+            </div>
             <div class="modal" id="topUpModal" style="display: none;">
                 <div class="modal-content">
                     <i class="fas fa-check-circle" style="color: #28a745; font-size: 40px;"></i>
@@ -545,6 +535,38 @@
     </div>
 </body>
 <script>
+document.addEventListener("DOMContentLoaded", function() {
+    // Select all reject buttons (cross buttons)
+    const rejectButtons = document.querySelectorAll(".action-btn.reject");
+    const rejectModal = document.getElementById("rejectModal");
+    const rejectYesBtn = document.getElementById("rejectYesBtn");
+    const rejectNoBtn = document.getElementById("rejectNoBtn");
+
+    // Function to show the reject modal
+    function showRejectModal() {
+        rejectModal.style.display = "flex";
+    }
+
+    // Function to close the reject modal
+    function closeRejectModal() {
+        rejectModal.style.display = "none";
+    }
+
+    // Attach event listeners to each reject button
+    rejectButtons.forEach(button => {
+        button.addEventListener("click", showRejectModal);
+    });
+
+    // Close the reject modal when the "No" button is clicked
+    rejectNoBtn.addEventListener("click", closeRejectModal);
+
+    // Handle "Yes" button in the reject modal
+    rejectYesBtn.addEventListener("click", function() {
+        // alert("Pengguna berhasil ditolak!"); // Tambahkan logika untuk aksi penolakan di sini
+        closeRejectModal();
+    });
+});
+
 function toggleSubmenu(element) {
     const submenu = element.nextElementSibling;
     submenu.style.display = submenu.style.display === "block" ? "none" : "block";
