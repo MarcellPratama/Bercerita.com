@@ -52,4 +52,8 @@ class registrasiModel extends Model
         // Kembalikan ID baru dengan format "REG[number]"
         return 'REG' . str_pad($nextIdNumber, 4, '0', STR_PAD_LEFT); // Contoh: REG0001
     }
+    public function psikolog()
+    {
+        return $this->belongsTo(PsikologModel::class, 'kd_psikolog', 'kd_psikolog');
+    }
 }

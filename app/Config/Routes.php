@@ -26,9 +26,7 @@ $routes->post('/forum/add', 'ForumController::addForum');
 $routes->post('/forum/delete/(:num)', 'ForumController::deleteForum/$1');
 $routes->get('/forum/removeAnggota/(:num)/(:num)', 'ForumController::removeAnggota/$1/$2');
 $routes->get('dashboardpsikolog', 'PsikologController::dashboard');
-
-
-$routes->get('/adminLihatDetailMhs/(:any)', 'adminController::lihatDetailMhs/$1', ['as' => 'admin.detailMhs']);
-$routes->get('/adminLihatDetailPsikolog/(:any)', 'adminController::lihatDetailPsikolog/$1', ['as' => 'admin.detailPsikolog']);
-
-
+$routes->get('/adminLihatDetailPsikolog/(:any)', 'adminController::lihatDetailPsikolog/$1');
+$routes->get('/adminLihatDetailMhs/(:any)', 'adminController::lihatDetailMhs/$1');
+$routes->get('verifikasi/approve/(:segment)', 'adminController::approve/$1');
+$routes->get('verifikasi/reject/(:segment)', 'adminController::reject/$1');

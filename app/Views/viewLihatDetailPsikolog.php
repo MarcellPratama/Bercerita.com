@@ -192,7 +192,7 @@
         font-weight: bold;
         color: #333;
         font-size: 14px;
-        margin-bottom: 1px;
+        margin-bottom: 5px;
     }
 
     .detail-value {
@@ -213,7 +213,7 @@
         text-decoration: none;
         text-align: center;
         width: 100px;
-        margin-top: 10px;
+        margin-top: 35px;
     }
 
     .back-btn:hover {
@@ -228,6 +228,21 @@
 
     a.detail-link:hover {
         text-decoration: underline;
+    }
+
+    .back-btn-modal {
+        background-color: #ff6b6b;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        text-decoration: none;
+        text-align: center;
+    }
+
+    .back-btn-modal:hover {
+        background-color: #e74c3c;
     }
     </style>
 </head>
@@ -278,23 +293,38 @@
             </div>
             <div class="detail-row">
                 <span class="detail-label">Foto Diri</span>
-                <span class="detail-value"><a href="<?= $psikolog['foto']; ?>" target="_blank" class="detail-link">Lihat
-                        Foto</a></span>
+                <a href="#" onclick="showImageModal('<?= $psikolog['foto']; ?>')" class="detail-link">Lihat Foto</a>
             </div>
             <div class="detail-row">
                 <span class="detail-label">Foto KTP</span>
-                <span class="detail-value"><a href="<?= $psikolog['ktp']; ?>" target="_blank" class="detail-link">Lihat
-                        Foto</a></span>
+                <a href="#" onclick="showImageModal('<?= $psikolog['ktp']; ?>')" class="detail-link">Lihat Foto</a>
             </div>
             <div class="detail-row">
                 <span class="detail-label">Lisensi Psikolog</span>
-                <span class="detail-value"><a href="<?= $psikolog['lisensi']; ?>" target="_blank" class="detail-link">Lihat
-                        Foto</a></span>
+                <a href="#" onclick="showImageModal('<?= $psikolog['lisensi']; ?>')" class="detail-link">Lihat Foto</a>
             </div>
             <a href="/adminVerifikasi" class="back-btn">Kembali</a>
         </div>
     </div>
+
+    <div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body text-center">
+                    <!-- Gambar -->
+                    <img id="modalImage" src="#" alt="Image Preview" class="img-fluid rounded mb-3">
+
+                    <!-- Tombol Kembali di bawah gambar -->
+                    <div class="d-flex justify-content-center">
+                        <a href="/adminLihatDetailPsikolog/<?= htmlspecialchars($registrasi['kd_registrasi']); ?>"
+                            class="btn btn-danger mt-3">Kembali</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
 function toggleSubmenu(element) {
     const submenu = element.nextElementSibling;
@@ -303,6 +333,15 @@ function toggleSubmenu(element) {
     // Change the arrow to indicate submenu state
     const arrow = element.querySelector('.toggle-submenu');
     arrow.innerHTML = submenu.style.display === "block" ? "&#9652;" : "&#9662;";
+}
+
+function showImageModal(imageUrl) {
+    // Set the image source
+    document.getElementById('modalImage').src = imageUrl;
+
+    // Show the modal
+    const modal = new bootstrap.Modal(document.getElementById('imageModal'));
+    modal.show();
 }
 </script>
 
