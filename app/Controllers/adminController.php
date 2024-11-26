@@ -256,8 +256,6 @@ public function lihatPsikolog()
 {
     return $this->lihatPengguna('psikolog');
 }
-
-
     public function dashboard()
     {
         return view('viewDashboard');
