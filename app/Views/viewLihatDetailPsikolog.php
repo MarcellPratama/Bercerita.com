@@ -177,6 +177,7 @@
         border-radius: 10px;
         padding: 20px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        height: 560px;
     }
 
     .detail-row {
@@ -201,23 +202,6 @@
         border-radius: 5px;
         font-size: 14px;
         color: #333;
-    }
-
-    .back-btn {
-        background-color: #ff6b6b;
-        color: white;
-        border: none;
-        padding: 10px 20px;
-        border-radius: 5px;
-        cursor: pointer;
-        text-decoration: none;
-        text-align: center;
-        width: 100px;
-        margin-top: 35px;
-    }
-
-    .back-btn:hover {
-        background-color: #e74c3c;
     }
 
     a.detail-link {
@@ -255,19 +239,22 @@
             <h5>Patrisia Cindy</h5>
         </div>
 
+
         <ul class="menu">
-            <li><a href="adminDashboard"><i class="fas fa-home"></i> Beranda</a></li>
-            <li><a href="adminVerifikasi" class="active"><i class="fas fa-check-circle"></i> Verifikasi</a></li>
+            <li><a href="<?= base_url('adminDashboard'); ?>"><i class="fas fa-home"></i> Beranda</a></li>
+            <li><a href="<?= base_url('adminVerifikasi'); ?>" class="active"><i class="fas fa-check-circle"></i>
+                    Verifikasi</a></li>
             <li>
                 <a href="#" class="dropdown-toggle" onclick="toggleSubmenu(this)">
                     <i class="fas fa-users"></i> Pengguna
                 </a>
                 <ul class="submenu">
-                    <li><a href="adminLihatPsikolog"><i class="fas fa-user"></i> Psikolog</a></li>
-                    <li><a href="adminLihatMhs"><i class="fas fa-user-graduate"></i> Mahasiswa Psikologi</a></li>
+                    <li><a href="<?= base_url('adminLihatPsikolog'); ?>"><i class="fas fa-user"></i> Psikolog</a></li>
+                    <li><a href="<?= base_url('adminLihatMhs'); ?>"><i class="fas fa-user-graduate"></i> Mahasiswa
+                            Psikologi</a></li>
                 </ul>
             </li>
-            <li><a href="/login"><i class="fas fa-sign-out-alt"></i> Keluar</a></li>
+            <li><a href="<?= base_url('login'); ?>"><i class="fas fa-sign-out-alt"></i> Keluar</a></li>
         </ul>
     </div>
 
@@ -303,7 +290,6 @@
                 <span class="detail-label">Lisensi Psikolog</span>
                 <a href="#" onclick="showImageModal('<?= $psikolog['lisensi']; ?>')" class="detail-link">Lihat Foto</a>
             </div>
-            <a href="/adminVerifikasi" class="back-btn">Kembali</a>
         </div>
     </div>
 
@@ -329,10 +315,6 @@
 function toggleSubmenu(element) {
     const submenu = element.nextElementSibling;
     submenu.style.display = submenu.style.display === "block" ? "none" : "block";
-
-    // Change the arrow to indicate submenu state
-    const arrow = element.querySelector('.toggle-submenu');
-    arrow.innerHTML = submenu.style.display === "block" ? "&#9652;" : "&#9662;";
 }
 
 function showImageModal(imageUrl) {
