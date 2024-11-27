@@ -42,5 +42,5 @@ $routes->get('/adminLihatDetailMhs/(:any)', 'adminController::lihatDetailMhs/$1'
 $routes->get('verifikasi/approve/(:segment)', 'adminController::approve/$1');
 $routes->get('verifikasi/reject/(:segment)', 'adminController::reject/$1');
 $routes->get('/adminLihatDetailMhsPsikologi/(:any)', 'adminController::lihatDetailMhs/$1', ['as' => 'admin.detailMhsPsikologi']);
-
-/* KELOLA FORUM */
+$routes->get('kelolaMading', 'adminController::kelolaMading');
+$routes->delete('mading/deleteMading/(:segment)', 'adminController::deleteMading/$1');

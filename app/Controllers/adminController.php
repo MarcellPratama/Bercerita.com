@@ -7,6 +7,7 @@ use App\Models\psikologModel;
 use App\Models\registrasiModel;
 use App\Models\verifikasiModel;
 use App\Models\adminModel;
+use App\Models\catatanModel;
 
 class adminController extends BaseController
 {
@@ -256,8 +257,52 @@ public function lihatPsikolog()
 {
     return $this->lihatPengguna('psikolog');
 }
+
+public function kelolaMading()
+{
+    $catatanModel = new CatatanModel(); // Sesuaikan dengan model Anda
+    $perPage = 10; // Jumlah data per halaman
+    $currentPage = (int)($this->request->getVar('page') ?? 1); // Ambil halaman dari query parameter, default 1
+    
+    // Hitung total data dan halaman
+    $totalRows = $catatanModel->countAllResults();
+    $totalPages = (int)ceil($totalRows / $perPage); // Total halaman
+
+    // Ambil data sesuai halaman dan offset
+    $offset = ($currentPage - 1) * $perPage;
+    $data['catatan'] = $catatanModel->orderBy('tanggal_dibuat', 'DESC')->findAll($perPage, $offset);
+
+    // Kirimkan data pagination ke view
+    $data['pagination'] = [
+        'currentPage' => $currentPage,
+        'totalPages' => $totalPages,
+    ];
+
+    return view('viewKelolaMading', $data); // Kirim data ke view
+}
+
+public function deleteMading($id)
+{
+    $madingModel = new catatanModel();
+
+    // Cari data mading berdasarkan ID
+    $mading = $madingModel->find($id);
+    if (!$mading) {
+        return $this->response->setJSON(['success' => false, 'message' => 'Data mading tidak ditemukan.']);
+    }
+
+    // Lakukan penghapusan data
+    if ($madingModel->delete($id)) {
+        return $this->response->setJSON(['success' => true, 'message' => 'Data mading berhasil dihapus.']);
+    } else {
+        return $this->response->setJSON(['success' => false, 'message' => 'Gagal menghapus data mading.']);
+    }
+}
+
     public function dashboard()
     {
         return view('viewDashboard');
     }
+
+    
 }

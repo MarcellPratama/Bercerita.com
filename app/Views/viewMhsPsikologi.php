@@ -330,6 +330,7 @@
                     <li><a href="#" class="active"><i class="fas fa-user-graduate"></i> Mahasiswa Psikologi</a></li>
                 </ul>
             </li>
+            <li><a href="kelolaMading"><i class="fas fa-file-alt"></i> Kelola Mading</a></li>
             <li><a href="/login"><i class="fas fa-sign-out-alt"></i> Keluar</a></li>
         </ul>
     </div>
@@ -356,10 +357,12 @@
                     </tr>
                 </thead>
                 <tbody id="tableBody">
-                    <?php $no = 1; ?>
-                    <?php foreach ($pengguna as $mhs): ?>
+
+
+
+                    <?php foreach ($pengguna as $key => $mhs): ?>
                     <tr class="mahasiswaRow">
-                        <td><?= $no++; ?></td>
+                        <td><?= $startNo + $key; ?></td>
                         <td class="username"><?= esc($mhs['username']); ?></td>
                         <td><?= esc($mhs['kategori']); ?></td>
                         <td><?= esc($mhs['tanggal_verifikasi']); ?></td>
@@ -374,16 +377,30 @@
                 </tbody>
             </table>
 
+            <!-- Pagination -->
             <div class="pagination-container">
                 <ul class="pagination">
                     <!-- Tombol Sebelumnya -->
                     <li class="page-item <?= $pagination['currentPage'] == 1 ? 'disabled' : ''; ?>">
                         <a class="page-link"
-                            href="?page=<?= $pagination['currentPage'] > 1 ? $pagination['currentPage'] - 1 : 1; ?>">&#x2039;</a>
+                            href="<?= $pagination['currentPage'] > 1 ? '?page=' . ($pagination['currentPage'] - 1) : '#'; ?>">&#x2039;</a>
                     </li>
 
-                    <!-- Tombol Halaman -->
-                    <?php for ($i = 1; $i <= $pagination['totalPages']; $i++): ?>
+                    <!-- Nomor Halaman -->
+                    <?php
+        // Tentukan rentang halaman yang ditampilkan (maksimal 4 nomor halaman)
+        $maxVisiblePages = 4; // Maksimal 4 halaman
+        $startPage = max(1, $pagination['currentPage'] - floor($maxVisiblePages / 2));
+        $endPage = min($pagination['totalPages'], $startPage + $maxVisiblePages - 1);
+
+        // Pastikan range halaman tetap 4 jika memungkinkan
+        if ($endPage - $startPage + 1 < $maxVisiblePages) {
+            $startPage = max(1, $endPage - $maxVisiblePages + 1);
+        }
+        ?>
+
+                    <!-- Loop untuk menampilkan nomor halaman dengan rentang -->
+                    <?php for ($i = $startPage; $i <= $endPage; $i++): ?>
                     <li class="page-item <?= $i == $pagination['currentPage'] ? 'active' : ''; ?>">
                         <a class="page-link" href="?page=<?= $i; ?>"><?= $i; ?></a>
                     </li>
@@ -393,11 +410,10 @@
                     <li
                         class="page-item <?= $pagination['currentPage'] == $pagination['totalPages'] ? 'disabled' : ''; ?>">
                         <a class="page-link"
-                            href="?page=<?= $pagination['currentPage'] < $pagination['totalPages'] ? $pagination['currentPage'] + 1 : $pagination['totalPages']; ?>">&#x203A;</a>
+                            href="<?= $pagination['currentPage'] < $pagination['totalPages'] ? '?page=' . ($pagination['currentPage'] + 1) : '#'; ?>">&#x203A;</a>
                     </li>
                 </ul>
             </div>
-
         </div>
     </div>
 </body>
@@ -412,76 +428,102 @@ function toggleSubmenu(element) {
 }
 
 document.addEventListener("DOMContentLoaded", function() {
-    const rowsPerPage = 10; // Jumlah data per halaman
-    const tableBody = document.getElementById("tableBody");
-    const rows = Array.from(tableBody.querySelectorAll("tr"));
-    const totalRows = rows.length;
-    const paginationContainer = document.querySelector(".pagination ul");
     let currentPage = 1;
+    const rows = document.querySelectorAll("table tbody tr");
+    const rowsPerPage = 10;
+    const totalRows = rows.length;
+    const totalPages = Math.ceil(totalRows / rowsPerPage); // Total halaman
 
-    function renderTable(page) {
+    // Fungsi untuk menampilkan halaman tertentu
+    function showPage(page) {
         const start = (page - 1) * rowsPerPage;
         const end = start + rowsPerPage;
 
         rows.forEach((row, index) => {
             if (index >= start && index < end) {
-                row.style.display = ""; // Tampilkan baris dalam range
+                row.style.display = ''; // Tampilkan baris sesuai halaman
             } else {
-                row.style.display = "none"; // Sembunyikan baris di luar range
+                row.style.display = 'none'; // Sembunyikan baris yang tidak sesuai halaman
             }
         });
     }
 
-    function renderPagination(totalPages) {
-        paginationContainer.innerHTML = ""; // Kosongkan pagination
+    // Fungsi untuk merender pagination
+    function renderPagination() {
+        const paginationContainer = document.querySelector(".pagination ul");
+        paginationContainer.innerHTML = ''; // Kosongkan pagination sebelumnya
 
-        // Tombol "Previous"
+        // Tombol Previous
         paginationContainer.innerHTML += `
-            <li class="page-item ${currentPage === 1 ? "disabled" : ""}">
-                <a class="page-link" href="#" data-page="${currentPage - 1}">&#x2039;</a>
-            </li>
-        `;
+            <li class="page-item ${currentPage === 1 ? 'disabled' : ''}">
+                <a class="page-link" href="#">&#x2039;</a>
+            </li>`;
 
-        // Tombol Halaman
-        for (let i = 1; i <= totalPages; i++) {
-            const isActive = i === currentPage ? "active" : "";
+        // Tentukan rentang halaman yang akan ditampilkan (maksimal 4 halaman per waktu)
+        const maxVisiblePages = 4; // Maksimal 4 halaman per waktu
+        let startPage = Math.floor((currentPage - 1) / maxVisiblePages) * maxVisiblePages + 1;
+        let endPage = Math.min(startPage + maxVisiblePages - 1, totalPages);
+
+        // Nomor Halaman
+        for (let i = startPage; i <= endPage; i++) {
+            const isActive = i === currentPage ? 'active' : '';
             paginationContainer.innerHTML += `
                 <li class="page-item ${isActive}">
-                    <a class="page-link" href="#" data-page="${i}">${i}</a>
-                </li>
-            `;
+                    <a class="page-link" href="#">${i}</a>
+                </li>`;
         }
 
-        // Tombol "Next"
+        // Tombol Next
         paginationContainer.innerHTML += `
-            <li class="page-item ${currentPage === totalPages ? "disabled" : ""}">
-                <a class="page-link" href="#" data-page="${currentPage + 1}">&#x203A;</a>
-            </li>
-        `;
+            <li class="page-item ${currentPage === totalPages ? 'disabled' : ''}">
+                <a class="page-link" href="#">&#x203A;</a>
+            </li>`;
 
-        attachPaginationEvents();
+        attachPaginationEvents(); // Tambahkan event listener ke tombol
     }
 
+    // Fungsi untuk menambahkan event listener pada pagination
     function attachPaginationEvents() {
-        const pageLinks = paginationContainer.querySelectorAll(".page-link");
+        const pageItems = document.querySelectorAll(".pagination .page-item");
+        const prevButton = pageItems[0];
+        const nextButton = pageItems[pageItems.length - 1];
 
-        pageLinks.forEach((link) => {
-            link.addEventListener("click", function(e) {
-                e.preventDefault();
-                const page = parseInt(this.getAttribute("data-page"));
+        // Tombol Previous
+        prevButton.addEventListener("click", function() {
+            if (currentPage > 1) {
+                currentPage--;
+                showPage(currentPage);
+                renderPagination();
+            }
+        });
 
-                if (page > 0 && page <= Math.ceil(rows.length / rowsPerPage)) {
-                    currentPage = page;
-                    renderTable(currentPage);
-                    renderPagination(Math.ceil(rows.length / rowsPerPage));
-                }
-            });
+        // Tombol Next
+        nextButton.addEventListener("click", function() {
+            if (currentPage < totalPages) {
+                currentPage++;
+                showPage(currentPage);
+                renderPagination();
+            }
+        });
+
+        // Klik pada nomor halaman
+        pageItems.forEach((item, index) => {
+            if (index > 0 && index < pageItems.length - 1) { // Abaikan tombol Previous dan Next
+                item.addEventListener("click", function() {
+                    const pageNum = parseInt(item.textContent);
+                    if (!isNaN(pageNum)) {
+                        currentPage = pageNum;
+                        showPage(currentPage);
+                        renderPagination();
+                    }
+                });
+            }
         });
     }
 
-    // Inisialisasi tabel dan pagination
-    renderTable(currentPage);
-    renderPagination(Math.ceil(totalRows / rowsPerPage));
+    // Inisialisasi tampilan halaman pertama dan pagination
+    showPage(currentPage);
+    renderPagination();
 });
 
 document.addEventListener("DOMContentLoaded", function() {

@@ -213,16 +213,8 @@
         display: inline-block;
     }
 
-    .action-btn.reject {
-        background-color: #ff6b6b;
-    }
-
-    .action-btn.approve {
+    .action-btn.trash {
         background-color: #4caf50;
-    }
-
-    .action-btn.view {
-        background-color: #ffae42;
     }
 
 
@@ -311,6 +303,63 @@
         border-color: #00c2cb;
         box-shadow: 0 0 4px rgba(0, 194, 203, 0.3);
     }
+
+    .submenu {
+        display: none;
+        /* Default, disembunyikan */
+    }
+
+    .modal {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: rgba(0, 0, 0, 0.3);
+        padding: 20px;
+        border-radius: 10px;
+        z-index: 1000;
+        width: 1700px;
+        text-align: center;
+    }
+
+    .modal-content-trash {
+        margin-top: 220px;
+        flex-direction: column;
+        align-items: center;
+        background-color: white;
+        margin-left: 585px;
+        margin-right: 600px;
+        width: 500px;
+        height: 220px;
+        border-radius: 5px;
+    }
+
+    .modal-content-trash i {
+        font-size: 40px;
+        margin-bottom: 20px;
+        margin-top: 20px;
+    }
+
+    .modal-content-trash p {
+        font-size: 18px;
+        font-weight: bold;
+        color: #333;
+        margin-bottom: 20px;
+        margin-top: 10px;
+    }
+
+    .modal-content-trash .btn {
+        padding: 10px 20px;
+        /* Jarak dalam tombol */
+        font-size: 16px;
+        /* Ukuran teks */
+        border-radius: 5px;
+        /* Membuat sudut tombol melengkung */
+        width: 100px;
+        /* Lebar tombol yang sama */
+        text-align: center;
+        /* Pusatkan teks di tombol */
+    }
     </style>
 </head>
 
@@ -325,16 +374,17 @@
         <ul class="menu">
             <li><a href="adminDashboard"><i class="fas fa-home"></i> Beranda</a></li>
             <li><a href="adminVerifikasi"><i class="fas fa-check-circle"></i> Verifikasi</a></li>
+
             <li>
                 <a href="#" class="dropdown-toggle" onclick="toggleSubmenu(this)">
                     <i class="fas fa-users"></i> Pengguna
                 </a>
                 <ul class="submenu">
-                    <li><a href="" class="active"><i class="fas fa-user"></i> Psikolog</a></li>
+                    <li><a href="adminLihatPsikolog"><i class="fas fa-user"></i> Psikolog</a></li>
                     <li><a href="adminLihatMhs"><i class="fas fa-user-graduate"></i> Mahasiswa Psikologi</a></li>
                 </ul>
             </li>
-            <li><a href="kelolaMading"><i class="fas fa-file-alt"></i> Kelola Mading</a></li>
+            <li><a href="kelolaMading" class="active"><i class="fas fa-file-alt"></i> Kelola Mading</a></li>
             <li><a href="/login"><i class="fas fa-sign-out-alt"></i> Keluar</a></li>
         </ul>
     </div>
@@ -342,43 +392,45 @@
     <!-- Main Content -->
     <div class="main-content">
         <div class="header">
-            <h2><span class="bold-text">Tampilan</span> <span class="regular-text">Psikolog</span></h2>
+            <h2><span class="bold-text"></span> <span class="regular-text"></span></h2>
             <img src="/bercerita.png" alt="Bercerita Logo" class="logo" />
         </div>
+
         <div class="container-table">
             <div class="search-container mb-3">
-                <i class="fas fa-search search-icon"></i>
-                <input type="text" name="search" id="searchInput" class="form-control" placeholder="Cari"
-                    value="<?= esc($search ?? '') ?>" style="padding-left: 30px;" />
+                <form method="get" action="/adminVerifikasi" style="width: 100%; display: flex; align-items: center;">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" name="search" id="searchInput" class="form-control" placeholder="Cari"
+                        value="<?= isset($search) ? esc($search) : '' ?>" style="padding-left: 30px;" />
+                </form>
             </div>
+
             <table>
                 <thead>
                     <tr>
-                        <th>No</th>
-                        <th>Nama</th>
-                        <th>Kategori</th>
-                        <th>Tanggal Verifikasi</th>
+                        <th>Kode Catatan</th>
+                        <th>Tanggal Dibuat</th>
+                        <th>Isi Catatan</th>
                         <th>Aksi</th>
                     </tr>
                 </thead>
                 <tbody id="tableBody">
-                    <?php foreach ($pengguna as $key => $user): ?>
-                    <tr class="psikologRow">
-                        <td><?= $startNo + $key; ?></td>
-                        <td class="username"><?= esc($user['username']); ?></td>
-                        <td><?= esc($user['kategori']); ?></td>
-                        <td><?= esc($user['tanggal_verifikasi']); ?></td>
+                    <?php foreach ($catatan as $catatanItem): ?>
+                    <tr>
+                        <td><?= esc($catatanItem['kode_catatan']); ?></td>
+                        <td><?= esc($catatanItem['tanggal_dibuat']); ?></td>
+                        <td><?= esc($catatanItem['isi_catatan']); ?></td>
                         <td>
-                            <a href="/adminLihatDetailPsikolog/<?= $user['id']; ?>" class="action-btn view"
-                                title="Lihat Detail Psikolog">
-                                <i class="fas fa-eye"></i>
-                            </a>
+                            <span class="action-btn trash" title="Sampah"
+                                data-id="<?= $catatanItem['kode_catatan']; ?>">
+                                <i class="fas fa-trash"></i>
+                            </span>
+
                         </td>
                     </tr>
                     <?php endforeach; ?>
                 </tbody>
             </table>
-
 
             <!-- Pagination -->
             <div class="pagination-container">
@@ -418,6 +470,15 @@
                 </ul>
             </div>
 
+            <div class="modal" id="modalSampah" style="display: none;">
+                <div class="modal-content-trash">
+                    <i class="fas fa-trash-circle" style="color: #ff6b6b; font-size: 40px;"></i>
+                    <p>Apakah Anda yakin ingin menghapus?</p>
+                    <button class="btn btn-secondary" id="btnBatal">Batal</button>
+                    <button class="btn btn-danger" id="btnKonfirmasiTolak">Ya</button>
+                </div>
+            </div>
+
 
         </div>
     </div>
@@ -427,10 +488,62 @@ function toggleSubmenu(element) {
     const submenu = element.nextElementSibling;
     submenu.style.display = submenu.style.display === "block" ? "none" : "block";
 
-    // Mengubah panah untuk menunjukkan apakah submenu terbuka atau tertutup
+    // Toggle the arrow for submenu indicator
     const arrow = element.querySelector('.toggle-submenu');
     arrow.innerHTML = submenu.style.display === "block" ? "&#9652;" : "&#9662;";
 }
+
+document.addEventListener("DOMContentLoaded", function() {
+    const deleteButtons = document.querySelectorAll(".action-btn.trash");
+    const modalSampah = document.getElementById("modalSampah"); // Modal yang akan ditampilkan
+    const btnBatal = document.getElementById("btnBatal"); // Tombol batal
+    const btnKonfirmasiTolak = document.getElementById("btnKonfirmasiTolak"); // Tombol konfirmasi hapus
+    let selectedId = null; // Variabel untuk menyimpan ID yang akan dihapus
+
+    // Event Listener untuk tombol "Sampah"
+    deleteButtons.forEach(button => {
+        button.addEventListener("click", function() {
+            selectedId = this.getAttribute("data-id"); // Ambil ID dari atribut data-id
+            modalSampah.style.display = "flex"; // Tampilkan modal
+        });
+    });
+
+    // Event Listener untuk tombol "Batal"
+    btnBatal.addEventListener("click", function() {
+        modalSampah.style.display = "none"; // Sembunyikan modal
+    });
+
+    // Event Listener untuk tombol "Ya" (Hapus)
+    btnKonfirmasiTolak.addEventListener("click", function() {
+        if (selectedId) {
+            // Lakukan permintaan penghapusan ke server
+            fetch(`/mading/deleteMading/${selectedId}`, {
+                    method: "DELETE"
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // alert("Data berhasil dihapus.");
+                        location.reload(); // Muat ulang halaman
+                    } else {
+                        alert("Gagal menghapus data: " + data.message);
+                    }
+                })
+                .catch(error => {
+                    alert("Terjadi kesalahan: " + error.message);
+                });
+
+        }
+        modalSampah.style.display = "none"; // Sembunyikan modal setelah konfirmasi
+    });
+
+    // Klik di luar modal untuk menutup modal
+    window.addEventListener("click", function(event) {
+        if (event.target === modalSampah) {
+            modalSampah.style.display = "none"; // Sembunyikan modal jika klik di luar modal
+        }
+    });
+});
 
 document.addEventListener("DOMContentLoaded", function() {
     let currentPage = 1;
@@ -531,97 +644,42 @@ document.addEventListener("DOMContentLoaded", function() {
     renderPagination();
 });
 
+
 document.addEventListener("DOMContentLoaded", function() {
     const searchInput = document.getElementById("searchInput"); // Input pencarian
     const tableBody = document.getElementById("tableBody"); // Tabel tempat data ditampilkan
     const originalRows = Array.from(tableBody.rows); // Salin data asli untuk filter
-    let currentPage = 1;
-    const rowsPerPage = 10; // Jumlah baris per halaman
 
-    // Fungsi untuk merender tabel berdasarkan halaman
-    function renderTable(filteredRows, page) {
-        const start = (page - 1) * rowsPerPage; // Hitung indeks awal berdasarkan halaman
-        const end = start + rowsPerPage; // Hitung indeks akhir berdasarkan halaman
-
-        tableBody.innerHTML = ""; // Kosongkan tabel sebelum dirender ulang
-
-        const rowsToShow = filteredRows.slice(start, end); // Ambil data yang akan ditampilkan
-        rowsToShow.forEach((row, index) => {
-            const rowCopy = row.cloneNode(true);
-            // Nomor urut global
-            rowCopy.querySelector("td:first-child").textContent = start + index + 1;
-            tableBody.appendChild(rowCopy);
-        });
-
-        // Jika tidak ada data yang ditemukan
-        if (rowsToShow.length === 0) {
-            tableBody.innerHTML = `
-                <tr>
-                    <td colspan="5" class="text-center">Tidak ada data ditemukan.</td>
-                </tr>`;
-        }
-
-        renderPagination(filteredRows); // Perbarui pagination
-    }
-
-    // Fungsi untuk merender tombol pagination
-    function renderPagination(filteredRows) {
-        const totalPages = Math.ceil(filteredRows.length / rowsPerPage); // Total halaman
-        paginationContainer.innerHTML = ""; // Kosongkan pagination sebelum dirender ulang
-
-        // Tombol "Previous"
-        paginationContainer.innerHTML += `
-            <li class="page-item ${currentPage === 1 ? "disabled" : ""}">
-                <a class="page-link" href="#" data-page="${currentPage - 1}">&#x2039;</a>
-            </li>`;
-
-        // Tombol Halaman
-        for (let i = 1; i <= totalPages; i++) {
-            paginationContainer.innerHTML += `
-                <li class="page-item ${i === currentPage ? "active" : ""}">
-                    <a class="page-link" href="#" data-page="${i}">${i}</a>
-                </li>`;
-        }
-
-        // Tombol "Next"
-        paginationContainer.innerHTML += `
-            <li class="page-item ${currentPage === totalPages ? "disabled" : ""}">
-                <a class="page-link" href="#" data-page="${currentPage + 1}">&#x203A;</a>
-            </li>`;
-
-        attachPaginationEvents(filteredRows); // Tambahkan event listener ke pagination
-    }
-
-    // Fungsi untuk menambahkan event listener ke tombol pagination
-    function attachPaginationEvents(filteredRows) {
-        const pageLinks = paginationContainer.querySelectorAll(".page-link");
-
-        pageLinks.forEach((link) => {
-            link.addEventListener("click", function(e) {
-                e.preventDefault();
-                const page = parseInt(this.getAttribute("data-page"));
-
-                if (page > 0 && page <= Math.ceil(filteredRows.length / rowsPerPage)) {
-                    currentPage = page; // Atur halaman saat ini
-                    renderTable(filteredRows, currentPage); // Render tabel untuk halaman baru
-                }
-            });
-        });
-    }
-
-    // Fungsi pencarian global
+    // Fungsi untuk melakukan pencarian
     function performSearch() {
-        const query = searchInput.value.trim().toLowerCase();
-        filteredRows = originalRows.filter((row) => {
-            const username = row.querySelector(".username").textContent.toLowerCase();
-            return username.includes(query); // Filter data berdasarkan input pencarian
+        const searchQuery = searchInput.value.trim()
+            .toLowerCase(); // Ambil input pencarian dan ubah ke lowercase
+
+        // Jika input kosong, kembalikan semua data
+        if (!searchQuery) {
+            tableBody.innerHTML = ""; // Kosongkan tabel
+            originalRows.forEach((row) => tableBody.appendChild(row)); // Tampilkan semua data
+            return;
+        }
+
+        // Filter baris berdasarkan input pencarian (awalan username)
+        const filteredRows = originalRows.filter((row) => {
+            const username = row.querySelector(".username").textContent
+                .toLowerCase(); // Ambil username di baris
+            return username.includes(searchQuery); // Cek apakah username diawali oleh input
         });
 
-        currentPage = 1; // Reset ke halaman pertama
-        renderTable(filteredRows, currentPage); // Render tabel berdasarkan hasil pencarian
+        // Perbarui tabel dengan hasil pencarian
+        tableBody.innerHTML = ""; // Kosongkan tabel
+        if (filteredRows.length > 0) {
+            filteredRows.forEach((row) => tableBody.appendChild(row)); // Tambahkan baris yang cocok
+        } else {
+            tableBody.innerHTML =
+                `<tr><td colspan="5">Tidak ada data ditemukan.</td></tr>`; // Jika tidak ada hasil
+        }
     }
 
-    // Fungsi debounce untuk pencarian (mengurangi frekuensi eksekusi)
+    // Tambahkan debounce untuk mengurangi jumlah pencarian
     function debounce(func, delay) {
         let timeout;
         return function(...args) {
@@ -630,10 +688,8 @@ document.addEventListener("DOMContentLoaded", function() {
         };
     }
 
-    searchInput.addEventListener("input", debounce(performSearch, 300)); // Event pencarian dengan debounce
-
-    // Inisialisasi tampilan awal
-    renderTable(filteredRows, currentPage);
+    // Pasang event listener pada input dengan debounce
+    searchInput.addEventListener("input", debounce(performSearch, 300));
 });
 </script>
 
