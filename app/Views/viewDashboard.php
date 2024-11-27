@@ -111,7 +111,7 @@
 
     .logo {
         height: 50px;
-    
+
     }
 
     .sidebar ul {
@@ -283,7 +283,7 @@
                     <li><a href="adminLihatMhs"><i class="fas fa-user-graduate"></i> Mahasiswa Psikologi</a></li>
                 </ul>
             </li>
-
+            <li><a href="kelolaMading"><i class="fas fa-file-alt"></i> Kelola Mading</a></li>
             <li><a href="/login"><i class="fas fa-sign-out-alt"></i> Keluar</a></li>
         </ul>
     </div>

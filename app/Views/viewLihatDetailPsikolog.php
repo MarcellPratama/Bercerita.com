@@ -254,6 +254,8 @@
                             Psikologi</a></li>
                 </ul>
             </li>
+            <li><a href="<?= base_url('kelolaMading'); ?>"><i class="fas fa-file-alt"></i>
+                    Kelola Mading</a></li>
             <li><a href="<?= base_url('login'); ?>"><i class="fas fa-sign-out-alt"></i> Keluar</a></li>
         </ul>
     </div>

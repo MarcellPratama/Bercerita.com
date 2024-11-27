@@ -427,6 +427,7 @@
                     <li><a href="adminLihatMhs"><i class="fas fa-user-graduate"></i> Mahasiswa Psikologi</a></li>
                 </ul>
             </li>
+            <li><a href="kelolaMading"><i class="fas fa-file-alt"></i> Kelola Mading</a></li>
             <li><a href="/login"><i class="fas fa-sign-out-alt"></i> Keluar</a></li>
         </ul>
     </div>
@@ -538,7 +539,7 @@ approveButtons.forEach(button => {
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    alert('User approved!');
+                    // alert('User approved!');
                     location.reload(); // Reload the page to reflect changes
                 } else {
                     alert('Error: ' + data.message); // Show error message
@@ -578,7 +579,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
-                        alert('Pengguna berhasil ditolak.');
+                        // alert('Pengguna berhasil ditolak.');
                         location.reload(); // Reload the page to reflect the changes
                     } else {
                         alert('Terjadi kesalahan: ' + data.message); // Show error message
@@ -632,23 +633,33 @@ document.addEventListener("DOMContentLoaded", function() {
 
         // Tombol Previous
         paginationContainer.innerHTML += `<li class="page-item ${currentPage === 1 ? 'disabled' : ''}">
-                                              <a class="page-link" href="#">&#x2039;</a>
-                                          </li>`;
+                                          <a class="page-link" href="#">&#x2039;</a>
+                                      </li>`;
+
+        // Tentukan rentang halaman yang akan ditampilkan
+        const maxVisiblePages = 4; // Tampilkan maksimal 4 halaman
+        let startPage = Math.max(1, currentPage - 1); // Mulai 1 halaman sebelum current
+        let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1); // Maksimal 4 halaman ke depan
+
+        // Jika ada ruang kosong di awal, geser rentang halaman
+        if (endPage - startPage + 1 < maxVisiblePages) {
+            startPage = Math.max(1, endPage - maxVisiblePages + 1);
+        }
 
         // Halaman Nomor
-        for (let i = 1; i <= totalPages; i++) {
+        for (let i = startPage; i <= endPage; i++) {
             const isActive = i === currentPage ? 'active' : '';
             paginationContainer.innerHTML += `<li class="page-item ${isActive}">
-                                                  <a class="page-link" href="#">${i}</a>
-                                              </li>`;
+                                              <a class="page-link" href="#">${i}</a>
+                                          </li>`;
         }
 
         // Tombol Next
-        paginationContainer.innerHTML += `<li class="page-item ${currentPage === totalPages ? 'disabled' : ''}">
-                                              <a class="page-link" href="#">&#x203A;</a>
-                                          </li>`;
+        paginationContainer.innerHTML += `<li class="page-item ${currentPage >= totalPages ? 'disabled' : ''}">
+                                          <a class="page-link" href="#">&#x203A;</a>
+                                      </li>`;
 
-        attachPaginationEvents(); // Menambahkan event listeners ke tombol-tombol pagination
+        attachPaginationEvents(); // Tambahkan event listener untuk tombol pagination
     }
 
     // Fungsi untuk menambahkan event listener ke tombol-tombol pagination
@@ -666,7 +677,7 @@ document.addEventListener("DOMContentLoaded", function() {
         });
 
         nextButton.addEventListener("click", function() {
-            if (currentPage < totalPages) {
+            if (currentPage < Math.min(totalPages, 4)) { // Batasi hingga halaman ke-4
                 currentPage++;
                 showPage(currentPage);
                 renderPagination();
