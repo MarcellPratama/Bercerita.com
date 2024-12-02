@@ -13,6 +13,9 @@ $routes->get('registrasi', 'userController::viewRegistrasi');
 $routes->post('prosesRegistrasi', 'userController::registrasi');
 $routes->get('logout', 'userController::logout');
 
+$routes->get('editProfile', 'homeController::EditProfile');
+$routes->post('updateProfile', 'userController::update');
+
 $routes->get('adminVerifikasi', 'adminController::verifikasi');
 $routes->get('adminDashboard', 'adminController::dashboard');
 $routes->get('adminLihatPsikolog', 'adminController::lihatPsikolog');
