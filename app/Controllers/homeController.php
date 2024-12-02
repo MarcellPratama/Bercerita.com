@@ -80,7 +80,7 @@ class homeController extends BaseController
 
         $klienData = $klienModel->where('username', $loggedInUsername)->first();
         $mhsData = $mahasiswaModel->where('username', $loggedInUsername)->first();
-        $forums = $forumModel->getAllForums();
+        $forums = $forumModel->findAll();
 
         if ($klienData) {
             return view('forumKlien', [

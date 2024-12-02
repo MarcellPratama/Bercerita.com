@@ -24,7 +24,7 @@
 
     .sidebar {
         width: 245px;
-        height: 112vh;
+        height: 111vh;
         background-color: #00c2cb;
         padding: 20px;
         display: flex;
@@ -228,30 +228,20 @@
     }
 
     .pagination-container {
+        margin-top: 20px;
+        text-align: center;
+        width: 100%;
         display: flex;
-        justify-content: space-between;
+        justify-content: center;
         align-items: center;
-        margin-top: 30px;
-        height: 250px;
-        /* Set fixed height for the container */
-    }
-
-    .keterangan-tampilan {
-        font-size: 14px;
-        color: #666;
-        margin: 0;
-        flex: 1;
-        /* Allow the text to take up available space on the left */
-        text-align: left;
-        /* Align the text to the left */
     }
 
     .pagination {
-        display: flex;
-        align-items: center;
+        position: absolute;
+        align-items: right;
         gap: 3px;
-        justify-content: flex-end;
-        /* Ensure pagination buttons stay on the right */
+        top: 330px;
+        left: 525px;
     }
 
     .pagination .page-item {
@@ -277,7 +267,6 @@
         color: #fff;
         border: none;
     }
-
 
     .pagination .page-item:not(.active) {
         /* background-color: #e0e0e0; */
@@ -308,7 +297,7 @@
         flex-direction: column;
         align-items: center;
         background-color: white;
-        margin-left: 700px;
+        margin-left: 615px;
         margin-right: 700px;
         width: 400px;
         height: 180px;
@@ -382,7 +371,7 @@
         flex-direction: column;
         align-items: center;
         background-color: white;
-        margin-left: 690px;
+        margin-left: 585px;
         margin-right: 600px;
         width: 500px;
         height: 220px;
@@ -438,6 +427,7 @@
                     <li><a href="adminLihatMhs"><i class="fas fa-user-graduate"></i> Mahasiswa Psikologi</a></li>
                 </ul>
             </li>
+            <li><a href="kelolaMading"><i class="fas fa-file-alt"></i> Kelola Mading</a></li>
             <li><a href="/login"><i class="fas fa-sign-out-alt"></i> Keluar</a></li>
         </ul>
     </div>
@@ -451,8 +441,11 @@
 
         <div class="container-table">
             <div class="search-container mb-3">
-                <i class="fas fa-search search-icon"></i>
-                <input type="text" id="searchInput" class="form-control" placeholder="Search" />
+                <form method="get" action="/adminVerifikasi" style="width: 100%; display: flex; align-items: center;">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" name="search" id="searchInput" class="form-control" placeholder="Cari"
+                        value="<?= isset($search) ? esc($search) : '' ?>" style="padding-left: 30px;" />
+                </form>
             </div>
 
             <table>
@@ -465,21 +458,23 @@
                         <th>Aksi</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="tableBody">
                     <?php $no = 1; ?>
                     <?php foreach ($pengguna as $user): ?>
-                    <tr>
+                    <tr class="userRow">
                         <td><?= $no++; ?></td>
+                        <td class="username"><?= esc($user['username']); ?></td>
+                        <td><?= esc($user['kategori']); ?></td>
+                        <td><?= esc($user['status_verifikasi']); ?></td>
+
                         <td>
-                            <?= isset($user['username']) ? $user['username'] : 'Nama Tidak Tersedia'; ?>
-                        </td>
-                        <td>
-                            <?= isset($user['kategori']) ? $user['kategori'] : 'Kategori Tidak Diketahui'; ?>
-                        </td>
-                        <td>Belum Diverifikasi</td> <!-- Status Kolom -->
-                        <td>
-                            <span class="action-btn reject" title="Tolak"><i class="fas fa-times"></i></span>
-                            <span class="action-btn approve" title="Setujui"><i class="fas fa-check"></i></span>
+                            <!-- Reject Button -->
+                            <span class="action-btn reject" title="Tolak" data-id="<?= $user['id']; ?>"><i
+                                    class="fas fa-times"></i></span>
+                            <!-- Approve Button -->
+                            <span class="action-btn approve" title="Setujui" data-id="<?= $user['id']; ?>"><i
+                                    class="fas fa-check"></i></span>
+                            <!-- View Button -->
                             <?php if ($user['kategori'] === 'Mahasiswa Psikologi'): ?>
                             <a href="/adminLihatDetailMhs/<?= $user['id']; ?>" class="action-btn view"
                                 title="Lihat Detail Mahasiswa">
@@ -504,7 +499,6 @@
 
             <!-- Pagination -->
             <div class="pagination-container">
-                <p class="keterangan-tampilan">Tampilan 1 ke 10 dari 50</p>
                 <div class="pagination">
                     <nav>
                         <ul class="pagination">
@@ -514,16 +508,17 @@
                 </div>
             </div>
 
-            <div class="modal" id="rejectModal" style="display: none;">
+            <!-- Modal Konfirmasi Tolak -->
+            <div class="modal" id="modalTolak" style="display: none;">
                 <div class="modal-content-reject">
                     <i class="fas fa-times-circle" style="color: #ff6b6b; font-size: 40px;"></i>
-                    <p>Apakah Anda yakin menolak?</p>
-                    <!-- <div style="margin-top: 5px;"> -->
-                    <button class="btn btn-secondary" id="rejectNoBtn" style="margin-right: 10px;">Tidak</button>
-                    <button class="btn btn-danger" id="rejectYesBtn">Ya</button>
-                    <!-- </div> -->
+                    <p>Apakah Anda yakin ingin menolak pengguna ini?</p>
+                    <button class="btn btn-secondary" id="btnBatal">Batal</button>
+                    <button class="btn btn-danger" id="btnKonfirmasiTolak">Ya</button>
                 </div>
             </div>
+
+
             <div class="modal" id="topUpModal" style="display: none;">
                 <div class="modal-content">
                     <i class="fas fa-check-circle" style="color: #28a745; font-size: 40px;"></i>
@@ -535,126 +530,180 @@
     </div>
 </body>
 <script>
-document.addEventListener("DOMContentLoaded", function() {
-    // Select all reject buttons (cross buttons)
-    const rejectButtons = document.querySelectorAll(".action-btn.reject");
-    const rejectModal = document.getElementById("rejectModal");
-    const rejectYesBtn = document.getElementById("rejectYesBtn");
-    const rejectNoBtn = document.getElementById("rejectNoBtn");
-
-    // Function to show the reject modal
-    function showRejectModal() {
-        rejectModal.style.display = "flex";
-    }
-
-    // Function to close the reject modal
-    function closeRejectModal() {
-        rejectModal.style.display = "none";
-    }
-
-    // Attach event listeners to each reject button
-    rejectButtons.forEach(button => {
-        button.addEventListener("click", showRejectModal);
-    });
-
-    // Close the reject modal when the "No" button is clicked
-    rejectNoBtn.addEventListener("click", closeRejectModal);
-
-    // Handle "Yes" button in the reject modal
-    rejectYesBtn.addEventListener("click", function() {
-        // alert("Pengguna berhasil ditolak!"); // Tambahkan logika untuk aksi penolakan di sini
-        closeRejectModal();
+// Apprtion
+const approveButtons = document.querySelectorAll('.action-btn.approve');
+approveButtons.forEach(button => {
+    button.addEventListener('click', function() {
+        const userId = this.getAttribute('data-id');
+        fetch(`/verifikasi/approve/${userId}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // alert('User approved!');
+                    location.reload(); // Reload the page to reflect changes
+                } else {
+                    alert('Error: ' + data.message); // Show error message
+                }
+            })
+            .catch(error => {
+                alert('An error occurred: ' + error
+                    .message); // Handle any errors from the fetch request
+            });
     });
 });
+
+document.addEventListener("DOMContentLoaded", function() {
+    const rejectButtons = document.querySelectorAll('.action-btn.reject');
+    const modalTolak = document.getElementById('modalTolak');
+    const btnBatal = document.getElementById('btnBatal');
+    const btnKonfirmasiTolak = document.getElementById('btnKonfirmasiTolak');
+    let userIdTolak = null;
+
+    // Show the modal when the "Tolak" button (reject) is clicked
+    rejectButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            userIdTolak = this.getAttribute('data-id'); // Get user ID from the button
+            modalTolak.style.display = 'block'; // Show the modal
+        });
+    });
+
+    // Close the modal when the "Batal" button is clicked
+    btnBatal.addEventListener('click', function() {
+        modalTolak.style.display = 'none'; // Hide the modal
+    });
+
+    // Confirm rejection when the "Ya" button is clicked
+    btnKonfirmasiTolak.addEventListener('click', function() {
+        if (userIdTolak) {
+            fetch(`/verifikasi/reject/${userIdTolak}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // alert('Pengguna berhasil ditolak.');
+                        location.reload(); // Reload the page to reflect the changes
+                    } else {
+                        alert('Terjadi kesalahan: ' + data.message); // Show error message
+                    }
+                })
+                .catch(error => {
+                    alert('Terjadi kesalahan: ' + error.message); // Handle any errors
+                });
+        }
+        modalTolak.style.display = 'none'; // Hide the modal after confirming rejection
+    });
+});
+
 
 function toggleSubmenu(element) {
     const submenu = element.nextElementSibling;
     submenu.style.display = submenu.style.display === "block" ? "none" : "block";
 
-    // Mengubah panah untuk menunjukkan apakah submenu terbuka atau tertutup
+    // Toggle the arrow for submenu indicator
     const arrow = element.querySelector('.toggle-submenu');
     arrow.innerHTML = submenu.style.display === "block" ? "&#9652;" : "&#9662;";
 }
 
-document.getElementById("searchInput").addEventListener("input", function() {
-    const searchValue = this.value.toLowerCase();
-    const rows = document.querySelectorAll("#tableBody tr");
-
-    rows.forEach(row => {
-        const name = row.cells[1].textContent.toLowerCase();
-        const category = row.cells[2].textContent.toLowerCase();
-        if (name.includes(searchValue) || category.includes(searchValue)) {
-            row.style.display = "";
-        } else {
-            row.style.display = "none";
-        }
-    });
-});
 
 document.addEventListener("DOMContentLoaded", function() {
-    const paginationContainer = document.querySelector(".pagination ul");
-    const prevButton = document.querySelector(".page-item:first-child");
-    const nextButton = document.querySelector(".page-item:last-child");
+    // Inisialisasi pagination setelah halaman dimuat
     let currentPage = 1;
-    let totalPages = 4; // Number of pages shown at once
+    const rows = document.querySelectorAll("table tbody tr");
+    const totalRows = rows.length;
+    const rowsPerPage = 10; // Jumlah baris per halaman
+    const totalPages = Math.ceil(totalRows / rowsPerPage);
 
-    // Function to render the pagination items
-    function renderPagination() {
-        paginationContainer.innerHTML = `
-                <li class="page-item"><a class="page-link" href="#">&#x2039;</a></li>
-            `;
+    // Fungsi untuk menampilkan halaman yang sesuai
+    function showPage(page) {
+        const start = (page - 1) * rowsPerPage;
+        const end = start + rowsPerPage;
 
-        for (let i = currentPage; i < currentPage + totalPages; i++) {
-            const isActive = i === currentPage ? "active" : "";
-            paginationContainer.innerHTML += `
-                    <li class="page-item ${isActive}"><a class="page-link" href="#">${i}</a></li>
-                `;
-        }
-
-        paginationContainer.innerHTML += `
-                <li class="page-item"><a class="page-link" href="#">&#x203A;</a></li>
-            `;
-
-        // Re-attach event listeners after re-rendering
-        attachEventListeners();
+        rows.forEach((row, index) => {
+            if (index >= start && index < end) {
+                row.style.display = ''; // Tampilkan baris sesuai halaman
+            } else {
+                row.style.display = 'none'; // Sembunyikan baris jika tidak sesuai halaman
+            }
+        });
     }
 
-    // Function to attach event listeners to page items
-    function attachEventListeners() {
+    // Fungsi untuk merender tombol-tombol pagination
+    function renderPagination() {
+        const paginationContainer = document.querySelector(".pagination ul");
+        paginationContainer.innerHTML = ''; // Kosongkan pagination sebelumnya
+
+        // Tombol Previous
+        paginationContainer.innerHTML += `<li class="page-item ${currentPage === 1 ? 'disabled' : ''}">
+                                          <a class="page-link" href="#">&#x2039;</a>
+                                      </li>`;
+
+        // Tentukan rentang halaman yang akan ditampilkan
+        const maxVisiblePages = 4; // Tampilkan maksimal 4 halaman
+        let startPage = Math.max(1, currentPage - 1); // Mulai 1 halaman sebelum current
+        let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1); // Maksimal 4 halaman ke depan
+
+        // Jika ada ruang kosong di awal, geser rentang halaman
+        if (endPage - startPage + 1 < maxVisiblePages) {
+            startPage = Math.max(1, endPage - maxVisiblePages + 1);
+        }
+
+        // Halaman Nomor
+        for (let i = startPage; i <= endPage; i++) {
+            const isActive = i === currentPage ? 'active' : '';
+            paginationContainer.innerHTML += `<li class="page-item ${isActive}">
+                                              <a class="page-link" href="#">${i}</a>
+                                          </li>`;
+        }
+
+        // Tombol Next
+        paginationContainer.innerHTML += `<li class="page-item ${currentPage >= totalPages ? 'disabled' : ''}">
+                                          <a class="page-link" href="#">&#x203A;</a>
+                                      </li>`;
+
+        attachPaginationEvents(); // Tambahkan event listener untuk tombol pagination
+    }
+
+    // Fungsi untuk menambahkan event listener ke tombol-tombol pagination
+    function attachPaginationEvents() {
         const pageItems = document.querySelectorAll(".page-item");
         const prevButton = pageItems[0];
         const nextButton = pageItems[pageItems.length - 1];
 
-        // Click event for the previous button
         prevButton.addEventListener("click", function() {
             if (currentPage > 1) {
                 currentPage--;
+                showPage(currentPage);
                 renderPagination();
             }
         });
 
-        // Click event for the next button
         nextButton.addEventListener("click", function() {
-            currentPage++;
-            renderPagination();
+            if (currentPage < Math.min(totalPages, 4)) { // Batasi hingga halaman ke-4
+                currentPage++;
+                showPage(currentPage);
+                renderPagination();
+            }
         });
 
-        // Click events for individual page numbers
-        pageItems.forEach((item, index) => {
-            if (index > 0 && index < pageItems.length - 1) {
+        pageItems.forEach((item) => {
+            if (item.classList.contains("page-item") && !item.classList.contains("disabled")) {
                 item.addEventListener("click", function() {
-                    // Set the clicked page number as active without shifting
-                    const clickedPageNumber = parseInt(item.textContent);
-                    pageItems.forEach((page) => page.classList.remove("active"));
-                    item.classList.add("active");
+                    const pageNum = parseInt(item.textContent);
+                    if (!isNaN(pageNum)) {
+                        currentPage = pageNum;
+                        showPage(currentPage);
+                        renderPagination();
+                    }
                 });
             }
         });
     }
 
-    // Initial rendering of the pagination
+    // Menampilkan halaman pertama dan merender paginasi
+    showPage(currentPage);
     renderPagination();
 });
+
+
 document.addEventListener("DOMContentLoaded", function() {
     // Select all approve buttons (checkmark buttons)
     const approveButtons = document.querySelectorAll(".action-btn.approve");
@@ -678,6 +727,52 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // Close the modal when the OK button is clicked
     modalCloseBtn.addEventListener("click", closeModal);
+});
+document.addEventListener("DOMContentLoaded", function() {
+    const searchInput = document.getElementById("searchInput"); // Input pencarian
+    const tableBody = document.getElementById("tableBody"); // Tabel tempat data ditampilkan
+    const originalRows = Array.from(tableBody.rows); // Salin data asli untuk filter
+
+    // Fungsi untuk melakukan pencarian
+    function performSearch() {
+        const searchQuery = searchInput.value.trim()
+            .toLowerCase(); // Ambil input pencarian dan ubah ke lowercase
+
+        // Jika input kosong, kembalikan semua data
+        if (!searchQuery) {
+            tableBody.innerHTML = ""; // Kosongkan tabel
+            originalRows.forEach((row) => tableBody.appendChild(row)); // Tampilkan semua data
+            return;
+        }
+
+        // Filter baris berdasarkan input pencarian (awalan username)
+        const filteredRows = originalRows.filter((row) => {
+            const username = row.querySelector(".username").textContent
+                .toLowerCase(); // Ambil username di baris
+            return username.includes(searchQuery); // Cek apakah username diawali oleh input
+        });
+
+        // Perbarui tabel dengan hasil pencarian
+        tableBody.innerHTML = ""; // Kosongkan tabel
+        if (filteredRows.length > 0) {
+            filteredRows.forEach((row) => tableBody.appendChild(row)); // Tambahkan baris yang cocok
+        } else {
+            tableBody.innerHTML =
+                `<tr><td colspan="5">Tidak ada data ditemukan.</td></tr>`; // Jika tidak ada hasil
+        }
+    }
+
+    // Tambahkan debounce untuk mengurangi jumlah pencarian
+    function debounce(func, delay) {
+        let timeout;
+        return function(...args) {
+            clearTimeout(timeout);
+            timeout = setTimeout(() => func.apply(this, args), delay);
+        };
+    }
+
+    // Pasang event listener pada input dengan debounce
+    searchInput.addEventListener("input", debounce(performSearch, 300));
 });
 </script>
 
