@@ -25,7 +25,7 @@
     .sidebar {
         width: 245px;
         height: 111vh;
-        background-color: #00c2cb;
+        background: linear-gradient(to bottom, #77E4C8, #36C2CE, #478CCF);
         padding: 20px;
         display: flex;
         flex-direction: column;
@@ -127,7 +127,7 @@
         padding: 10px 20px;
         text-decoration: none;
         color: #b0bec5;
-        transition: background 0.3s;
+        transition: 0.3s;
         border-radius: 5px;
         font-size: 18px;
         color: white;
@@ -152,7 +152,7 @@
     .submenu {
         display: none;
         padding-left: 20px;
-        background-color: #00c2cb;
+        background-color: rgba(0, 194, 203, 0.1);
         border-radius: 5px;
     }
 
@@ -529,6 +529,7 @@
         </div>
     </div>
 </body>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
 // Apprtion
 const approveButtons = document.querySelectorAll('.action-btn.approve');
@@ -552,46 +553,39 @@ approveButtons.forEach(button => {
     });
 });
 
-document.addEventListener("DOMContentLoaded", function() {
-    const rejectButtons = document.querySelectorAll('.action-btn.reject');
-    const modalTolak = document.getElementById('modalTolak');
-    const btnBatal = document.getElementById('btnBatal');
-    const btnKonfirmasiTolak = document.getElementById('btnKonfirmasiTolak');
-    let userIdTolak = null;
+const rejectButtons = document.querySelectorAll('.action-btn.reject');
+rejectButtons.forEach(button => {
+    button.addEventListener('click', function() {
+        const userId = this.getAttribute('data-id');
+        const userStatus = this.getAttribute(
+            'data-status'); // Ambil status pengguna dari atribut data-status
 
-    // Show the modal when the "Tolak" button (reject) is clicked
-    rejectButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            userIdTolak = this.getAttribute('data-id'); // Get user ID from the button
-            modalTolak.style.display = 'block'; // Show the modal
-        });
-    });
-
-    // Close the modal when the "Batal" button is clicked
-    btnBatal.addEventListener('click', function() {
-        modalTolak.style.display = 'none'; // Hide the modal
-    });
-
-    // Confirm rejection when the "Ya" button is clicked
-    btnKonfirmasiTolak.addEventListener('click', function() {
-        if (userIdTolak) {
-            fetch(`/verifikasi/reject/${userIdTolak}`)
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        // alert('Pengguna berhasil ditolak.');
-                        location.reload(); // Reload the page to reflect the changes
-                    } else {
-                        alert('Terjadi kesalahan: ' + data.message); // Show error message
-                    }
-                })
-                .catch(error => {
-                    alert('Terjadi kesalahan: ' + error.message); // Handle any errors
-                });
+        // Cek status sebelum melakukan proses
+        if (userStatus === 'Ditolak' || userStatus === 'Diterima') {
+            alert(
+                `Pengguna dengan ID ${userId} sudah diverifikasi sebelumnya dengan status '${userStatus}'.`
+            );
+            return; // Hentikan proses jika sudah diverifikasi
         }
-        modalTolak.style.display = 'none'; // Hide the modal after confirming rejection
+
+        // Jika belum diverifikasi, lanjutkan proses
+        fetch(`/verifikasi/reject/${userId}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Berhasil menolak pengguna!');
+                    location.reload(); // Reload halaman untuk memperbarui tampilan
+                } else {
+                    alert('Error: ' + data.message); // Tampilkan pesan error
+                }
+            })
+            .catch(error => {
+                alert('Terjadi kesalahan: ' + error
+                    .message); // Tangani kesalahan dari fetch request
+            });
     });
 });
+
 
 
 function toggleSubmenu(element) {
@@ -703,31 +697,6 @@ document.addEventListener("DOMContentLoaded", function() {
     renderPagination();
 });
 
-
-document.addEventListener("DOMContentLoaded", function() {
-    // Select all approve buttons (checkmark buttons)
-    const approveButtons = document.querySelectorAll(".action-btn.approve");
-    const modal = document.getElementById("topUpModal");
-    const modalCloseBtn = document.getElementById("modalCloseBtn");
-
-    // Function to show the modal
-    function showModal() {
-        modal.style.display = "block";
-    }
-
-    // Function to close the modal
-    function closeModal() {
-        modal.style.display = "none";
-    }
-
-    // Attach event listeners to each approve button
-    approveButtons.forEach(button => {
-        button.addEventListener("click", showModal);
-    });
-
-    // Close the modal when the OK button is clicked
-    modalCloseBtn.addEventListener("click", closeModal);
-});
 document.addEventListener("DOMContentLoaded", function() {
     const searchInput = document.getElementById("searchInput"); // Input pencarian
     const tableBody = document.getElementById("tableBody"); // Tabel tempat data ditampilkan

@@ -45,12 +45,12 @@ $routes->post('/forum/delete/(:segment)', 'ForumController::deleteForum/$1');
 $routes->post('/simpan-catatan', 'catatanController::addCatatan');
 
 $routes->get('dashboardpsikolog', 'PsikologController::dashboard');
-<<<<<<< HEAD
+
 $routes->post('/update-profile', 'PsikologController::updateProfile');
 // $routes->get('/edit-profile', 'PsikologController::editProfile');
 // $routes->post('/update-profile', 'PsikologController::updateProfile');
 
-=======
+
 
 $routes->get('/adminLihatDetailPsikolog/(:any)', 'adminController::lihatDetailPsikolog/$1');
 $routes->get('/adminLihatDetailMhs/(:any)', 'adminController::lihatDetailMhs/$1');
@@ -59,4 +59,6 @@ $routes->get('verifikasi/reject/(:segment)', 'adminController::reject/$1');
 $routes->get('/adminLihatDetailMhsPsikologi/(:any)', 'adminController::lihatDetailMhs/$1', ['as' => 'admin.detailMhsPsikologi']);
 $routes->get('kelolaMading', 'adminController::kelolaMading');
 $routes->delete('mading/deleteMading/(:segment)', 'adminController::deleteMading/$1');
->>>>>>> 78ac1df4ff284f891a5b3d2f456638c612877d21
+
+$routes->get('/adminLihatDetailPsiko/(:any)', 'AdminController::cekVerifikasiPsikolog/$1');
+$routes->get('/adminLihatDetailMahasiswa/(:any)', 'adminController::cekVerifikasiMhsPsikologi/$1');

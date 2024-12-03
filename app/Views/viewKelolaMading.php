@@ -25,7 +25,7 @@
     .sidebar {
         width: 245px;
         height: 112vh;
-        background-color: #00c2cb;
+        background: linear-gradient(to bottom, #77E4C8, #36C2CE, #478CCF);
         padding: 20px;
         display: flex;
         flex-direction: column;
@@ -52,7 +52,7 @@
         padding: 10px 20px;
         text-decoration: none;
         color: #b0bec5;
-        transition: background 0.3s;
+        transition: 0.3s;
         border-radius: 5px;
         font-size: 18px;
         color: white;
@@ -106,11 +106,13 @@
 
     .menu {
         list-style: none;
-        /* Remove bullet points */
         padding: 0;
-        /* Remove default padding */
         margin: 0;
-        /* Remove default margin */
+    }
+
+
+    .menu a:hover {
+        background-color: #03b5c1;
     }
 
     .menu a {
@@ -124,10 +126,6 @@
         padding: 10px;
         border-radius: 5px;
         transition: background-color 0.3s;
-    }
-
-    .menu a:hover {
-        background-color: #03b5c1;
     }
 
     .menu a.active {
@@ -304,9 +302,23 @@
         box-shadow: 0 0 4px rgba(0, 194, 203, 0.3);
     }
 
+    /* Submenu */
     .submenu {
         display: none;
-        /* Default, disembunyikan */
+        padding-left: 20px;
+        background-color: rgba(0, 194, 203, 0.1);
+        border-radius: 5px;
+    }
+
+    .submenu li a {
+        padding: 10px 15px;
+        font-size: 14px;
+        color: #b0bec5;
+        text-decoration: none;
+    }
+
+    .submenu li a:hover {
+        color: #fff;
     }
 
     .modal {
