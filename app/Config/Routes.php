@@ -16,6 +16,11 @@ $routes->get('logout', 'userController::logout');
 $routes->get('editProfile', 'homeController::EditProfile');
 $routes->post('updateProfile', 'userController::update');
 
+/* Edit Mahasiswa */
+$routes->get('/mahasiswa/profile', 'MahasiswaController::editProfile');
+$routes->post('mahasiswa/updateProfile', 'MahasiswaController::updateProfile');
+$routes->post('mahasiswa/uploadProfilePicture', 'MahasiswaController::uploadProfilePicture');
+
 $routes->get('adminVerifikasi', 'adminController::verifikasi');
 $routes->get('adminDashboard', 'adminController::dashboard');
 $routes->get('adminLihatPsikolog', 'adminController::lihatPsikolog');
