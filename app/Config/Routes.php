@@ -37,6 +37,7 @@ $routes->get('adminDashboard', 'adminController::dashboard', ['as' => 'admin.das
 $routes->get('adminLihatPsikolog', 'adminController::lihatPsikolog', ['as' => 'admin.lihatPsikolog']);
 $routes->get('adminLihatMhs', 'adminController::lihatMhs', ['as' => 'admin.lihatMhs']);
 
+/* CRUD FORUM */
 $routes->get('/forum', 'ForumController::index');
 $routes->post('/forum/create', 'ForumController::addForum');
 $routes->post('/forum/delete/(:segment)', 'ForumController::deleteForum/$1');
