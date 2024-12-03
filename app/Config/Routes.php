@@ -25,3 +25,7 @@ $routes->post('/forum/delete/(:num)', 'ForumController::deleteForum/$1');
 $routes->get('/forum/removeAnggota/(:num)/(:num)', 'ForumController::removeAnggota/$1/$2');
 
 $routes->get('dashboardpsikolog', 'PsikologController::dashboard');
+$routes->post('/update-profile', 'PsikologController::updateProfile');
+// $routes->get('/edit-profile', 'PsikologController::editProfile');
+// $routes->post('/update-profile', 'PsikologController::updateProfile');
+

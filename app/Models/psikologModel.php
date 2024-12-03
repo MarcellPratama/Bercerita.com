@@ -8,7 +8,7 @@ class psikologModel extends Model
     protected $table = 'psikolog';
     protected $primaryKey = 'kd_psikolog';
     protected $useAutoIncrement = false; // Tidak menggunakan auto increment
-    protected $allowedFields = ['username', 'password', 'email', 'domisili', 'ktp', 'foto', 'lisensi'];
+    protected $allowedFields = ['username', 'password', 'email', 'domisili', 'ktp', 'foto', 'lisensi','tentang_saya', 'pendekatan_klinis', 'layanan'];
     protected $keyType = 'string'; // Primary key berupa string
 
     // Override fungsi `insert` untuk menghasilkan ID otomatis

@@ -98,8 +98,8 @@ class userController extends BaseController
                 'password' => password_hash($password, PASSWORD_BCRYPT),
                 'email' => $email,
                 'domisili' => $this->request->getPost('domisili'),
-                'ktp' => $ktpPath,
-                'lisensi' => $licensePath,
+                'ktp' => '/uploads/KTP/' . $ktpName,
+                'lisensi' => '/uploads/LisensiPsikolog/' . $licenseName,
                 'foto' => $fotoPath
             ]);
         }
@@ -131,6 +131,22 @@ class userController extends BaseController
                 return redirect()->to('/login');
             }
         }
+        // Check if user is a psychologist
+        $psikolog = $psikologModel->where('username', $username)->first();
+        if ($psikolog) {
+            if (password_verify($password, $psikolog['password'])) {
+                session()->set([
+                    'username' => $username,
+                    'role' => 'psikolog',
+                    'kd_psikolog' => $psikolog['kd_psikolog'] // Pastikan ini disimpan di sesi
+                ]);
+                return redirect()->to('/beranda');
+            } else {
+                session()->setFlashdata('error', 'Nama pengguna/kata sandi tidak sesuai.');
+                return redirect()->to('/login');
+            }
+        }
+
 
         // Check if user is a client, student, or psychologist
         $user = $klienModel->where('username', $username)->first() ??
@@ -142,6 +158,7 @@ class userController extends BaseController
                 'username' => $username,
                 'role' => 'user'
             ]);
+
             return redirect()->to('/beranda');
         }
         session()->setFlashdata('error', 'Nama pengguna/kata sandi tidak sesuai.');
