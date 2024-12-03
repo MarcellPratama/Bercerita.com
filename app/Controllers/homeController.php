@@ -5,6 +5,9 @@ namespace App\Controllers;
 use App\Models\klienModel;
 use App\Models\mahasiswaModel;
 use App\Models\psikologModel;
+use App\Models\adminModel;
+use App\Models\forumModel;
+use App\Models\catatanModel;
 
 class homeController extends BaseController
 {
@@ -13,17 +16,16 @@ class homeController extends BaseController
     {
         return view('homepage');
     }
-
     public function index()
     {
         $loggedInUsername = session()->get('username');
 
-        // Inisialisasi model untuk setiap peran
         $klienModel = new KlienModel();
         $mahasiswaModel = new MahasiswaModel();
         $psikologModel = new PsikologModel();
+        $adminModel = new AdminModel();
 
-        // Cek akun yang cocok dengan username yang login
+        // Check user role and render the appropriate view
         $klienData = $klienModel->where('username', $loggedInUsername)->first();
         if ($klienData) {
             return view('homeKlien', ['userData' => $klienData]);
@@ -31,7 +33,7 @@ class homeController extends BaseController
 
         $mahasiswaData = $mahasiswaModel->where('username', $loggedInUsername)->first();
         if ($mahasiswaData) {
-            return view('homeMahasiswa', ['userData' => $mahasiswaData]);
+            return view('homeKlien', ['userData' => $mahasiswaData]);
         }
 
         $psikologData = $psikologModel->where('username', $loggedInUsername)->first();
@@ -39,22 +41,84 @@ class homeController extends BaseController
             return view('homePsikolog', ['userData' => $psikologData]);
         }
 
-        // Jika tidak ada data yang ditemukan, redirect ke halaman login dengan pesan error
+        $adminData = $adminModel->where('username', $loggedInUsername)->first();
+        if ($adminData) {
+            // Render the view for admin without needing a separate route
+            return view('viewDashboard', ['userData' => $adminData]);
+        }
+
+        // Redirect to login if no user data is found
         return redirect()->to('/login')->with('error', 'Akun tidak ditemukan.');
     }
 
-    public function getProfilePicture($username)
-    {
-        $model = new klienModel();
-        $user = $model->where('username', $username)->first(); // Fetch user by username
+    public function EditProfile() {
+        $loggedInUsername = session()->get('username');
 
-        if ($user && $user['foto']) {
-            // Set the appropriate header
-            $this->response->setHeader('Content-Type', 'image/jpg'); // Change to the correct image type if necessary
-            echo $user['foto'];
-        } else {
-            // Handle the case where the user or picture is not found
-            return redirect()->to('/path/to/default/image.jpg'); // Fallback image
+        $klienModel = new KlienModel();
+        $mahasiswaModel = new MahasiswaModel();
+
+        $klienData = $klienModel->where('username', $loggedInUsername)->first();
+        if ($klienData) {
+            return view('editProfileKlien', ['userData' => $klienData]);
+        }
+
+        $mahasiswaData = $mahasiswaModel->where('username', $loggedInUsername)->first();
+        if ($mahasiswaData) {
+            return view('editProfileKlien', ['userData' => $mahasiswaData]);
+        }
+    }
+
+    public function forum(): string
+    {
+        $loggedInUsername = session()->get('username');
+    
+        $klienModel = new KlienModel();
+        $forumModel = new forumModel();
+        //$this->forumKlienModel = new forum_klienModel();
+        $mahasiswaModel = new mahasiswaModel();
+
+
+        $klienData = $klienModel->where('username', $loggedInUsername)->first();
+        $mhsData = $mahasiswaModel->where('username', $loggedInUsername)->first();
+        $forums = $forumModel->findAll();
+
+        if ($klienData) {
+            return view('forumKlien', [
+                'userData' => $klienData,
+                'forums' => $forums,
+            ]);
+        } elseif ($mhsData) {
+            return view('CRUD_Forum', [
+                'mhsData' => $mhsData,
+                'forums' => $forums
+            ]);
+        }
+    }
+
+    public function jejakPerasaan(): string {
+        $loggedInUsername = session()->get('username');
+
+        $klienModel = new KlienModel();
+        $catatanModel = new catatanModel();
+        $mahasiswaModel = new mahasiswaModel();
+
+        // Hapus catatan yang sudah lebih dari 24 jam
+        $catatanModel->deleteExpiredNotes();
+
+        $klienData = $klienModel->where('username', $loggedInUsername)->first();
+        $mhsData = $mahasiswaModel->where('username', $loggedInUsername)->first();
+        $catatan = $catatanModel->findAll();
+
+        if ($klienData) {
+            return view('jejakPerasaan', [
+                'userData' => $klienData,
+                'catatan' => $catatan
+            ]);
+        } elseif ($mhsData) {
+            return view('jejakPerasaan', [
+                'userData' => $mhsData,
+                'catatan' => $catatan
+            ]);
         }
     }
 }

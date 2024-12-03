@@ -3,7 +3,7 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class AdminModel extends Model
+class adminModel extends Model
 {
     protected $table = 'admin';
     protected $primaryKey = 'kd_admin';

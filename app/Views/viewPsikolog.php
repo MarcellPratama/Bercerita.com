@@ -24,7 +24,7 @@
 
     .sidebar {
         width: 245px;
-        height: 100vh;
+        height: 112vh;
         background-color: #00c2cb;
         padding: 20px;
         display: flex;
@@ -169,11 +169,12 @@
         padding: 7px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         margin-top: 5px;
+        height: 640px;
     }
 
 
     table {
-        width: 80%;
+        width: 100%;
         border-collapse: collapse;
         margin: 10px auto;
     }
@@ -224,23 +225,22 @@
         background-color: #ffae42;
     }
 
-    .pagination-container {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-top: 30px;
-    }
 
-    .keterangan-tampilan {
-        font-size: 14px;
-        color: #666;
-        margin: 0;
+    .pagination-container {
+        margin-top: 20px;
+        text-align: center;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 
     .pagination {
-        display: flex;
-        align-items: center;
+        position: absolute;
+        align-items: right;
         gap: 3px;
+        top: 670px;
+        left: 1050px;
     }
 
     .pagination .page-item {
@@ -266,7 +266,6 @@
         color: #fff;
         border: none;
     }
-
 
     .pagination .page-item:not(.active) {
         /* background-color: #e0e0e0; */
@@ -335,6 +334,7 @@
                     <li><a href="adminLihatMhs"><i class="fas fa-user-graduate"></i> Mahasiswa Psikologi</a></li>
                 </ul>
             </li>
+            <li><a href="kelolaMading"><i class="fas fa-file-alt"></i> Kelola Mading</a></li>
             <li><a href="/login"><i class="fas fa-sign-out-alt"></i> Keluar</a></li>
         </ul>
     </div>
@@ -348,7 +348,8 @@
         <div class="container-table">
             <div class="search-container mb-3">
                 <i class="fas fa-search search-icon"></i>
-                <input type="text" id="searchInput" class="form-control" placeholder="Search" />
+                <input type="text" name="search" id="searchInput" class="form-control" placeholder="Cari"
+                    value="<?= esc($search ?? '') ?>" style="padding-left: 30px;" />
             </div>
             <table>
                 <thead>
@@ -356,104 +357,68 @@
                         <th>No</th>
                         <th>Nama</th>
                         <th>Kategori</th>
+                        <th>Tanggal Verifikasi</th>
                         <th>Aksi</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>Putri Ala Syakari</td>
-                        <td>Psikolog</td>
+                <tbody id="tableBody">
+                    <?php foreach ($pengguna as $key => $user): ?>
+                    <tr class="psikologRow">
+                        <td><?= $startNo + $key; ?></td>
+                        <td class="username"><?= esc($user['username']); ?></td>
+                        <td><?= esc($user['kategori']); ?></td>
+                        <td><?= esc($user['tanggal_verifikasi']); ?></td>
                         <td>
-                            <span class="action-btn view"><i class="fas fa-eye"></i></span>
+                            <a href="/adminLihatDetailPsikolog/<?= $user['id']; ?>" class="action-btn view"
+                                title="Lihat Detail Psikolog">
+                                <i class="fas fa-eye"></i>
+                            </a>
                         </td>
                     </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>Lisa Akalia Mali</td>
-                        <td>Psikolog</td>
-                        <td>
-                            <span class="action-btn view"><i class="fas fa-eye"></i></span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>3</td>
-                        <td>Budiman Setiadi</td>
-                        <td>Psikolog</td>
-                        <td>
-                            <span class="action-btn view"><i class="fas fa-eye"></i></span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>4</td>
-                        <td>Rio Martin Rendi</td>
-                        <td>Psikolog</td>
-                        <td>
-                            <span class="action-btn view"><i class="fas fa-eye"></i></span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>5</td>
-                        <td>Amelia Sanjaya</td>
-                        <td>Psikolog</td>
-                        <td>
-                            <span class="action-btn view"><i class="fas fa-eye"></i></span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>6</td>
-                        <td>Rina Andira</td>
-                        <td>Psikolog</td>
-                        <td>
-                            <span class="action-btn view"><i class="fas fa-eye"></i></span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>7</td>
-                        <td>Joko Mardika</td>
-                        <td>Psikolog</td>
-                        <td>
-                            <span class="action-btn view"><i class="fas fa-eye"></i></span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>8</td>
-                        <td>Adi Surya</td>
-                        <td>Psikolog</td>
-                        <td>
-                            <span class="action-btn view"><i class="fas fa-eye"></i></span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>9</td>
-                        <td>Desi Rachmawati</td>
-                        <td>Psikolog</td>
-                        <td>
-                            <span class="action-btn view"><i class="fas fa-eye"></i></span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>10</td>
-                        <td>Farhan Irawan</td>
-                        <td>Psikolog</td>
-                        <td>
-                            <span class="action-btn view"><i class="fas fa-eye"></i></span>
-                        </td>
-                    </tr>
+                    <?php endforeach; ?>
                 </tbody>
             </table>
 
+
             <!-- Pagination -->
             <div class="pagination-container">
-                <p class="keterangan-tampilan">Tampilan 1 ke 10 dari 50</p>
-                <div class="pagination">
-                    <nav>
-                        <ul class="pagination">
-                            <li class="page-item"><a class="page-link" href="#">&#x203A;</a></li>
-                        </ul>
-                    </nav>
-                </div>
+                <ul class="pagination">
+                    <!-- Tombol Sebelumnya -->
+                    <li class="page-item <?= $pagination['currentPage'] == 1 ? 'disabled' : ''; ?>">
+                        <a class="page-link"
+                            href="<?= $pagination['currentPage'] > 1 ? '?page=' . ($pagination['currentPage'] - 1) : '#'; ?>">&#x2039;</a>
+                    </li>
+
+                    <!-- Nomor Halaman -->
+                    <?php
+        // Tentukan rentang halaman yang ditampilkan (maksimal 4 nomor halaman)
+        $maxVisiblePages = 4; // Maksimal 4 halaman
+        $startPage = max(1, $pagination['currentPage'] - floor($maxVisiblePages / 2));
+        $endPage = min($pagination['totalPages'], $startPage + $maxVisiblePages - 1);
+
+        // Pastikan range halaman tetap 4 jika memungkinkan
+        if ($endPage - $startPage + 1 < $maxVisiblePages) {
+            $startPage = max(1, $endPage - $maxVisiblePages + 1);
+        }
+        ?>
+
+                    <!-- Loop untuk menampilkan nomor halaman dengan rentang -->
+                    <?php for ($i = $startPage; $i <= $endPage; $i++): ?>
+                    <li class="page-item <?= $i == $pagination['currentPage'] ? 'active' : ''; ?>">
+                        <a class="page-link" href="?page=<?= $i; ?>"><?= $i; ?></a>
+                    </li>
+                    <?php endfor; ?>
+
+                    <!-- Tombol Berikutnya -->
+                    <li
+                        class="page-item <?= $pagination['currentPage'] == $pagination['totalPages'] ? 'disabled' : ''; ?>">
+                        <a class="page-link"
+                            href="<?= $pagination['currentPage'] < $pagination['totalPages'] ? '?page=' . ($pagination['currentPage'] + 1) : '#'; ?>">&#x203A;</a>
+                    </li>
+                </ul>
             </div>
+
+
         </div>
     </div>
 </body>
@@ -466,84 +431,209 @@ function toggleSubmenu(element) {
     const arrow = element.querySelector('.toggle-submenu');
     arrow.innerHTML = submenu.style.display === "block" ? "&#9652;" : "&#9662;";
 }
-document.getElementById("searchInput").addEventListener("input", function() {
-    const searchValue = this.value.toLowerCase();
-    const rows = document.querySelectorAll("#tableBody tr");
-
-    rows.forEach(row => {
-        const name = row.cells[1].textContent.toLowerCase();
-        const category = row.cells[2].textContent.toLowerCase();
-        if (name.includes(searchValue) || category.includes(searchValue)) {
-            row.style.display = "";
-        } else {
-            row.style.display = "none";
-        }
-    });
-});
 
 document.addEventListener("DOMContentLoaded", function() {
-    const paginationContainer = document.querySelector(".pagination ul");
-    const prevButton = document.querySelector(".page-item:first-child");
-    const nextButton = document.querySelector(".page-item:last-child");
     let currentPage = 1;
-    let totalPages = 4; // Number of pages shown at once
+    const rows = document.querySelectorAll("table tbody tr");
+    const rowsPerPage = 10;
+    const totalRows = rows.length;
+    const totalPages = Math.ceil(totalRows / rowsPerPage); // Total halaman
 
-    // Function to render the pagination items
-    function renderPagination() {
-        paginationContainer.innerHTML = `
-                <li class="page-item"><a class="page-link" href="#">&#x2039;</a></li>
-            `;
+    // Fungsi untuk menampilkan halaman tertentu
+    function showPage(page) {
+        const start = (page - 1) * rowsPerPage;
+        const end = start + rowsPerPage;
 
-        for (let i = currentPage; i < currentPage + totalPages; i++) {
-            const isActive = i === currentPage ? "active" : "";
-            paginationContainer.innerHTML += `
-                    <li class="page-item ${isActive}"><a class="page-link" href="#">${i}</a></li>
-                `;
-        }
-
-        paginationContainer.innerHTML += `
-                <li class="page-item"><a class="page-link" href="#">&#x203A;</a></li>
-            `;
-
-        // Re-attach event listeners after re-rendering
-        attachEventListeners();
+        rows.forEach((row, index) => {
+            if (index >= start && index < end) {
+                row.style.display = ''; // Tampilkan baris sesuai halaman
+            } else {
+                row.style.display = 'none'; // Sembunyikan baris yang tidak sesuai halaman
+            }
+        });
     }
 
-    // Function to attach event listeners to page items
-    function attachEventListeners() {
-        const pageItems = document.querySelectorAll(".page-item");
+    // Fungsi untuk merender pagination
+    function renderPagination() {
+        const paginationContainer = document.querySelector(".pagination ul");
+        paginationContainer.innerHTML = ''; // Kosongkan pagination sebelumnya
+
+        // Tombol Previous
+        paginationContainer.innerHTML += `
+            <li class="page-item ${currentPage === 1 ? 'disabled' : ''}">
+                <a class="page-link" href="#">&#x2039;</a>
+            </li>`;
+
+        // Tentukan rentang halaman yang akan ditampilkan (maksimal 4 halaman per waktu)
+        const maxVisiblePages = 4; // Maksimal 4 halaman per waktu
+        let startPage = Math.floor((currentPage - 1) / maxVisiblePages) * maxVisiblePages + 1;
+        let endPage = Math.min(startPage + maxVisiblePages - 1, totalPages);
+
+        // Nomor Halaman
+        for (let i = startPage; i <= endPage; i++) {
+            const isActive = i === currentPage ? 'active' : '';
+            paginationContainer.innerHTML += `
+                <li class="page-item ${isActive}">
+                    <a class="page-link" href="#">${i}</a>
+                </li>`;
+        }
+
+        // Tombol Next
+        paginationContainer.innerHTML += `
+            <li class="page-item ${currentPage === totalPages ? 'disabled' : ''}">
+                <a class="page-link" href="#">&#x203A;</a>
+            </li>`;
+
+        attachPaginationEvents(); // Tambahkan event listener ke tombol
+    }
+
+    // Fungsi untuk menambahkan event listener pada pagination
+    function attachPaginationEvents() {
+        const pageItems = document.querySelectorAll(".pagination .page-item");
         const prevButton = pageItems[0];
         const nextButton = pageItems[pageItems.length - 1];
 
-        // Click event for the previous button
+        // Tombol Previous
         prevButton.addEventListener("click", function() {
             if (currentPage > 1) {
                 currentPage--;
+                showPage(currentPage);
                 renderPagination();
             }
         });
 
-        // Click event for the next button
+        // Tombol Next
         nextButton.addEventListener("click", function() {
-            currentPage++;
-            renderPagination();
+            if (currentPage < totalPages) {
+                currentPage++;
+                showPage(currentPage);
+                renderPagination();
+            }
         });
 
-        // Click events for individual page numbers
+        // Klik pada nomor halaman
         pageItems.forEach((item, index) => {
-            if (index > 0 && index < pageItems.length - 1) {
+            if (index > 0 && index < pageItems.length - 1) { // Abaikan tombol Previous dan Next
                 item.addEventListener("click", function() {
-                    // Set the clicked page number as active without shifting
-                    const clickedPageNumber = parseInt(item.textContent);
-                    pageItems.forEach((page) => page.classList.remove("active"));
-                    item.classList.add("active");
+                    const pageNum = parseInt(item.textContent);
+                    if (!isNaN(pageNum)) {
+                        currentPage = pageNum;
+                        showPage(currentPage);
+                        renderPagination();
+                    }
                 });
             }
         });
     }
 
-    // Initial rendering of the pagination
+    // Inisialisasi tampilan halaman pertama dan pagination
+    showPage(currentPage);
     renderPagination();
+});
+
+document.addEventListener("DOMContentLoaded", function() {
+    const searchInput = document.getElementById("searchInput"); // Input pencarian
+    const tableBody = document.getElementById("tableBody"); // Tabel tempat data ditampilkan
+    const originalRows = Array.from(tableBody.rows); // Salin data asli untuk filter
+    let currentPage = 1;
+    const rowsPerPage = 10; // Jumlah baris per halaman
+
+    // Fungsi untuk merender tabel berdasarkan halaman
+    function renderTable(filteredRows, page) {
+        const start = (page - 1) * rowsPerPage; // Hitung indeks awal berdasarkan halaman
+        const end = start + rowsPerPage; // Hitung indeks akhir berdasarkan halaman
+
+        tableBody.innerHTML = ""; // Kosongkan tabel sebelum dirender ulang
+
+        const rowsToShow = filteredRows.slice(start, end); // Ambil data yang akan ditampilkan
+        rowsToShow.forEach((row, index) => {
+            const rowCopy = row.cloneNode(true);
+            // Nomor urut global
+            rowCopy.querySelector("td:first-child").textContent = start + index + 1;
+            tableBody.appendChild(rowCopy);
+        });
+
+        // Jika tidak ada data yang ditemukan
+        if (rowsToShow.length === 0) {
+            tableBody.innerHTML = `
+                <tr>
+                    <td colspan="5" class="text-center">Tidak ada data ditemukan.</td>
+                </tr>`;
+        }
+
+        renderPagination(filteredRows); // Perbarui pagination
+    }
+
+    // Fungsi untuk merender tombol pagination
+    function renderPagination(filteredRows) {
+        const totalPages = Math.ceil(filteredRows.length / rowsPerPage); // Total halaman
+        paginationContainer.innerHTML = ""; // Kosongkan pagination sebelum dirender ulang
+
+        // Tombol "Previous"
+        paginationContainer.innerHTML += `
+            <li class="page-item ${currentPage === 1 ? "disabled" : ""}">
+                <a class="page-link" href="#" data-page="${currentPage - 1}">&#x2039;</a>
+            </li>`;
+
+        // Tombol Halaman
+        for (let i = 1; i <= totalPages; i++) {
+            paginationContainer.innerHTML += `
+                <li class="page-item ${i === currentPage ? "active" : ""}">
+                    <a class="page-link" href="#" data-page="${i}">${i}</a>
+                </li>`;
+        }
+
+        // Tombol "Next"
+        paginationContainer.innerHTML += `
+            <li class="page-item ${currentPage === totalPages ? "disabled" : ""}">
+                <a class="page-link" href="#" data-page="${currentPage + 1}">&#x203A;</a>
+            </li>`;
+
+        attachPaginationEvents(filteredRows); // Tambahkan event listener ke pagination
+    }
+
+    // Fungsi untuk menambahkan event listener ke tombol pagination
+    function attachPaginationEvents(filteredRows) {
+        const pageLinks = paginationContainer.querySelectorAll(".page-link");
+
+        pageLinks.forEach((link) => {
+            link.addEventListener("click", function(e) {
+                e.preventDefault();
+                const page = parseInt(this.getAttribute("data-page"));
+
+                if (page > 0 && page <= Math.ceil(filteredRows.length / rowsPerPage)) {
+                    currentPage = page; // Atur halaman saat ini
+                    renderTable(filteredRows, currentPage); // Render tabel untuk halaman baru
+                }
+            });
+        });
+    }
+
+    // Fungsi pencarian global
+    function performSearch() {
+        const query = searchInput.value.trim().toLowerCase();
+        filteredRows = originalRows.filter((row) => {
+            const username = row.querySelector(".username").textContent.toLowerCase();
+            return username.includes(query); // Filter data berdasarkan input pencarian
+        });
+
+        currentPage = 1; // Reset ke halaman pertama
+        renderTable(filteredRows, currentPage); // Render tabel berdasarkan hasil pencarian
+    }
+
+    // Fungsi debounce untuk pencarian (mengurangi frekuensi eksekusi)
+    function debounce(func, delay) {
+        let timeout;
+        return function(...args) {
+            clearTimeout(timeout);
+            timeout = setTimeout(() => func.apply(this, args), delay);
+        };
+    }
+
+    searchInput.addEventListener("input", debounce(performSearch, 300)); // Event pencarian dengan debounce
+
+    // Inisialisasi tampilan awal
+    renderTable(filteredRows, currentPage);
 });
 </script>
 

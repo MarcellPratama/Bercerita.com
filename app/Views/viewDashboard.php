@@ -24,7 +24,7 @@
 
     .sidebar {
         width: 245px;
-        height: 100vh;
+        height: 97vh;
         background-color: #00c2cb;
         padding: 20px;
         display: flex;
@@ -111,7 +111,7 @@
 
     .logo {
         height: 50px;
-        margin-left: 1045px;
+
     }
 
     .sidebar ul {
@@ -283,13 +283,14 @@
                     <li><a href="adminLihatMhs"><i class="fas fa-user-graduate"></i> Mahasiswa Psikologi</a></li>
                 </ul>
             </li>
-
+            <li><a href="kelolaMading"><i class="fas fa-file-alt"></i> Kelola Mading</a></li>
             <li><a href="/login"><i class="fas fa-sign-out-alt"></i> Keluar</a></li>
         </ul>
     </div>
 
     <div class="main-content">
         <div class="header">
+            <h2><span class="bold-text"></span> <span class="regular-text"></span></h2>
             <img src="/bercerita.png" alt="Bercerita Logo" class="logo" />
         </div>
 

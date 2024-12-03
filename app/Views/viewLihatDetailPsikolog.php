@@ -177,22 +177,23 @@
         border-radius: 10px;
         padding: 20px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        height: 560px;
     }
 
     .detail-row {
         display: flex;
         flex-direction: column;
-        padding: 10px;
+        padding: 8px;
         background-color: #e9ecef;
         border-radius: 5px;
-        margin-bottom: 2px;
+        margin-bottom: 1px;
     }
 
     .detail-label {
         font-weight: bold;
         color: #333;
         font-size: 14px;
-        margin-bottom: 3px;
+        margin-bottom: 5px;
     }
 
     .detail-value {
@@ -203,7 +204,17 @@
         color: #333;
     }
 
-    .back-btn {
+    a.detail-link {
+        color: #800080;
+        text-decoration: none;
+        margin-right: 10px;
+    }
+
+    a.detail-link:hover {
+        text-decoration: underline;
+    }
+
+    .back-btn-modal {
         background-color: #ff6b6b;
         color: white;
         border: none;
@@ -212,22 +223,10 @@
         cursor: pointer;
         text-decoration: none;
         text-align: center;
-        width: 100px;
-        margin-top: 50px;
     }
 
-    .back-btn:hover {
+    .back-btn-modal:hover {
         background-color: #e74c3c;
-    }
-
-    a.detail-link {
-        color: #800080; 
-        text-decoration: none;
-        margin-right: 10px;
-    }
-
-    a.detail-link:hover {
-        text-decoration: underline;
     }
     </style>
 </head>
@@ -240,70 +239,93 @@
             <h5>Patrisia Cindy</h5>
         </div>
 
+
         <ul class="menu">
-            <li><a href="#"><i class="fas fa-home"></i> Beranda</a></li>
-            <li><a href="#" class="active"><i class="fas fa-check-circle"></i> Verifikasi</a></li>
+            <li><a href="<?= base_url('adminDashboard'); ?>"><i class="fas fa-home"></i> Beranda</a></li>
+            <li><a href="<?= base_url('adminVerifikasi'); ?>" class="active"><i class="fas fa-check-circle"></i>
+                    Verifikasi</a></li>
             <li>
                 <a href="#" class="dropdown-toggle" onclick="toggleSubmenu(this)">
                     <i class="fas fa-users"></i> Pengguna
                 </a>
                 <ul class="submenu">
-                    <li><a href="#"><i class="fas fa-user"></i> Psikolog</a></li>
-                    <li><a href="#"><i class="fas fa-user-graduate"></i> Mahasiswa Psikologi</a></li>
+                    <li><a href="<?= base_url('adminLihatPsikolog'); ?>"><i class="fas fa-user"></i> Psikolog</a></li>
+                    <li><a href="<?= base_url('adminLihatMhs'); ?>"><i class="fas fa-user-graduate"></i> Mahasiswa
+                            Psikologi</a></li>
                 </ul>
             </li>
-            <li><a href="/login"><i class="fas fa-sign-out-alt"></i> Keluar</a></li>
+            <li><a href="<?= base_url('kelolaMading'); ?>"><i class="fas fa-file-alt"></i>
+                    Kelola Mading</a></li>
+            <li><a href="<?= base_url('login'); ?>"><i class="fas fa-sign-out-alt"></i> Keluar</a></li>
         </ul>
     </div>
 
     <!-- Main Content -->
     <div class="main-content">
         <div class="header">
-            <h2><span class="bold-text">Tampilan</span> <span class="regular-text">Psikolog | Rio Martin Rendi</span></h2>
+            <h2><span class="bold-text">Tampilan</span> <span class="regular-text">Psikolog |
+                    <?= htmlspecialchars($psikolog['username']); ?></span></h2>
             <img src="/bercerita.png" alt="Bercerita Logo" class="logo" />
         </div>
         <div class="detail-container">
             <div class="detail-row">
-                <span class="detail-label">User ID</span>
-                <span class="detail-value">P-1716251918281</span>
-            </div>
-            <div class="detail-row">
                 <span class="detail-label">Nama Pengguna</span>
-                <span class="detail-value">Rio Martin Rendi</span>
+                <span class="detail-value"><?= $psikolog['username']; ?></span>
             </div>
             <div class="detail-row">
                 <span class="detail-label">Email</span>
-                <span class="detail-value">riomartin@gmail.com</span>
+                <span class="detail-value"><?= $psikolog['email']; ?></span>
             </div>
             <div class="detail-row">
                 <span class="detail-label">Domisili</span>
-                <span class="detail-value">Jakarta</span>
+                <span class="detail-value"><?= $psikolog['domisili']; ?></span>
             </div>
             <div class="detail-row">
                 <span class="detail-label">Foto Diri</span>
-                <span class="detail-value"><a href="#" target="_blank" class="detail-link">Lihat Foto</a></span>
+                <a href="#" onclick="showImageModal('<?= $psikolog['foto']; ?>')" class="detail-link">Lihat Foto</a>
             </div>
             <div class="detail-row">
                 <span class="detail-label">Foto KTP</span>
-                <span class="detail-value"><a href="#" target="_blank" class="detail-link">Lihat Foto</a></span>
+                <a href="#" onclick="showImageModal('<?= $psikolog['ktp']; ?>')" class="detail-link">Lihat Foto</a>
             </div>
             <div class="detail-row">
                 <span class="detail-label">Lisensi Psikolog</span>
-                <span class="detail-value"><a href="#" target="_blank" class="detail-link">Lihat Foto
-                </a></span>
+                <a href="#" onclick="showImageModal('<?= $psikolog['lisensi']; ?>')" class="detail-link">Lihat Foto</a>
             </div>
-            <a href="#" class="back-btn">Kembali</a>
+        </div>
+    </div>
+
+    <div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body text-center">
+                    <!-- Gambar -->
+                    <img id="modalImage" src="#" alt="Image Preview" class="img-fluid rounded mb-3">
+
+                    <!-- Tombol Kembali di bawah gambar -->
+                    <div class="d-flex justify-content-center">
+                        <a href="/adminLihatDetailPsikolog/<?= htmlspecialchars($registrasi['kd_registrasi']); ?>"
+                            class="btn btn-danger mt-3">Kembali</a>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
 function toggleSubmenu(element) {
     const submenu = element.nextElementSibling;
     submenu.style.display = submenu.style.display === "block" ? "none" : "block";
+}
 
-    // Change the arrow to indicate submenu state
-    const arrow = element.querySelector('.toggle-submenu');
-    arrow.innerHTML = submenu.style.display === "block" ? "&#9652;" : "&#9662;";
+function showImageModal(imageUrl) {
+    // Set the image source
+    document.getElementById('modalImage').src = imageUrl;
+
+    // Show the modal
+    const modal = new bootstrap.Modal(document.getElementById('imageModal'));
+    modal.show();
 }
 </script>
 
