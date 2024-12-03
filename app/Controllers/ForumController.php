@@ -48,13 +48,10 @@ class ForumController extends BaseController
         $kodeForum = 'KF' . str_pad($newNumber, 3, '0', STR_PAD_LEFT);
 
         $foto = $this->request->getFile('foto');
-        
+        $fotoName = $foto->getName();
         if ($foto->isValid() && !$foto->hasMoved()) {
-            $fotoName = $foto->getName();
             $foto->move('uploads/forum/', $fotoName);
-            $fotoPath = '/uploads/FOTO/' . $fotoName;
         }
-        
         $this->forumModel->save([
             'kode_forum' => $kodeForum,
             'nama_forum' => $this->request->getPost('nama_forum'),
@@ -62,7 +59,7 @@ class ForumController extends BaseController
             'deskripsi' => $this->request->getPost('deskripsi'),
             'tanggal' => $this->request->getPost('tanggal'),
             'jumlah_peserta' => $this->request->getPost('jumlah_peserta'),
-            'foto' => $fotoPath
+            'foto' => 'uploads/forum/' . $fotoName,
         ]);
 
         return redirect()->to('/forum')->with('success', 'Forum berhasil ditambahkan');
