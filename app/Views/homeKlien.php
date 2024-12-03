@@ -25,7 +25,7 @@
             <div class="offcanvas-body">
                 <ul class="nav flex-column">
                     <li class="nav-item">
-                        <a href="/dashboard" class="nav-link">
+                        <a href="/editProfile" class="nav-link">
                             <svg width="32" height="32" viewBox="0 0 42 42" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
                                 <path fill-rule="evenodd" clip-rule="evenodd"
@@ -38,7 +38,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="/beranda" class="nav-link">
+                        <a href="/todolist" class="nav-link">
                             <svg width="32" height="32" viewBox="0 0 40 37" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
                                 <path
@@ -120,11 +120,6 @@
                             <img src="<?= base_url($userData['foto']) ?>" alt="Foto Profil"
                                 class="profile rounded-circle">
                         </button>
-
-                        <!-- NI DEBUG YAA, HASILNYA EMANG KEBACA TAPI GA BISA DI TAMPILIN KENAPA YAAA ANJENGGGGG -->
-                        <!-- <pre><?php print_r($userData); ?></pre> -->
-                        <!-- MASAK HARUS PAKE CLOUD??? SIAPA YANG MAU BAYARRRRRRRRRR :( -->
-
                     </li>
                 </ul>
             </div>
@@ -401,7 +396,6 @@
                 <button class="btn btn-primary mt-3">Ayo! Tinggalkan Jejak Perasaanmu</button>
             </div>
         </div>
-
     </div>
 
     <!-- Tentang Kami -->

@@ -51,6 +51,23 @@ class homeController extends BaseController
         return redirect()->to('/login')->with('error', 'Akun tidak ditemukan.');
     }
 
+    public function EditProfile() {
+        $loggedInUsername = session()->get('username');
+
+        $klienModel = new KlienModel();
+        $mahasiswaModel = new MahasiswaModel();
+
+        $klienData = $klienModel->where('username', $loggedInUsername)->first();
+        if ($klienData) {
+            return view('editProfileKlien', ['userData' => $klienData]);
+        }
+
+        $mahasiswaData = $mahasiswaModel->where('username', $loggedInUsername)->first();
+        if ($mahasiswaData) {
+            return view('editProfileKlien', ['userData' => $mahasiswaData]);
+        }
+    }
+
     public function forum(): string
     {
         $loggedInUsername = session()->get('username');
