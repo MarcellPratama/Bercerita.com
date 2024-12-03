@@ -25,7 +25,7 @@
     .sidebar {
         width: 245px;
         height: 100vh;
-        background: linear-gradient(to bottom, #77E4C8, #36C2CE, #478CCF);
+        background-color: #00c2cb;
         padding: 20px;
         display: flex;
         flex-direction: column;
@@ -52,11 +52,8 @@
 
     .menu {
         list-style: none;
-        /* Remove bullet points */
         padding: 0;
-        /* Remove default padding */
         margin: 0;
-        /* Remove default margin */
     }
 
     .menu a {
@@ -127,7 +124,7 @@
         padding: 10px 20px;
         text-decoration: none;
         color: #b0bec5;
-        transition: 0.3s;
+        transition: background 0.3s;
         border-radius: 5px;
         font-size: 18px;
         color: white;
@@ -144,15 +141,13 @@
     }
 
     .sidebar ul li a.active {
-        /* background-color: #37474f; */
         color: #fff;
     }
 
-    /* Submenu */
     .submenu {
         display: none;
         padding-left: 20px;
-        background-color: rgba(0, 194, 203, 0.1);
+        background-color: #00c2cb;
         border-radius: 5px;
     }
 
@@ -167,7 +162,6 @@
         color: #fff;
     }
 
-    /* Panah untuk indikator submenu */
     .toggle-submenu {
         margin-left: auto;
         font-size: 14px;
@@ -229,9 +223,6 @@
         cursor: pointer;
         text-decoration: none;
         text-align: center;
-        margin-top: 20px;
-        /* Menambahkan jarak lebih besar di atas tombol */
-        width: 100%;
     }
 
     .back-btn-modal:hover {
@@ -248,17 +239,20 @@
             <h5>Patrisia Cindy</h5>
         </div>
 
+
         <ul class="menu">
             <li><a href="<?= base_url('adminDashboard'); ?>"><i class="fas fa-home"></i> Beranda</a></li>
-            <li><a href="<?= base_url('adminVerifikasi'); ?>" class="active"><i class="fas fa-check-circle"></i>
+            <li><a href="<?= base_url('adminVerifikasi'); ?>"><i class="fas fa-check-circle"></i>
                     Verifikasi</a></li>
             <li>
                 <a href="#" class="dropdown-toggle" onclick="toggleSubmenu(this)">
                     <i class="fas fa-users"></i> Pengguna
                 </a>
-                <ul class="submenu">
-                    <li><a href="<?= base_url('adminLihatPsikolog'); ?>"><i class="fas fa-user"></i> Psikolog</a></li>
-                    <li><a href="<?= base_url('adminLihatMhs'); ?>"><i class="fas fa-user-graduate"></i> Mahasiswa
+                <ul class="submenu" style="display: block;">
+                    <li><a href="<?= base_url('adminLihatPsikolog'); ?>" class="active"><i class="fas fa-user"></i>
+                            Psikolog</a></li>
+                    <li><a href="<?= base_url('adminLihatMhs'); ?>"><i class="fas fa-user-graduate"></i>
+                            Mahasiswa
                             Psikologi</a></li>
                 </ul>
             </li>
@@ -271,38 +265,38 @@
     <!-- Main Content -->
     <div class="main-content">
         <div class="header">
-            <h2><span class="bold-text">Tampilan</span> <span class="regular-text">Mahasiswa Psikologi |
-                    <?= htmlspecialchars($mahasiswa['username']); ?></span></h2>
+            <h2><span class="bold-text">Tampilan</span> <span class="regular-text">Psikolog |
+                    <?= htmlspecialchars($psikolog['username']); ?></span></h2>
             <img src="/bercerita.png" alt="Bercerita Logo" class="logo" />
         </div>
         <div class="detail-container">
             <div class="detail-row">
                 <span class="detail-label">Nama Pengguna</span>
-                <span class="detail-value"><?= $mahasiswa['username']; ?></span>
+                <span class="detail-value"><?= $psikolog['username']; ?></span>
             </div>
             <div class="detail-row">
                 <span class="detail-label">Email</span>
-                <span class="detail-value"><?= $mahasiswa['email']; ?></span>
+                <span class="detail-value"><?= $psikolog['email']; ?></span>
             </div>
             <div class="detail-row">
-                <span class="detail-label">NIM</span>
-                <span class="detail-value"><?= $mahasiswa['nim']; ?></span>
-            </div>
-            <div class="detail-row">
-                <span class="detail-label">Asal Universitas</span>
-                <span class="detail-value"><?= $mahasiswa['asal_univ']; ?></span>
+                <span class="detail-label">Domisili</span>
+                <span class="detail-value"><?= $psikolog['domisili']; ?></span>
             </div>
             <div class="detail-row">
                 <span class="detail-label">Foto Diri</span>
-                <a href="#" onclick="showImageModal('<?= $mahasiswa['foto']; ?>')" class="detail-link">Lihat Foto</a>
+                <a href="#" onclick="showImageModal('<?= $psikolog['foto']; ?>')" class="detail-link">Lihat Foto</a>
             </div>
             <div class="detail-row">
-                <span class="detail-label">Foto KTM</span>
-                <a href="#" onclick="showImageModal('<?= $mahasiswa['fotoKTM']; ?>')" class="detail-link">Lihat Foto</a>
+                <span class="detail-label">Foto KTP</span>
+                <a href="#" onclick="showImageModal('<?= $psikolog['ktp']; ?>')" class="detail-link">Lihat Foto</a>
             </div>
-            <!-- <a href="/adminVerifikasi" class="back-btn">Kembali</a> -->
+            <div class="detail-row">
+                <span class="detail-label">Lisensi Psikolog</span>
+                <a href="#" onclick="showImageModal('<?= $psikolog['lisensi']; ?>')" class="detail-link">Lihat Foto</a>
+            </div>
         </div>
     </div>
+
     <div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -312,7 +306,7 @@
 
                     <!-- Tombol Kembali di bawah gambar -->
                     <div class="d-flex justify-content-center">
-                        <a href="/adminLihatDetailMhsPsikologi/<?= htmlspecialchars($registrasi['kd_registrasi']); ?>"
+                        <a href="/adminLihatDetailPsiko/<?= htmlspecialchars(string: $psikolog['kd_psikolog']); ?>"
                             class="btn btn-danger mt-3">Kembali</a>
                     </div>
                 </div>

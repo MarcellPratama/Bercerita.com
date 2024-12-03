@@ -25,7 +25,7 @@
     .sidebar {
         width: 245px;
         height: 100vh;
-        background: linear-gradient(to bottom, #77E4C8, #36C2CE, #478CCF);
+        background-color: #00c2cb;
         padding: 20px;
         display: flex;
         flex-direction: column;
@@ -127,7 +127,7 @@
         padding: 10px 20px;
         text-decoration: none;
         color: #b0bec5;
-        transition: 0.3s;
+        transition: background 0.3s;
         border-radius: 5px;
         font-size: 18px;
         color: white;
@@ -152,7 +152,7 @@
     .submenu {
         display: none;
         padding-left: 20px;
-        background-color: rgba(0, 194, 203, 0.1);
+        background-color: #00c2cb;
         border-radius: 5px;
     }
 
@@ -248,17 +248,20 @@
             <h5>Patrisia Cindy</h5>
         </div>
 
+
         <ul class="menu">
             <li><a href="<?= base_url('adminDashboard'); ?>"><i class="fas fa-home"></i> Beranda</a></li>
-            <li><a href="<?= base_url('adminVerifikasi'); ?>" class="active"><i class="fas fa-check-circle"></i>
+            <li><a href="<?= base_url('adminVerifikasi'); ?>"><i class="fas fa-check-circle"></i>
                     Verifikasi</a></li>
             <li>
                 <a href="#" class="dropdown-toggle" onclick="toggleSubmenu(this)">
                     <i class="fas fa-users"></i> Pengguna
                 </a>
-                <ul class="submenu">
-                    <li><a href="<?= base_url('adminLihatPsikolog'); ?>"><i class="fas fa-user"></i> Psikolog</a></li>
-                    <li><a href="<?= base_url('adminLihatMhs'); ?>"><i class="fas fa-user-graduate"></i> Mahasiswa
+                <ul class="submenu" style="display: block;">
+                    <li><a href="<?= base_url('adminLihatPsikolog'); ?>"><i class="fas fa-user"></i>
+                            Psikolog</a></li>
+                    <li><a href="<?= base_url('adminLihatMhs'); ?>" class="active"><i class="fas fa-user-graduate"></i>
+                            Mahasiswa
                             Psikologi</a></li>
                 </ul>
             </li>
@@ -312,7 +315,7 @@
 
                     <!-- Tombol Kembali di bawah gambar -->
                     <div class="d-flex justify-content-center">
-                        <a href="/adminLihatDetailMhsPsikologi/<?= htmlspecialchars($registrasi['kd_registrasi']); ?>"
+                        <a href="/adminLihatDetailMahasiswa/<?= htmlspecialchars($mahasiswa['kd_mahasiswa']); ?>"
                             class="btn btn-danger mt-3">Kembali</a>
                     </div>
                 </div>
@@ -325,6 +328,10 @@
 function toggleSubmenu(element) {
     const submenu = element.nextElementSibling;
     submenu.style.display = submenu.style.display === "block" ? "none" : "block";
+
+    // Mengubah panah untuk menunjukkan apakah submenu terbuka atau tertutup
+    const arrow = element.querySelector('.toggle-submenu');
+    arrow.innerHTML = submenu.style.display === "block" ? "&#9652;" : "&#9662;";
 }
 
 function showImageModal(imageUrl) {

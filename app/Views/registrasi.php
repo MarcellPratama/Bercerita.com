@@ -19,7 +19,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        height: 100vh;
+        height: 150vh;
         margin: 0;
     }
 
@@ -142,7 +142,7 @@
         box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
         transform: translateY(2px);
     }
-    
+
     #globalError {
         transition: opacity 0.3s ease-in-out;
     }

@@ -92,9 +92,11 @@ class adminController extends BaseController
         $existingVerifikasi = $verifikasiModel->where('kd_admin', $adminId)
                                               ->where('kd_registrasi', $id)
                                               ->first();
+                                              
         if ($existingVerifikasi) {
-            return $this->response->setJSON(['success' => false, 'message' => 'Admin sudah memverifikasi pengguna ini.']);
-        }
+    return $this->response->setJSON(['success' => false, 'message' => 'Admin sudah memverifikasi pengguna ini.'])
+                          ->setStatusCode(400); // Gunakan kode HTTP 400 (Bad Request)
+}
 
         // Siapkan data untuk verifikasi
         $data = [
@@ -117,7 +119,7 @@ class adminController extends BaseController
     {
         $verifikasiModel = new verifikasiModel();
         $registrasiModel = new registrasiModel();
-        $adminModel = new AdminModel();
+        // $adminModel = new AdminModel();
     
         // Pastikan admin_id ada di session
         $adminId = session()->get('admin_id');
@@ -135,9 +137,13 @@ class adminController extends BaseController
         $existingVerifikasi = $verifikasiModel->where('kd_admin', $adminId)
                                               ->where('kd_registrasi', $id)
                                               ->first();
+        
+        
         if ($existingVerifikasi) {
-            return $this->response->setJSON(['success' => false, 'message' => 'Admin sudah memverifikasi atau menolak pengguna ini.']);
-        }
+            return $this->response->setJSON(['success' => false, 'message' => 'Admin sudah memverifikasi atau menolak pengguna ini.'])
+                    ->setStatusCode(400); // Gunakan kode HTTP 400 (Bad Request)
+                                            }
+                                            
     
         // Siapkan data untuk penolakan
         $data = [
@@ -156,25 +162,61 @@ class adminController extends BaseController
         }
     }
    
-public function lihatDetailPsikolog($id)
-{
-    $psikologModel = new psikologModel();
-    $registrasiModel = new registrasiModel();
+    public function lihatDetailPsikolog($id)
+    {
+        $psikologModel = new psikologModel();
+        $registrasiModel = new registrasiModel();
+        // $verifikasiModel = new verifikasiModel();
     
-    // Cari data registrasi berdasarkan ID registrasi
-    $registrasi = $registrasiModel->where('kd_registrasi', $id)->first();
+        // Cari data registrasi berdasarkan ID registrasi
+        $registrasi = $registrasiModel->where('kd_registrasi', $id)->first();
+        
+        if (!$registrasi) {
+            // Jika tidak ada data registrasi
+            return $this->response->setJSON(['success' => false, 'message' => "No registration found for the given ID: $id"]);
+        }
+    
+        // Pastikan 'kd_psikolog' ada dalam registrasi
+        if (!isset($registrasi['kd_psikolog']) || empty($registrasi['kd_psikolog'])) {
+            // Jika tidak ada psikolog ID
+            return $this->response->setJSON(['success' => false, 'message' => "Psikolog ID is missing in registration data for ID: $id"]);
+        }
+    
+        // Cari data psikolog berdasarkan kd_psikolog di registrasi
+        $psikolog = $psikologModel->find($registrasi['kd_psikolog']);
+        
+        if (!$psikolog) {
+            // Jika psikolog tidak ditemukan
+            return $this->response->setJSON(['success' => false, 'message' => "Psikolog not found for the given ID: " . $registrasi['kd_psikolog']]);
+        }
+    
+        // Jika semua data ditemukan, siapkan data untuk view
+        $data = [
+            'psikolog' => $psikolog,
+            'registrasi' => $registrasi,
+        ];
+    
+        return view('viewLihatDetailPsikolog', $data);
+    }
+    public function cekVerifikasiPsikolog($id)
+{
+    // Membuat instance model psikologModel
+    $psikologModel = new psikologModel();
 
-    // Cari data psikolog berdasarkan kd_psikolog di registrasi
-    $psikolog = $psikologModel->find($registrasi['kd_psikolog']);
+    // Cari data psikolog berdasarkan ID
+    $psikolog = $psikologModel->find($id); // Gunakan $psikologModel di sini
 
-    $data = [
-        'psikolog' => $psikolog,
-        'registrasi' => $registrasi, // Pastikan registrasi dikirimkan ke view
-    ];
+    // // Jika tidak ditemukan, tampilkan halaman error atau redirect
+    // if (!$psikolog) {
+    //     return redirect()->to('/adminLihatDetailPsiko')->with('error', 'Psikolog tidak ditemukan.');
+    // }
 
-    return view('viewLihatDetailPsikolog', $data);
+    // Kirim data psikolog ke view detail
+    return view('lihatDetailPsiko', ['psikolog' => $psikolog]);
 }
 
+
+  
 public function lihatDetailMhs($id)
 {
     $mahasiswaModel = new mahasiswaModel();
@@ -196,6 +238,26 @@ public function lihatDetailMhs($id)
     return view('viewLihatDetailMhsPsikologi', $data);
 }
 
+
+public function cekVerifikasiMhsPsikologi($id)
+{
+    
+    // Membuat instance model mahasiswa
+    $mahasiswaModel = new mahasiswaModel(); // Pastikan model mahasiswa sudah ada
+
+    // Cari data mahasiswa berdasarkan ID
+    $mahasiswa = $mahasiswaModel->find($id);
+
+    // // Jika tidak ditemukan, tampilkan halaman error atau redirect
+    // if (!$mahasiswa) {
+    //     return redirect()->to('/adminLihatMhs')->with('error', 'Mahasiswa Psikologi tidak ditemukan.');
+    // }
+
+    // Kirim data mahasiswa ke view detail
+    return view('lihatDetailMhs', ['mahasiswa' => $mahasiswa]);
+}
+
+
 public function lihatPengguna($kategori)
 {
     $userModel = $kategori === 'psikolog' ? new psikologModel() : new mahasiswaModel();
@@ -207,7 +269,7 @@ public function lihatPengguna($kategori)
     $rowsPerPage = 10; // Jumlah data per halaman
     $offset = ($page - 1) * $rowsPerPage; // Hitung offset data berdasarkan halaman
 
-    // Ambil data pengguna yang sudah diverifikasi
+    // Ambil data verifikasi pengguna yang sudah diterima
     $verifikasiData = $verifikasiModel->where('status', 'Diterima')->findAll();
 
     $filteredUsers = [];
@@ -226,6 +288,11 @@ public function lihatPengguna($kategori)
         }
     }
 
+    // Urutkan data pengguna berdasarkan abjad pada username
+    usort($filteredUsers, function ($a, $b) {
+        return strcmp($a['username'], $b['username']);
+    });
+
     // Filter data untuk halaman saat ini
     $data['pengguna'] = array_slice($filteredUsers, $offset, $rowsPerPage);
 
@@ -241,6 +308,7 @@ public function lihatPengguna($kategori)
     // Hitung nomor urut awal untuk halaman ini
     $data['startNo'] = $offset + 1; // Nomor urut dimulai dari offset + 1
 
+    // Tentukan nama view berdasarkan kategori
     $viewName = $kategori === 'psikolog' ? 'viewPsikolog' : 'viewMhsPsikologi';
     return view($viewName, $data);
 }
@@ -263,23 +331,36 @@ public function kelolaMading()
     $catatanModel = new CatatanModel(); // Sesuaikan dengan model Anda
     $perPage = 10; // Jumlah data per halaman
     $currentPage = (int)($this->request->getVar('page') ?? 1); // Ambil halaman dari query parameter, default 1
-    
-    // Hitung total data dan halaman
-    $totalRows = $catatanModel->countAllResults();
-    $totalPages = (int)ceil($totalRows / $perPage); // Total halaman
+    $search = $this->request->getVar('search') ?? ''; // Ambil search query jika ada
 
-    // Ambil data sesuai halaman dan offset
-    $offset = ($currentPage - 1) * $perPage;
-    $data['catatan'] = $catatanModel->orderBy('tanggal_dibuat', 'DESC')->findAll($perPage, $offset);
+    // Hitung total data yang sesuai dengan query pencarian
+    if ($search) {
+        $totalRows = $catatanModel->like('kode_catatan', $search)->countAllResults();
+        $catatan = $catatanModel->like('kode_catatan', $search)
+            ->orderBy('tanggal_dibuat', 'DESC')
+            ->findAll($perPage, ($currentPage - 1) * $perPage);
+    } else {
+        $totalRows = $catatanModel->countAllResults();
+        $catatan = $catatanModel->orderBy('tanggal_dibuat', 'DESC')
+            ->findAll($perPage, ($currentPage - 1) * $perPage);
+    }
+
+    // Hitung total halaman
+    $totalPages = (int)ceil($totalRows / $perPage);
 
     // Kirimkan data pagination ke view
-    $data['pagination'] = [
-        'currentPage' => $currentPage,
-        'totalPages' => $totalPages,
+    $data = [
+        'catatan' => $catatan,
+        'pagination' => [
+            'currentPage' => $currentPage,
+            'totalPages' => $totalPages,
+        ],
+        'search' => $search, // Pass the search term to the view
     ];
 
     return view('viewKelolaMading', $data); // Kirim data ke view
 }
+
 
 public function deleteMading($id)
 {

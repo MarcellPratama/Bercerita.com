@@ -44,3 +44,5 @@ $routes->get('verifikasi/reject/(:segment)', 'adminController::reject/$1');
 $routes->get('/adminLihatDetailMhsPsikologi/(:any)', 'adminController::lihatDetailMhs/$1', ['as' => 'admin.detailMhsPsikologi']);
 $routes->get('kelolaMading', 'adminController::kelolaMading');
 $routes->delete('mading/deleteMading/(:segment)', 'adminController::deleteMading/$1');
+$routes->get('/adminLihatDetailPsiko/(:any)', 'AdminController::cekVerifikasiPsikolog/$1');
+$routes->get('/adminLihatDetailMahasiswa/(:any)', 'adminController::cekVerifikasiMhsPsikologi/$1');
