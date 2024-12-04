@@ -20,9 +20,17 @@ class registrasiModel extends Model
     // Override fungsi `insert` untuk menghasilkan ID otomatis
     public function insert($data = null, $returnID = true)
     {
+        // Atur timezone Jakarta
+        date_default_timezone_set('Asia/Jakarta');
+
         // Jika ID belum ada di data, buat ID baru
         if (!isset($data['kd_registrasi']) || empty($data['kd_registrasi'])) {
             $data['kd_registrasi'] = $this->generateNewId();
+        }
+
+        // Set tanggal registrasi ke waktu sekarang dengan format Y-m-d H:i:s
+        if (!isset($data['tanggal_registrasi'])) {
+            $data['tanggal_registrasi'] = date('Y-m-d H:i:s');  // Format: 2024-12-04 15:30:45
         }
 
         // Panggil fungsi insert asli milik Model
@@ -52,6 +60,7 @@ class registrasiModel extends Model
         // Kembalikan ID baru dengan format "REG[number]"
         return 'REG' . str_pad($nextIdNumber, 4, '0', STR_PAD_LEFT); // Contoh: REG0001
     }
+
     public function psikolog()
     {
         return $this->belongsTo(PsikologModel::class, 'kd_psikolog', 'kd_psikolog');

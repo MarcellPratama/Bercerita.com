@@ -410,7 +410,7 @@
 
         <div class="container-table">
             <div class="search-container mb-3">
-                <form method="get" action="/adminVerifikasi" style="width: 100%; display: flex; align-items: center;">
+                <form method="get" action="kelolaMading" style="width: 100%; display: flex; align-items: center;">
                     <i class="fas fa-search search-icon"></i>
                     <input type="text" name="search" id="searchInput" class="form-control" placeholder="Cari"
                         value="<?= isset($search) ? esc($search) : '' ?>" style="padding-left: 30px;" />
@@ -656,7 +656,6 @@ document.addEventListener("DOMContentLoaded", function() {
     renderPagination();
 });
 
-
 document.addEventListener("DOMContentLoaded", function() {
     const searchInput = document.getElementById("searchInput"); // Input pencarian
     const tableBody = document.getElementById("tableBody"); // Tabel tempat data ditampilkan
@@ -674,11 +673,15 @@ document.addEventListener("DOMContentLoaded", function() {
             return;
         }
 
-        // Filter baris berdasarkan input pencarian (awalan username)
+        // Filter baris berdasarkan input pencarian pada kolom catatan
         const filteredRows = originalRows.filter((row) => {
-            const username = row.querySelector(".username").textContent
-                .toLowerCase(); // Ambil username di baris
-            return username.includes(searchQuery); // Cek apakah username diawali oleh input
+            const catatanElement = row.querySelector(
+                ".isi_catatan"); // Cari elemen dengan kelas .isi_catatan
+            if (catatanElement) {
+                const catatan = catatanElement.textContent.toLowerCase(); // Ambil isi catatan di baris
+                return catatan.includes(searchQuery); // Cek apakah catatan mengandung input pencarian
+            }
+            return false; // Jika tidak ada .isi_catatan, abaikan baris ini
         });
 
         // Perbarui tabel dengan hasil pencarian
@@ -701,7 +704,8 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     // Pasang event listener pada input dengan debounce
-    searchInput.addEventListener("input", debounce(performSearch, 300));
+    searchInput.addEventListener("input", debounce(performSearch,
+        300)); // Event input untuk pencarian real-time
 });
 </script>
 

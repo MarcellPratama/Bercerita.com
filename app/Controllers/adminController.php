@@ -380,10 +380,91 @@ public function deleteMading($id)
     }
 }
 
-    public function dashboard()
-    {
-        return view('viewDashboard');
+public function dashboard()
+{
+    // Inisialisasi model
+    $registrasiModel = new RegistrasiModel();
+    $verifikasiModel = new VerifikasiModel();
+
+    // Waktu sekarang
+    $startOfDay = date('Y-m-d 00:00:00');
+    $endOfDay = date('Y-m-d 23:59:59');
+
+    // Hitung total klien
+    $totalKlien = $registrasiModel->where('kd_klien !=', null)->countAllResults();
+
+    // Hitung total klien yang registrasi hari ini berdasarkan `tanggal_registrasi`
+    $totalKlienHariIni = $registrasiModel
+        ->where('kd_klien !=', null)
+        ->where('tanggal_registrasi >=', $startOfDay)
+        ->where('tanggal_registrasi <=', $endOfDay)
+        ->countAllResults();
+
+    // Ambil data verifikasi yang diterima
+    $verifikasiData = $verifikasiModel->where('status', 'Diterima')->findAll();
+
+    $totalPsikolog = 0;
+    $totalMahasiswa = 0;
+    $totalPsikologHariIni = 0;
+    $totalMahasiswaHariIni = 0;
+
+    foreach ($verifikasiData as $verifikasi) {
+        $registrasi = $registrasiModel->find($verifikasi['kd_registrasi']);
+        $kd_user = $registrasi ? ($registrasi['kd_psikolog'] ?? null) : null;
+
+        // Jika kategori adalah psikolog
+        if ($kd_user && !empty($kd_user) && $registrasi['kd_psikolog']) {
+            $totalPsikolog++;
+
+            // Hitung hanya jika verifikasi diterima hari ini
+            if ($verifikasi['tanggal_verifikasi'] >= $startOfDay && $verifikasi['tanggal_verifikasi'] <= $endOfDay) {
+                $totalPsikologHariIni++;
+            }
+        }
+
+        // Jika kategori adalah mahasiswa psikologi
+        $kd_user = $registrasi ? ($registrasi['kd_mahasiswa'] ?? null) : null;
+        if ($kd_user && !empty($kd_user) && $registrasi['kd_mahasiswa']) {
+            $totalMahasiswa++;
+
+            // Hitung hanya jika verifikasi diterima hari ini
+            if ($verifikasi['tanggal_verifikasi'] >= $startOfDay && $verifikasi['tanggal_verifikasi'] <= $endOfDay) {
+                $totalMahasiswaHariIni++;
+            }
+        }
     }
+
+    // Hitung total mahasiswa yang belum diverifikasi
+    $totalBelumDiverifikasiMahasiswa = $registrasiModel
+        ->select('COUNT(*) AS total')
+        ->join('verifikasi v', 'v.kd_registrasi = registrasi.kd_registrasi', 'left') // LEFT JOIN untuk mencari yang tidak ada di tabel verifikasi
+        ->where('v.status IS NULL')  // Yang tidak memiliki status verifikasi
+        ->where('registrasi.kd_mahasiswa !=', null)  // Memastikan ini mahasiswa
+        ->countAllResults();
+
+    // Hitung total psikolog yang belum diverifikasi
+    $totalBelumDiverifikasiPsikolog = $registrasiModel
+        ->select('COUNT(*) AS total')
+        ->join('verifikasi v', 'v.kd_registrasi = registrasi.kd_registrasi', 'left') // LEFT JOIN untuk mencari yang tidak ada di tabel verifikasi
+        ->where('v.status IS NULL')  // Yang tidak memiliki status verifikasi
+        ->where('registrasi.kd_psikolog !=', null) // Memastikan ini psikolog
+        ->countAllResults();
+
+    // Hitung total mahasiswa dan psikolog yang belum diverifikasi secara keseluruhan
+    $totalBelumDiverifikasi = $totalBelumDiverifikasiMahasiswa + $totalBelumDiverifikasiPsikolog;
+
+    // Kirim data ke view
+    return view('viewDashboard', [
+        'totalKlien' => $totalKlien,
+        'totalPsikolog' => $totalPsikolog,
+        'totalMahasiswa' => $totalMahasiswa,
+        'totalKlienAll' => $totalKlienHariIni,
+        'totalPsikologAll' => $totalPsikologHariIni,
+        'totalMahasiswaAll' => $totalMahasiswaHariIni,
+        'totalBelumDiverifikasi' => $totalBelumDiverifikasi,
+    ]);
+}
+
 
     
 }

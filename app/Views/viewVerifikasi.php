@@ -553,6 +553,7 @@ approveButtons.forEach(button => {
     });
 });
 
+
 const rejectButtons = document.querySelectorAll('.action-btn.reject');
 rejectButtons.forEach(button => {
     button.addEventListener('click', function() {
