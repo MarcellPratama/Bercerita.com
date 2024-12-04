@@ -55,7 +55,7 @@ class userController extends BaseController
         }
 
         $kd_user = null; // Variable to hold user ID for registration
-        $tanggal_registrasi = date('Y-m-d'); // Current date
+        $tanggal_registrasi = date('Y-m-d H:i:s'); // Current date
 
         // Choose model based on user category
         if (strcasecmp($kategori, 'klien') === 0) {

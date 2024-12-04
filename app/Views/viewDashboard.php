@@ -298,9 +298,10 @@
             <div class="info-card">
                 <div>
                     <p>Klien</p>
-                    <h3>43.5k</h3>
+                    <h3><?= isset($totalKlien) ? $totalKlien : 0 ?></h3>
                     <div class="status">
-                        <i class="fas fa-arrow-up"></i> +10%
+                        <i class="fas fa-arrow-up"></i>
+                        <?= isset($totalKlienAll) && $totalKlienAll > 0 ? '+' . $totalKlienAll : '0' ?>
                     </div>
                 </div>
                 <i class="fas fa-user"></i>
@@ -309,9 +310,10 @@
             <div class="info-card">
                 <div>
                     <p>Psikolog</p>
-                    <h3>43.5k</h3>
+                    <h3><?= isset($totalPsikolog) ? $totalPsikolog : 0 ?></h3>
                     <div class="status">
-                        <i class="fas fa-arrow-up"></i> +10%
+                        <i class="fas fa-arrow-up"></i>
+                        <?= isset($totalPsikologAll) && $totalPsikologAll > 0 ? '+' . $totalPsikologAll : '0' ?>
                     </div>
                 </div>
                 <i class="fas fa-user-tie"></i>
@@ -320,13 +322,15 @@
             <div class="info-card">
                 <div>
                     <p>Mahasiswa Psikologi</p>
-                    <h3>43.5k</h3>
+                    <h3><?= isset($totalMahasiswa) ? $totalMahasiswa : 0 ?></h3>
                     <div class="status">
-                        <i class="fas fa-arrow-up"></i> +10%
+                        <i class="fas fa-arrow-up"></i>
+                        <?= isset($totalMahasiswaAll) && $totalMahasiswaAll > 0 ? '+' . $totalMahasiswaAll : '0' ?>
                     </div>
                 </div>
                 <i class="fas fa-graduation-cap"></i>
             </div>
+
         </div>
 
         <div class="grid-layout-2">
@@ -339,10 +343,10 @@
                 <div class="info-card">
                     <div>
                         <p>Belum Diverifikasi</p>
-                        <h3>500</h3>
-                        <div class="status">
+                        <h3><?= isset($totalBelumDiverifikasi) ? $totalBelumDiverifikasi : 0 ?></h3>
+                        <!-- <div class="status">
                             <i class="fas fa-arrow-up"></i> +10%
-                        </div>
+                        </div> -->
                     </div>
                     <i class="fas fa-user-check"></i>
                 </div>
