@@ -431,7 +431,8 @@
                     <tr>
                         <td><?= esc($catatanItem['kode_catatan']); ?></td>
                         <td><?= esc($catatanItem['tanggal_dibuat']); ?></td>
-                        <td><?= esc($catatanItem['isi_catatan']); ?></td>
+                        <td class="isi_catatan"><?= esc($catatanItem['isi_catatan']); ?></td>
+
                         <td>
                             <span class="action-btn trash" title="Sampah"
                                 data-id="<?= $catatanItem['kode_catatan']; ?>">
@@ -490,11 +491,10 @@
                     <button class="btn btn-danger" id="btnKonfirmasiTolak">Ya</button>
                 </div>
             </div>
-
-
         </div>
     </div>
 </body>
+
 <script>
 function toggleSubmenu(element) {
     const submenu = element.nextElementSibling;
@@ -657,55 +657,49 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 document.addEventListener("DOMContentLoaded", function() {
-    const searchInput = document.getElementById("searchInput"); // Input pencarian
-    const tableBody = document.getElementById("tableBody"); // Tabel tempat data ditampilkan
-    const originalRows = Array.from(tableBody.rows); // Salin data asli untuk filter
+    const searchInput = document.getElementById("searchInput"); // Elemen input pencarian
+    const tableBody = document.getElementById("tableBody"); // Elemen tabel data
+    const originalRows = Array.from(tableBody.rows); // Salin semua baris asli sebagai referensi
 
     // Fungsi untuk melakukan pencarian
     function performSearch() {
-        const searchQuery = searchInput.value.trim()
-            .toLowerCase(); // Ambil input pencarian dan ubah ke lowercase
+        const searchQuery = searchInput.value.trim().toLowerCase(); // Ambil input pencarian dalam lowercase
 
-        // Jika input kosong, kembalikan semua data
+        // Jika input kosong, tampilkan semua data
         if (!searchQuery) {
             tableBody.innerHTML = ""; // Kosongkan tabel
-            originalRows.forEach((row) => tableBody.appendChild(row)); // Tampilkan semua data
+            originalRows.forEach((row) => tableBody.appendChild(row)); // Tampilkan ulang semua baris
             return;
         }
 
-        // Filter baris berdasarkan input pencarian pada kolom catatan
+        // Filter data yang sesuai dengan input pencarian
         const filteredRows = originalRows.filter((row) => {
-            const catatanElement = row.querySelector(
-                ".isi_catatan"); // Cari elemen dengan kelas .isi_catatan
-            if (catatanElement) {
-                const catatan = catatanElement.textContent.toLowerCase(); // Ambil isi catatan di baris
-                return catatan.includes(searchQuery); // Cek apakah catatan mengandung input pencarian
-            }
-            return false; // Jika tidak ada .isi_catatan, abaikan baris ini
+            const isiCatatan = row.querySelector(".isi_catatan").textContent
+                .toLowerCase(); // Ambil data catatan
+            return isiCatatan.includes(searchQuery); // Cek apakah catatan mengandung input
         });
 
-        // Perbarui tabel dengan hasil pencarian
+        // Tampilkan data hasil filter
         tableBody.innerHTML = ""; // Kosongkan tabel
         if (filteredRows.length > 0) {
-            filteredRows.forEach((row) => tableBody.appendChild(row)); // Tambahkan baris yang cocok
+            filteredRows.forEach((row) => tableBody.appendChild(row)); // Tambahkan baris hasil pencarian
         } else {
-            tableBody.innerHTML =
-                `<tr><td colspan="5">Tidak ada data ditemukan.</td></tr>`; // Jika tidak ada hasil
+            // Jika tidak ada data ditemukan, tampilkan pesan
+            tableBody.innerHTML = `<tr><td colspan="5">Tidak ada data ditemukan.</td></tr>`;
         }
     }
 
-    // Tambahkan debounce untuk mengurangi jumlah pencarian
+    // Fungsi debounce untuk mencegah eksekusi berlebihan
     function debounce(func, delay) {
         let timeout;
         return function(...args) {
-            clearTimeout(timeout);
-            timeout = setTimeout(() => func.apply(this, args), delay);
+            clearTimeout(timeout); // Hapus timeout sebelumnya
+            timeout = setTimeout(() => func.apply(this, args), delay); // Eksekusi fungsi setelah delay
         };
     }
 
-    // Pasang event listener pada input dengan debounce
-    searchInput.addEventListener("input", debounce(performSearch,
-        300)); // Event input untuk pencarian real-time
+    // Menambahkan event listener dengan debounce
+    searchInput.addEventListener("input", debounce(performSearch, 500)); // 500ms debounce delay
 });
 </script>
 

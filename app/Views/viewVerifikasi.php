@@ -531,63 +531,74 @@
 </body>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
-// Apprtion
+// Event listener untuk tombol "Approve"
 const approveButtons = document.querySelectorAll('.action-btn.approve');
 approveButtons.forEach(button => {
     button.addEventListener('click', function() {
         const userId = this.getAttribute('data-id');
-        fetch(`/verifikasi/approve/${userId}`)
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    // alert('User approved!');
-                    location.reload(); // Reload the page to reflect changes
-                } else {
-                    alert('Error: ' + data.message); // Show error message
-                }
-            })
-            .catch(error => {
-                alert('An error occurred: ' + error
-                    .message); // Handle any errors from the fetch request
-            });
+
+        // Menampilkan modal konfirmasi
+        const approveModal = document.getElementById('topUpModal');
+        approveModal.style.display = 'block'; // Menampilkan modal
+
+        // Kirim request approve ke server setelah modal ditutup atau setelah dikonfirmasi
+        const modalCloseBtn = document.getElementById('modalCloseBtn');
+        modalCloseBtn.addEventListener('click', function() {
+            fetch(`/verifikasi/approve/${userId}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        location.reload(); // Reload halaman setelah verifikasi berhasil
+                    } else {
+                        alert('Error: ' + data.message); // Show error message
+                    }
+                    approveModal.style.display = 'none'; // Menutup modal setelah selesai
+                })
+                .catch(error => {
+                    alert('An error occurred: ' + error.message);
+                    approveModal.style.display = 'none';
+                });
+        });
     });
 });
 
-
+// Event listener untuk tombol "Reject"
 const rejectButtons = document.querySelectorAll('.action-btn.reject');
 rejectButtons.forEach(button => {
     button.addEventListener('click', function() {
         const userId = this.getAttribute('data-id');
-        const userStatus = this.getAttribute(
-            'data-status'); // Ambil status pengguna dari atribut data-status
 
-        // Cek status sebelum melakukan proses
-        if (userStatus === 'Ditolak' || userStatus === 'Diterima') {
-            alert(
-                `Pengguna dengan ID ${userId} sudah diverifikasi sebelumnya dengan status '${userStatus}'.`
-            );
-            return; // Hentikan proses jika sudah diverifikasi
-        }
+        // Menampilkan modal konfirmasi untuk menolak
+        const rejectModal = document.getElementById('modalTolak');
+        rejectModal.style.display = 'block'; // Menampilkan modal
 
-        // Jika belum diverifikasi, lanjutkan proses
-        fetch(`/verifikasi/reject/${userId}`)
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    alert('Berhasil menolak pengguna!');
-                    location.reload(); // Reload halaman untuk memperbarui tampilan
-                } else {
-                    alert('Error: ' + data.message); // Tampilkan pesan error
-                }
-            })
-            .catch(error => {
-                alert('Terjadi kesalahan: ' + error
-                    .message); // Tangani kesalahan dari fetch request
-            });
+        // Menangani klik "Ya" untuk menolak
+        const rejectConfirmBtn = document.getElementById('btnKonfirmasiTolak');
+        rejectConfirmBtn.addEventListener('click', function() {
+            fetch(`/verifikasi/reject/${userId}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert('Berhasil menolak pengguna!');
+                        location.reload(); // Reload halaman setelah menolak
+                    } else {
+                        alert('Error: ' + data.message); // Tampilkan pesan error
+                    }
+                    rejectModal.style.display = 'none'; // Menutup modal setelah selesai
+                })
+                .catch(error => {
+                    alert('Terjadi kesalahan: ' + error.message);
+                    rejectModal.style.display = 'none';
+                });
+        });
+
+        // Menangani klik "Batal" untuk membatalkan penolakan
+        const rejectCancelBtn = document.getElementById('btnBatal');
+        rejectCancelBtn.addEventListener('click', function() {
+            rejectModal.style.display = 'none'; // Menutup modal jika batal
+        });
     });
 });
-
-
 
 function toggleSubmenu(element) {
     const submenu = element.nextElementSibling;
