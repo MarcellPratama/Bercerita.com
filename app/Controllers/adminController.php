@@ -264,8 +264,9 @@ public function lihatPengguna($kategori)
     $verifikasiModel = new verifikasiModel();
     $registrasiModel = new registrasiModel();
 
-    // Ambil parameter halaman dari request
+    // Ambil parameter halaman dan pencarian dari request
     $page = (int)($this->request->getVar('page') ?? 1); // Default halaman 1
+    $searchQuery = $this->request->getVar('search'); // Query pencarian
     $rowsPerPage = 10; // Jumlah data per halaman
     $offset = ($page - 1) * $rowsPerPage; // Hitung offset data berdasarkan halaman
 
@@ -288,6 +289,13 @@ public function lihatPengguna($kategori)
         }
     }
 
+    // Filter data berdasarkan pencarian username jika query pencarian ada
+    if (!empty($searchQuery)) {
+        $filteredUsers = array_filter($filteredUsers, function ($user) use ($searchQuery) {
+            return stripos($user['username'], $searchQuery) !== false;
+        });
+    }
+
     // Urutkan data pengguna berdasarkan abjad pada username
     usort($filteredUsers, function ($a, $b) {
         return strcmp($a['username'], $b['username']);
@@ -307,6 +315,9 @@ public function lihatPengguna($kategori)
 
     // Hitung nomor urut awal untuk halaman ini
     $data['startNo'] = $offset + 1; // Nomor urut dimulai dari offset + 1
+
+    // Sertakan query pencarian untuk ditampilkan di view
+    $data['searchQuery'] = $searchQuery;
 
     // Tentukan nama view berdasarkan kategori
     $viewName = $kategori === 'psikolog' ? 'viewPsikolog' : 'viewMhsPsikologi';
@@ -335,8 +346,11 @@ public function kelolaMading()
 
     // Hitung total data yang sesuai dengan query pencarian
     if ($search) {
-        $totalRows = $catatanModel->like('kode_catatan', $search)->countAllResults();
-        $catatan = $catatanModel->like('kode_catatan', $search)
+        // Mencari di kolom isi_catatan
+        $totalRows = $catatanModel->like('isi_catatan', $search)
+            ->countAllResults();
+        
+        $catatan = $catatanModel->like('isi_catatan', $search)
             ->orderBy('tanggal_dibuat', 'DESC')
             ->findAll($perPage, ($currentPage - 1) * $perPage);
     } else {
@@ -360,7 +374,6 @@ public function kelolaMading()
 
     return view('viewKelolaMading', $data); // Kirim data ke view
 }
-
 
 public function deleteMading($id)
 {

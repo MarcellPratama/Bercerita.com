@@ -354,8 +354,11 @@
         </div>
         <div class="container-table">
             <div class="search-container mb-3">
-                <i class="fas fa-search search-icon"></i>
-                <input type="text" id="searchInput" class="form-control" placeholder="Cari" />
+                <form method="get" action="adminLihatMhs" style="width: 100%; display: flex; align-items: center;">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" name="search" id="searchInput" class="form-control" placeholder="Cari"
+                        value="<?= esc($searchQuery) ?>" style="padding-left: 30px;" />
+                </form>
             </div>
             <table>
                 <thead>
