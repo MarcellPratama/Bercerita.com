@@ -61,7 +61,7 @@ class adminController extends BaseController
             } elseif ($a['status_verifikasi'] !== 'Belum Diverifikasi' && $b['status_verifikasi'] === 'Belum Diverifikasi') {
                 return 1; // Status lain di bawah
             } else {
-                return strcmp($a['username'], $b['username']); // Urutkan abjad jika status sama
+                return strcasecmp($a['username'], $b['username']);// Urutkan abjad jika status sama
             }
         });
     
@@ -296,9 +296,8 @@ public function lihatPengguna($kategori)
         });
     }
 
-    // Urutkan data pengguna berdasarkan abjad pada username
     usort($filteredUsers, function ($a, $b) {
-        return strcmp($a['username'], $b['username']);
+        return strcasecmp($a['username'], $b['username']);
     });
 
     // Filter data untuk halaman saat ini
