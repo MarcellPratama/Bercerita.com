@@ -168,10 +168,10 @@
                 <option value="psikolog">Psikolog</option>
             </select>
 
-            <label for="username">Nama pengguna</label>
+            <label for="username">Nama Pengguna</label>
             <input type="text" id="username" name="username" placeholder="Nama pengguna" required>
 
-            <label for="password">Kata sandi</label>
+            <label for="password">Kata Sandi</label>
             <input type="password" id="password" name="password" placeholder="Kata sandi" required>
 
             <label for="email">Email</label>
@@ -204,6 +204,20 @@
         const category = document.getElementById('category').value;
         const additionalInputs = document.getElementById('additionalInputs');
         const submitButton = document.querySelector('.btn-submit');
+
+        // Dapatkan elemen input "Nama pengguna"
+        const usernameInput = document.getElementById('username');
+        const usernameLabel = document.querySelector('label[for="username"]');
+
+        if (category === "psikolog") {
+            // Ubah label dan placeholder menjadi "Nama beserta Gelar"
+            usernameLabel.textContent = 'Nama beserta Gelar';
+            usernameInput.placeholder = 'Contoh: Dr. Budi Santoso, M.Psi';
+        } else {
+            // Kembalikan label dan placeholder ke "Nama pengguna"
+            usernameLabel.textContent = 'Nama Pengguna';
+            usernameInput.placeholder = 'Nama Pengguna';
+        }
 
         if (category === "mhs") {
             additionalInputs.innerHTML = `

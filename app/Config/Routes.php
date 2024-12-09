@@ -50,8 +50,6 @@ $routes->post('/update-profile', 'PsikologController::updateProfile');
 // $routes->get('/edit-profile', 'PsikologController::editProfile');
 // $routes->post('/update-profile', 'PsikologController::updateProfile');
 
-
-
 $routes->get('/adminLihatDetailPsikolog/(:any)', 'adminController::lihatDetailPsikolog/$1');
 $routes->get('/adminLihatDetailMhs/(:any)', 'adminController::lihatDetailMhs/$1');
 $routes->get('verifikasi/approve/(:segment)', 'adminController::approve/$1');

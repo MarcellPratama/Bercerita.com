@@ -476,8 +476,5 @@ public function dashboard()
         'totalMahasiswaAll' => $totalMahasiswaHariIni,
         'totalBelumDiverifikasi' => $totalBelumDiverifikasi,
     ]);
-}
-
-
-    
+}    
 }
