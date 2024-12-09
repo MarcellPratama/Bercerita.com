@@ -404,6 +404,16 @@
         text-align: center;
         /* Pusatkan teks di tombol */
     }
+
+    .fas.fa-check.disabled,
+    .fas.fa-times.disabled {
+        color: gray;
+        /* Ubah warna ikon menjadi abu-abu */
+        pointer-events: none;
+        /* Menonaktifkan klik pada ikon */
+        opacity: 0.5;
+        /* Mengurangi opacity ikon untuk menunjukkan bahwa itu tidak aktif */
+    }
     </style>
 </head>
 
@@ -468,12 +478,17 @@
                         <td><?= esc($user['status_verifikasi']); ?></td>
 
                         <td>
-                            <!-- Reject Button -->
-                            <span class="action-btn reject" title="Tolak" data-id="<?= $user['id']; ?>"><i
-                                    class="fas fa-times"></i></span>
-                            <!-- Approve Button -->
-                            <span class="action-btn approve" title="Setujui" data-id="<?= $user['id']; ?>"><i
-                                    class="fas fa-check"></i></span>
+                            <!-- Tombol Reject -->
+                            <span class="action-btn reject" title="Tolak" data-id="<?= $user['id']; ?>"
+                                data-status="<?= $user['status_verifikasi']; ?>">
+                                <i class="fas fa-times"></i>
+                            </span>
+                            <!-- Tombol Approve -->
+                            <span class="action-btn approve" title="Setujui" data-id="<?= $user['id']; ?>"
+                                data-status="<?= $user['status_verifikasi']; ?>">
+                                <i class="fas fa-check"></i>
+                            </span>
+
                             <!-- View Button -->
                             <?php if ($user['kategori'] === 'Mahasiswa Psikologi'): ?>
                             <a href="/adminLihatDetailMhs/<?= $user['id']; ?>" class="action-btn view"
@@ -536,6 +551,14 @@ const approveButtons = document.querySelectorAll('.action-btn.approve');
 approveButtons.forEach(button => {
     button.addEventListener('click', function() {
         const userId = this.getAttribute('data-id');
+        const status = this.getAttribute('data-status'); // Ambil status pengguna
+
+        // Jika status sudah 'approved' atau 'rejected', jangan tampilkan modal
+        if (status === 'Diterima' || status === 'Ditolak') {
+            return; // Tidak lakukan apa-apa jika sudah ada status
+        }
+
+        const approveIcon = this.querySelector('.fas.fa-check'); // Ambil ikon approve
 
         // Menampilkan modal konfirmasi
         const approveModal = document.getElementById('topUpModal');
@@ -549,6 +572,8 @@ approveButtons.forEach(button => {
                 .then(data => {
                     if (data.success) {
                         location.reload(); // Reload halaman setelah verifikasi berhasil
+                        approveIcon.classList.add(
+                            'disabled'); // Disable ikon setelah approve
                     } else {
                         alert('Error: ' + data.message); // Show error message
                     }
@@ -567,6 +592,14 @@ const rejectButtons = document.querySelectorAll('.action-btn.reject');
 rejectButtons.forEach(button => {
     button.addEventListener('click', function() {
         const userId = this.getAttribute('data-id');
+        const status = this.getAttribute('data-status'); // Ambil status pengguna
+
+        // Jika status sudah 'approved' atau 'rejected', jangan tampilkan modal
+        if (status === 'Diterima' || status === 'Ditolak') {
+            return; // Tidak lakukan apa-apa jika sudah ada status
+        }
+
+        const rejectIcon = this.querySelector('.fas.fa-times'); // Ambil ikon reject
 
         // Menampilkan modal konfirmasi untuk menolak
         const rejectModal = document.getElementById('modalTolak');
@@ -579,8 +612,9 @@ rejectButtons.forEach(button => {
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
-                        alert('Berhasil menolak pengguna!');
+                        // alert('Berhasil menolak pengguna!');
                         location.reload(); // Reload halaman setelah menolak
+                        rejectIcon.classList.add('disabled'); // Disable ikon setelah reject
                     } else {
                         alert('Error: ' + data.message); // Tampilkan pesan error
                     }
