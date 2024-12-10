@@ -214,8 +214,6 @@ class adminController extends BaseController
     // Kirim data psikolog ke view detail
     return view('lihatDetailPsiko', ['psikolog' => $psikolog]);
 }
-
-
   
 public function lihatDetailMhs($id)
 {

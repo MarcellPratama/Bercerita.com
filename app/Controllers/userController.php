@@ -164,7 +164,7 @@ class userController extends BaseController
         $mahasiswaModel = new MahasiswaModel();
         $psikologModel = new PsikologModel();
         $adminModel = new adminModel();
-
+        
         // Check if user is admin
         $admin = $adminModel->where('username', $username)->first();
         if ($admin) {
@@ -180,21 +180,21 @@ class userController extends BaseController
                 return redirect()->to('/login');
             }
         }
-        // Check if user is a psychologist
-        $psikolog = $psikologModel->where('username', $username)->first();
-        if ($psikolog) {
-            if (password_verify($password, $psikolog['password'])) {
-                session()->set([
-                    'username' => $username,
-                    'role' => 'psikolog',
-                    'kd_psikolog' => $psikolog['kd_psikolog'] // Pastikan ini disimpan di sesi
-                ]);
-                return redirect()->to('/beranda');
-            } else {
-                session()->setFlashdata('error', 'Nama pengguna/kata sandi tidak sesuai.');
-                return redirect()->to('/login');
-            }
-        }
+        // // Check if user is a psychologist
+        // $psikolog = $psikologModel->where('username', $username)->first();
+        // if ($psikolog) {
+        //     if (password_verify($password, $psikolog['password'])) {
+        //         session()->set([
+        //             'username' => $username,
+        //             'role' => 'psikolog',
+        //             'kd_psikolog' => $psikolog['kd_psikolog'] // Pastikan ini disimpan di sesi
+        //         ]);
+        //         return redirect()->to('/beranda');
+        //     } else {
+        //         session()->setFlashdata('error', 'Nama pengguna/kata sandi tidak sesuai.');
+        //         return redirect()->to('/login');
+        //     }
+        // }
 
 
     
@@ -215,12 +215,10 @@ class userController extends BaseController
         }
     }
 
- // Login untuk Psikolog
+// Login untuk Psikolog
 $psikolog = $psikologModel->where('username', $username)->first();
 if ($psikolog) {
-    // Cek apakah password valid
     if (password_verify($password, $psikolog['password'])) {
-        
         // Cari data registrasi psikolog
         $kd_registrasi = $registrasiModel->where('kd_psikolog', $psikolog['kd_psikolog'])->first();
 
@@ -239,31 +237,29 @@ if ($psikolog) {
             return redirect()->to('/login');
         }
 
-        // Cek status verifikasi
+        // Proses validasi status verifikasi
         if ($verifikasi['status'] === 'Belum Diverifikasi') {
             session()->setFlashdata('error', 'Akun Anda belum diverifikasi oleh admin.');
             return redirect()->to('/login');
         }
 
-        // Jika status verifikasi diterima, lanjutkan login
-        if ($verifikasi['status'] === 'Ditolak') {
-            session()->setFlashdata('error', 'Akun Anda ditolak.');
-            return redirect()->to('/login');
+        switch ($verifikasi['status']) {
+            case 'Ditolak':
+                session()->setFlashdata('error', 'Maaf, akun Anda ditolak.');
+                return redirect()->to('/login');
+            case 'Diterima':
+                session()->set([
+                    'user_id' => $psikolog['kd_psikolog'],
+                    'username' => $psikolog['username'],
+                    'role' => 'psikolog'
+                ]);
+                return redirect()->to('/beranda');
         }
-
-        // Status Diterima, lanjutkan ke halaman beranda
-        session()->set([
-            'user_id' => $psikolog['kd_psikolog'],
-            'username' => $psikolog['username'],
-            'role' => 'psikolog'
-        ]);
-        return redirect()->to('/beranda');
     } else {
         session()->setFlashdata('error', 'Nama pengguna/kata sandi tidak sesuai.');
         return redirect()->to('/login');
     }
 }
-
 
   // Login untuk Mahasiswa Psikologi
   $mahasiswa = $mahasiswaModel->where('username', $username)->first();
