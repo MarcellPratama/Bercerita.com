@@ -95,6 +95,32 @@ class homeController extends BaseController
         }
     }
 
+    public function konsultasiPage(): string
+    {
+        $loggedInUsername = session()->get('username');
+    
+        $klienModel = new KlienModel();
+        $psikologModel = new PsikologModel();
+        $mahasiswaModel = new mahasiswaModel();
+
+
+        $klienData = $klienModel->where('username', $loggedInUsername)->first();
+        $mhsData = $mahasiswaModel->where('username', $loggedInUsername)->first();
+        $psikolog = $psikologModel->findAll();
+
+        if ($klienData) {
+            return view('viewKonsultasi', [
+                'userData' => $klienData,
+                'psikolog' => $psikolog,
+            ]);
+        } elseif ($mhsData) {
+            return view('viewKonsultasi', [
+                'mhsData' => $mhsData,
+                'psikolog' => $psikolog
+            ]);
+        }
+    }
+
     public function jejakPerasaan(): string {
         $loggedInUsername = session()->get('username');
 

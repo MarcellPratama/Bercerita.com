@@ -15,7 +15,7 @@
 
 <body>
     <div class="offcanvas offcanvas-end" id="sidebar" style="width: 280px;">
-        <div class="offcanvas-header d-flex justify-content-center align-items-center">
+        <div class="offcanvas-header">
             <div class="offcanvas-title">
                 <?= strtoupper($userData['username']) ?> <img src="<?= base_url($userData['foto']) ?>" alt="Foto Profil" class="profile rounded-circle">
             </div>
@@ -116,113 +116,125 @@
     </nav>
 
     <div class="container my-3">
-        <p class="headline">Ruang untuk berbagi, tempat untuk didengar</p>
-        <div class="row align-items-center">
-            <div class="col-md-6">
-                <p class="sub-headline mb-0">Sampaikan ceritamu, temukan dukungan dari mereka yang peduli. Di sini,
-                    setiap cerita berharga</p>
-            </div>
-            <div class="col-md-6 d-flex justify-content-end">
-                <!-- Input Form Pencarian -->
-                <form class="d-flex search me-2">
-                    <input id="searchInput" class="form-control me-2" type="text" placeholder="Cari...">
-                    <button class="btn btn-primary me-2" type="button">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                            class="bi bi-search" viewBox="0 0 16 16">
-                            <path
-                                d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
-                        </svg>
-                    </button>
-                </form>
-                <div class="dropdown dropdown-menu-end">
-                    <button class="btn btn-primary dropdown-toggle d-flex align-items-center" type="button"
-                        data-bs-toggle="dropdown">
-                        Kategori
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                            class="bi bi-list ms-2" viewBox="0 0 16 16">
-                            <path fill-rule="evenodd"
-                                d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5" />
-                        </svg>
-                    </button>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">Link 1</a></li>
-                        <li><a class="dropdown-item" href="#">Link 2</a></li>
-                        <li><a class="dropdown-item" href="#">Link 3</a></li>
-                    </ul>
-                </div>
-            </div>
+        <div class="d-flex justify-content-center">
+            <!-- Input Form Pencarian -->
+            <form class="d-flex search me-2">
+                <input id="searchInput" class="form-control me-2" type="text" placeholder="Cari...">
+                <button class="btn btn-primary me-2" type="button">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-search" viewBox="0 0 16 16">
+                        <path
+                            d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
+                    </svg>
+                </button>
+            </form>
         </div>
 
-        <!-- Daftar Forum -->
-        <div class="forum-list">
-            <div class="row mt-5" id="forumContainer">
-                <?php foreach ($forums as $forum): ?>
-                    <div class="col-md-6 mb-4 filter-item">
-                        <a href="#joinForum" data-bs-toggle="modal"
-                            data-forum-foto="<?= base_url($forum['foto']) ?>"
-                            data-forum-nama="<?= esc($forum['nama_forum']) ?>"
-                            data-forum-kategori="<?= esc($forum['kategori_forum']) ?>"
-                            data-forum-deskripsi="<?= esc($forum['deskripsi']) ?>">
-                            <div class="card">
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <img class="card-img rounded-circle me-3" src="<?= base_url($forum['foto']) ?>">
-                                    </div>
-                                    <div class="col-md-8 align-self-center">
-                                        <h2 class="fw-bold"><?= esc($forum['nama_forum']) ?></h2>
-                                        <p style="font-weight: 600;"><?= esc($forum['kategori_forum']) ?></p>
-                                    </div>
-                                </div>
+        <div class="psikolog-list mt-5" id="psikologContainer">
+            <div class="row d-flex justify-content-center">
+                <div class="col-md-3 mb-3 filter-item">
+                    <div class="card">
+                        <img class="card-img-top" src="<?= base_url('images/psikolog1.jpeg') ?>" alt="Card image">
+                        <div class="card-img-overlay">
+                            <h4 class="card-title">Alex Kurniawan M.Psi</h4>
+                            <p class="card-text">Berpengalaman dalam menganani kasus terkait kecemasan dan gangguan depresi.</p>
+                            <div class="d-flex justify-content-between">
+                                <a href="#" class="btn btn-primary">Buat Janji</a>
+                                <a href="#" class="detail-link">Selengkapnya...</a>
                             </div>
-                        </a>
-                    </div>
-                <?php endforeach; ?>
-            </div>
-        </div>
-    </div>
-
-    <!-- The Modal -->
-    <div class="modal" id="joinForum">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-
-                <!-- Modal Header -->
-                <div class="modal-header">
-                    <div class="row">
-                        <div class="col-md-4">
-                            <img id="modalForumFoto" class="card-img-modal rounded-circle me-3">
-                        </div>
-                        <div class="col-md-8 align-self-center">
-                            <h2 id="modalForumNama" class="title-modal"></h2>
-                            <p id="modalForumKategori" class=" subtitle-modal"></p>
                         </div>
                     </div>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
-
-                <!-- Modal body -->
-                <div class="modal-body">
-                    <p id="modalForumDeskripsi"></p>
+                <div class="col-md-3 mb-3 filter-item">
+                    <div class="card">
+                        <img class="card-img-top" src="<?= base_url('images/psikolog2.jpeg') ?>" alt="Card image">
+                        <div class="card-img-overlay">
+                            <h4 class="card-title">Nayara Karista M.Psi</h4>
+                            <p class="card-text">Berpengalaman dalam menganani kasus terkait kecemasan dan gangguan depresi.</p>
+                            <div class="d-flex justify-content-between">
+                                <a href="#" class="btn btn-primary">Buat Janji</a>
+                                <a href="#" class="detail-link">Selengkapnya...</a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-
-                <!-- Modal footer -->
-                <div class="modal-footer">
-                    <button type="button" class="btn" data-bs-toggle="modal"
-                        data-bs-target="#confirmForum">Bergabung</button>
+                <div class="col-md-3 mb-3 filter-item">
+                    <div class="card">
+                        <img class="card-img-top" src="<?= base_url('images/psikolog3.jpeg') ?>" alt="Card image">
+                        <div class="card-img-overlay">
+                            <h4 class="card-title">Anindya Mustika M.Psi</h4>
+                            <p class="card-text">Berpengalaman menangani kasus terkait ggangguan Mood, Depresi, gangguan Kecemasan, gangguan kepribadian, serta Non Suicidal Self Injury.</p>
+                            <div class="d-flex justify-content-between">
+                                <a href="#" class="btn btn-primary">Buat Janji</a>
+                                <a href="#" class="detail-link">Selengkapnya...</a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal Konfirmasi Join Forum -->
-    <div class="modal" id="confirmForum">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content modal-confirm">
-                <!-- Modal body -->
-                <div class="modal-body">
-                    <button type="button" class="btn-close" data-bs-toggle="modal" data-bs-target="#joinForum"></button>
-                    <p>Selamat Bergabung di Forum!</p>
-                    <button type="button" class="btn" data-bs-dismiss="modal">OK</button>
+                <div class="col-md-3 mb-3 filter-item">
+                    <div class="card">
+                        <img class="card-img-top" src="<?= base_url('images/psikolog3.jpeg') ?>" alt="Card image">
+                        <div class="card-img-overlay">
+                            <h4 class="card-title">Anindya Mustika M.Psi</h4>
+                            <p class="card-text">Berpengalaman menangani kasus terkait ggangguan Mood, Depresi, gangguan Kecemasan, gangguan kepribadian, serta Non Suicidal Self Injury.</p>
+                            <div class="d-flex justify-content-between">
+                                <a href="#" class="btn btn-primary">Buat Janji</a>
+                                <a href="#" class="detail-link">Selengkapnya...</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-3 filter-item">
+                    <div class="card">
+                        <img class="card-img-top" src="<?= base_url('images/psikolog3.jpeg') ?>" alt="Card image">
+                        <div class="card-img-overlay">
+                            <h4 class="card-title">Anindya Mustika M.Psi</h4>
+                            <p class="card-text">Berpengalaman menangani kasus terkait ggangguan Mood, Depresi, gangguan Kecemasan, gangguan kepribadian, serta Non Suicidal Self Injury.</p>
+                            <div class="d-flex justify-content-between">
+                                <a href="#" class="btn btn-primary">Buat Janji</a>
+                                <a href="#" class="detail-link">Selengkapnya...</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-3 filter-item">
+                    <div class="card">
+                        <img class="card-img-top" src="<?= base_url('images/psikolog3.jpeg') ?>" alt="Card image">
+                        <div class="card-img-overlay">
+                            <h4 class="card-title">Anindya Mustika M.Psi</h4>
+                            <p class="card-text">Berpengalaman menangani kasus terkait ggangguan Mood, Depresi, gangguan Kecemasan, gangguan kepribadian, serta Non Suicidal Self Injury.</p>
+                            <div class="d-flex justify-content-between">
+                                <a href="#" class="btn btn-primary">Buat Janji</a>
+                                <a href="#" class="detail-link">Selengkapnya...</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-3 filter-item">
+                    <div class="card">
+                        <img class="card-img-top" src="<?= base_url('images/psikolog3.jpeg') ?>" alt="Card image">
+                        <div class="card-img-overlay">
+                            <h4 class="card-title">Anindya Mustika M.Psi</h4>
+                            <p class="card-text">Berpengalaman menangani kasus terkait ggangguan Mood, Depresi, gangguan Kecemasan, gangguan kepribadian, serta Non Suicidal Self Injury.</p>
+                            <div class="d-flex justify-content-between">
+                                <a href="#" class="btn btn-primary">Buat Janji</a>
+                                <a href="#" class="detail-link">Selengkapnya...</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-3 filter-item">
+                    <div class="card">
+                        <img class="card-img-top" src="<?= base_url('images/psikolog3.jpeg') ?>" alt="Card image">
+                        <div class="card-img-overlay">
+                            <h4 class="card-title">Anindya Mustika M.Psi</h4>
+                            <p class="card-text">Berpengalaman menangani kasus terkait ggangguan Mood, Depresi, gangguan Kecemasan, gangguan kepribadian, serta Non Suicidal Self Injury.</p>
+                            <div class="d-flex justify-content-between">
+                                <a href="#" class="btn btn-primary">Buat Janji</a>
+                                <a href="#" class="detail-link">Selengkapnya...</a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -232,10 +244,10 @@
     <script>
         document.getElementById('searchInput').addEventListener('input', function() {
             const query = this.value.toLowerCase();
-            const items = document.querySelectorAll('#forumContainer .filter-item');
+            const items = document.querySelectorAll('#psikologContainer .filter-item');
 
             items.forEach(item => {
-                const title = item.querySelector('h2').textContent.toLowerCase();
+                const title = item.querySelector('h4').textContent.toLowerCase();
 
                 // Cek apakah title mengandung query pencarian
                 if (title.includes(query)) {
@@ -243,28 +255,6 @@
                 } else {
                     item.style.display = 'none'; // Sembunyikan item
                 }
-            });
-        });
-
-        document.addEventListener('DOMContentLoaded', function() {
-            const forumLinks = document.querySelectorAll('[data-bs-toggle="modal"]');
-            const modalFoto = document.getElementById('modalForumFoto');
-            const modalNama = document.getElementById('modalForumNama');
-            const modalKategori = document.getElementById('modalForumKategori');
-            const modalDeskripsi = document.getElementById('modalForumDeskripsi');
-
-            forumLinks.forEach(link => {
-                link.addEventListener('click', function() {
-                    const foto = this.getAttribute('data-forum-foto');
-                    const nama = this.getAttribute('data-forum-nama');
-                    const kategori = this.getAttribute('data-forum-kategori');
-                    const deskripsi = this.getAttribute('data-forum-deskripsi');
-
-                    modalFoto.src = foto;
-                    modalNama.textContent = nama;
-                    modalKategori.textContent = kategori;
-                    modalDeskripsi.textContent = deskripsi;
-                });
             });
         });
     </script>

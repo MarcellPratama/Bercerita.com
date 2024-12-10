@@ -22,6 +22,7 @@ $routes->get('adminLihatPsikolog', 'adminController::lihatPsikolog');
 $routes->get('adminLihatMhs', 'adminController::lihatMhs');
 
 $routes->get('forumKlien', 'homeController::forum');
+$routes->get('konsultasi', 'homeController::konsultasiPage');
 $routes->get('jejakPerasaan', 'homeController::jejakPerasaan');
 
 $routes->get('adminDashboard', 'adminController::dashboard');

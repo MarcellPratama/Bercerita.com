@@ -52,7 +52,7 @@ class ForumController extends BaseController
         if ($foto->isValid() && !$foto->hasMoved()) {
             $fotoName = $foto->getName();
             $foto->move('uploads/forum/', $fotoName);
-            $fotoPath = '/uploads/FOTO/' . $fotoName;
+            $fotoPath = '/uploads/forum/' . $fotoName;
         }
         
         $this->forumModel->save([
