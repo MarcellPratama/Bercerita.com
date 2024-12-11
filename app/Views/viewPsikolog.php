@@ -25,7 +25,7 @@
     .sidebar {
         width: 245px;
         height: 112vh;
-        background-color: #00c2cb;
+        background: linear-gradient(to bottom, #77E4C8, #36C2CE, #478CCF);
         padding: 20px;
         display: flex;
         flex-direction: column;
@@ -323,19 +323,29 @@
         </div>
 
         <ul class="menu">
-            <li><a href="adminDashboard"><i class="fas fa-home"></i> Beranda</a></li>
-            <li><a href="adminVerifikasi"><i class="fas fa-check-circle"></i> Verifikasi</a></li>
+            <li><a href="<?= base_url('adminDashboard'); ?>"><i class="fas fa-home"></i> Beranda</a></li>
+            <li><a href="<?= base_url('adminVerifikasi'); ?>"><i class="fas fa-check-circle"></i>
+                    Verifikasi</a></li>
             <li>
                 <a href="#" class="dropdown-toggle" onclick="toggleSubmenu(this)">
                     <i class="fas fa-users"></i> Pengguna
                 </a>
                 <ul class="submenu">
-                    <li><a href="" class="active"><i class="fas fa-user"></i> Psikolog</a></li>
-                    <li><a href="adminLihatMhs"><i class="fas fa-user-graduate"></i> Mahasiswa Psikologi</a></li>
+                    <li>
+                        <a href="<?= base_url('adminLihatPsikolog'); ?>" class="active">
+                            <i class="fas fa-user"></i> Psikolog
+                        </a>
+                    </li>
+                    <li>
+                        <a href="<?= base_url('adminLihatMhs'); ?>">
+                            <i class="fas fa-user-graduate"></i> Mahasiswa Psikologi
+                        </a>
+                    </li>
                 </ul>
             </li>
-            <li><a href="kelolaMading"><i class="fas fa-file-alt"></i> Kelola Mading</a></li>
-            <li><a href="/login"><i class="fas fa-sign-out-alt"></i> Keluar</a></li>
+            <li><a href="<?= base_url('kelolaMading'); ?>"><i class="fas fa-file-alt"></i>
+                    Kelola Mading</a></li>
+            <li><a href="<?= base_url('login'); ?>"><i class="fas fa-sign-out-alt"></i> Keluar</a></li>
         </ul>
     </div>
 
@@ -347,9 +357,11 @@
         </div>
         <div class="container-table">
             <div class="search-container mb-3">
-                <i class="fas fa-search search-icon"></i>
-                <input type="text" name="search" id="searchInput" class="form-control" placeholder="Cari"
-                    value="<?= esc($search ?? '') ?>" style="padding-left: 30px;" />
+                <form method="get" action="adminLihatPsikolog" style="width: 100%; display: flex; align-items: center;">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" name="search" id="searchInput" class="form-control" placeholder="Cari"
+                        value="<?= esc($searchQuery) ?>" style="padding-left: 30px;" />
+                </form>
             </div>
             <table>
                 <thead>
@@ -369,7 +381,7 @@
                         <td><?= esc($user['kategori']); ?></td>
                         <td><?= esc($user['tanggal_verifikasi']); ?></td>
                         <td>
-                            <a href="/adminLihatDetailPsikolog/<?= $user['id']; ?>" class="action-btn view"
+                            <a href="/adminLihatDetailPsiko/<?= $user['id']; ?>" class="action-btn view"
                                 title="Lihat Detail Psikolog">
                                 <i class="fas fa-eye"></i>
                             </a>
@@ -423,14 +435,14 @@
     </div>
 </body>
 <script>
-function toggleSubmenu(element) {
-    const submenu = element.nextElementSibling;
-    submenu.style.display = submenu.style.display === "block" ? "none" : "block";
+// function toggleSubmenu(element) {
+//     const submenu = element.nextElementSibling;
+//     submenu.style.display = submenu.style.display === "block" ? "none" : "block";
 
-    // Mengubah panah untuk menunjukkan apakah submenu terbuka atau tertutup
-    const arrow = element.querySelector('.toggle-submenu');
-    arrow.innerHTML = submenu.style.display === "block" ? "&#9652;" : "&#9662;";
-}
+//     // Mengubah panah untuk menunjukkan apakah submenu terbuka atau tertutup
+//     const arrow = element.querySelector('.toggle-submenu');
+//     arrow.innerHTML = submenu.style.display === "block" ? "&#9652;" : "&#9662;";
+// }
 
 document.addEventListener("DOMContentLoaded", function() {
     let currentPage = 1;

@@ -25,7 +25,7 @@
     .sidebar {
         width: 245px;
         height: 100vh;
-        background-color: #00c2cb;
+        background: linear-gradient(to bottom, #77E4C8, #36C2CE, #478CCF);
         padding: 20px;
         display: flex;
         flex-direction: column;
@@ -127,7 +127,7 @@
         padding: 10px 20px;
         text-decoration: none;
         color: #b0bec5;
-        transition: background 0.3s;
+        transition: 0.3s;
         border-radius: 5px;
         font-size: 18px;
         color: white;
@@ -152,7 +152,7 @@
     .submenu {
         display: none;
         padding-left: 20px;
-        background-color: #00c2cb;
+        background-color: rgba(0, 194, 203, 0.1);
         border-radius: 5px;
     }
 

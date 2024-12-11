@@ -45,6 +45,7 @@ $routes->post('/forum/delete/(:segment)', 'ForumController::deleteForum/$1');
 $routes->post('/simpan-catatan', 'catatanController::addCatatan');
 
 $routes->get('dashboardpsikolog', 'PsikologController::dashboard');
+
 $routes->post('/update-profile', 'PsikologController::updateProfile');
 $routes->post('/psikolog/simpanLayanan', 'PsikologController::simpanLayanan');
 // $routes->get('/edit-profile', 'PsikologController::editProfile');
@@ -58,3 +59,5 @@ $routes->get('/adminLihatDetailMhsPsikologi/(:any)', 'adminController::lihatDeta
 $routes->get('kelolaMading', 'adminController::kelolaMading');
 $routes->delete('mading/deleteMading/(:segment)', 'adminController::deleteMading/$1');
 
+$routes->get('/adminLihatDetailPsiko/(:any)', 'AdminController::cekVerifikasiPsikolog/$1');
+$routes->get('/adminLihatDetailMahasiswa/(:any)', 'adminController::cekVerifikasiMhsPsikologi/$1');
