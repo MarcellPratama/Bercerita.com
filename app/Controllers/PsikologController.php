@@ -35,36 +35,32 @@ class PsikologController extends BaseController
 
   
     public function updateProfile()
-{
-    $session = session();
-    $userId = session()->get('kd_psikolog');
+    {
+        $session = session();
+        $userId = session()->get('kd_psikolog');
+        
+        $tentang_saya = $this->request->getPost('tentang_saya');
+        $pendekatan_klinis = $this->request->getPost('pendekatan_klinis');
+        $foto = $this->request->getFile('foto');
+        
+        $data = [
+            'tentang_saya' => $tentang_saya,
+            'pendekatan_klinis' => $pendekatan_klinis,
+        ];
     
-    $tentang_saya = $this->request->getPost('tentang_saya');
-    $pendekatan_klinis = $this->request->getPost('pendekatan_klinis');
-    $foto = $this->request->getFile('foto');
-    
-    $data = [
-        'tentang_saya' => $tentang_saya,
-        'pendekatan_klinis' => $pendekatan_klinis,
-    ];
-    
-    if ($foto && $foto->isValid() && !$foto->hasMoved()) {
-        $newName = $foto->getRandomName();
-        if ($foto->move('uploads', $newName)) {
-            $data['foto'] = $newName;
-            log_message('info', 'File berhasil diunggah: ' . $newName);
-        } else {
-            log_message('error', 'Gagal memindahkan file.');
+        // Cek jika ada foto yang di-upload
+        if ($foto && $foto->isValid() && !$foto->hasMoved()) {
+            $newName = $foto->getRandomName(); // Dapatkan nama file acak
+            $foto->move('uploads', $newName); // Pindahkan file ke folder uploads
+            $data['foto'] = $newName; // Update path foto di database
         }
+    
+        $psikologModel = new PsikologModel();
+        $psikologModel->update($userId, $data); // Perbarui data psikolog di database
+    
+        // Mengirim respons sukses
+        return $this->response->setJSON(['success' => true, 'message' => 'Profil berhasil diperbarui.']);
     }
-    
-    
-    $psikologModel = new PsikologModel();
-    $psikologModel->update($userId, $data); // Perbarui data psikolog di database
-
-    // Mengirim respons sukses
-    return $this->response->setJSON(['success' => true, 'message' => 'Profil berhasil diperbarui.']);
-}
 
     public function simpanLayanan()
 {
@@ -92,7 +88,9 @@ class PsikologController extends BaseController
 
     // Set flashdata sukses
     return redirect()->back()->with('success', 'Layanan berhasil disimpan.');
+
 }
+
 
 
 
