@@ -1,33 +1,33 @@
 /* style.css */
-@import url('https://fonts.googleapis.com/css2');
 
+@import url('https://fonts.googleapis.com/css2');
 body {
     background: linear-gradient(to bottom, #478CCF, #36C2CE, #77E4C8);
     width: 100%;
     height: 100vh;
-    background-size: cover; /* Adjust to fit the entire area without cutting */
+    background-size: cover;
+    /* Adjust to fit the entire area without cutting */
     background-repeat: no-repeat;
     font-family: 'Poppins', sans-serif;
-
     .offcanvas {
         background: linear-gradient(to bottom, #77E4C8, #36C2CE, #478CCF);
         width: 280px;
         max-height: 100%;
-
         .nav-link {
             font-family: 'Poppins', sans-serif;
             font-weight: 700;
             font-size: 14px;
-            color: #282928; /* Ensuring the text color is white */
+            color: #282928;
+            /* Ensuring the text color is white */
             display: flex;
             align-items: center;
         }
-
         .offcanvas-title {
             font-family: 'Poppins', sans-serif;
             font-weight: 700;
             font-size: 14px;
-            color: #282928; /* Ensuring the text color is white */
+            color: #282928;
+            /* Ensuring the text color is white */
             display: flex;
             align-items: center;
         }
@@ -35,70 +35,67 @@ body {
             margin-right: 10px;
         }
     }
-    
     .navbar-overlay {
         position: relative;
         top: 0;
         left: 0;
         width: 100%;
-        background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent background */
+        background-color: rgba(0, 0, 0, 0.7);
+        /* Semi-transparent background */
     }
-    
     .navbar-nav .nav-item {
-        margin-right: 15px; /* Spacing between navbar items */
+        margin-right: 15px;
+        /* Spacing between navbar items */
     }
-    
     .navbar-nav .nav-item .nav-link {
         font-family: 'Poppins', sans-serif;
         font-weight: 600;
         font-size: 20px;
-        color: #f6f6f6; /* Ensuring the text color is white */
+        color: #f6f6f6;
+        /* Ensuring the text color is white */
         display: flex;
-        align-items: center; /* Align vertically in the middle */
+        align-items: center;
+        /* Align vertically in the middle */
     }
-    
     .navbar-nav .nav-item .nav-link:hover {
-        color: #36C2CE !important; /* Change color on hover */
+        color: #36C2CE !important;
+        /* Change color on hover */
     }
-    
     .navbar-nav .nav-item .nav-link svg {
-        transition: fill 0.3s; /* Smooth transition for SVG fill */
+        transition: fill 0.3s;
+        /* Smooth transition for SVG fill */
     }
-    
     .navbar-nav .nav-item .nav-link:hover svg {
-        fill: #36C2CE; /* Change SVG fill color on hover */
+        fill: #36C2CE;
+        /* Change SVG fill color on hover */
     }
-
     .logo {
-        width: 240px;  /* Set width to 370 pixels */
-        height: 50px;  /* Set height to 75 pixels */
+        width: 240px;
+        /* Set width to 370 pixels */
+        height: 50px;
+        /* Set height to 75 pixels */
     }
-
     .profile {
         width: 53px;
         height: 53px;
         margin-left: 10px;
     }
-
     .headline {
         color: #282928;
         font-weight: 800;
         font-size: 29px;
     }
-
     .sub-headline {
         color: #f6f6f6;
         font-weight: 500;
         font-size: 19px;
         width: 656px;
     }
-
     .card {
         border-radius: 20px;
         box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
         padding: 15px;
     }
-
     .card-img {
         width: 150px;
         height: 150px;
@@ -106,7 +103,6 @@ body {
         display: block;
         margin: auto;
     }
-
     .card-img-modal {
         width: 100px;
         height: 100px;
@@ -114,86 +110,72 @@ body {
         display: block;
         margin: auto;
     }
-
-    .title-modal{
+    .title-modal {
         font-size: 32px;
         font-weight: 800;
         color: #282928;
     }
-    
-    .subtitle-modal{
+    .subtitle-modal {
         font-weight: 500;
         color: #f6f6f6;
     }
-
     .search {
-        font-size:16px; 
+        font-size: 16px;
         width: 350px;
-        color:#f6f6f6; 
-        border:none; 
-        cursor:pointer; 
+        color: #f6f6f6;
+        border: none;
+        cursor: pointer;
     }
-
     .forum-list {
         max-height: 480px;
         overflow-y: auto;
         overflow-x: hidden;
         background-color: none;
-
         a {
             text-decoration: none;
         }
     }
-    
     /* Custom Scrollbar */
     .forum-list::-webkit-scrollbar {
         display: none;
     }
-
     .modal-content {
         background-color: #36C2CE;
         font-family: 'Poppins', sans-serif;
-
         .btn {
             background-color: #f6f6f6;
             border-radius: 5px;
             box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
         }
-
         .btn:hover {
-            background-color: #F97300; /* Light green */
+            background-color: #F97300;
+            /* Light green */
             color: #f6f6f6;
             transition: background-color 0.3s ease;
         }
-
         .modal-body {
             font-weight: 500;
             color: #282928;
         }
     }
-
     .modal-confirm {
         background-color: #F6F6F6;
         color: #282928;
         box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
         display: flex;
-
         .modal-body {
             font-weight: 500;
             color: #282928;
-            
             p {
                 text-align: center;
                 font-size: 26px;
                 font-weight: 600;
             }
         }
-        
         .btn-close {
             display: flex;
             justify-self: end;
         }
-
         .btn {
             border-radius: 5px;
             box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
@@ -206,12 +188,12 @@ body {
             width: 120px;
         }
         .btn:hover {
-            background-color: #F97300; /* Light green */
+            background-color: #F97300;
+            /* Light green */
             color: #f6f6f6;
             transition: background-color 0.3s ease;
         }
     }
-
     /* Edit Profile */
     .edit-profile {
         .profile-picture {
@@ -219,14 +201,12 @@ body {
             width: 250px;
             height: 250px;
         }
-    
         .profile-picture img {
             width: 100%;
             height: 100%;
             border-radius: 50%;
             object-fit: cover;
         }
-    
         .profile-picture .overlay {
             position: absolute;
             top: 0;
@@ -238,31 +218,26 @@ body {
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: background 0.3s ease-in-out;
+            transition: 0.3s ease-in-out;
             color: white;
             opacity: 0;
             cursor: pointer;
         }
-    
         .profile-picture:hover .overlay {
             background: rgba(0, 0, 0, 0.5);
             border: none;
             opacity: 1;
         }
-    
         .profile-picture .icon-edit {
             font-size: 2rem;
             display: none;
         }
-    
         .profile-picture:hover .icon-edit {
             display: block;
         }
-
         .form-label {
             font-weight: 600;
         }
-
         .btn-submit {
             width: 30%;
             padding: 10px;
@@ -275,15 +250,12 @@ body {
             border-radius: 4px;
             transition: background-color 0.3s ease;
         }
-
         .btn-submit:hover {
             background-color: #555;
         }
-
         .password-container {
             position: relative;
         }
-
         .password-toggle {
             position: absolute;
             top: 50%;
@@ -292,11 +264,9 @@ body {
             cursor: pointer;
             color: #6c757d;
         }
-
         .password-toggle:hover {
             color: #000;
         }
-        
         .error-message {
             color: red;
             font-size: 0.875rem;

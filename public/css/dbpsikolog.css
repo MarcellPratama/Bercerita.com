@@ -15,7 +15,7 @@
     left: 0;
     height: 100vh;
     width: 80px;
-    background-image: linear-gradient(to right, #c0e3e9, #38cdf5);
+    background: linear-gradient(to bottom, #77E4C8, #36C2CE, #478CCF);
     padding: 10px;
     margin: 0;
     transition: width 0.5s ease;
@@ -25,7 +25,7 @@
 
 .sidebar.active~.main-content {
     /* left: 250px;
-      width: calc(100% - 250px); */
+        width: calc(100% - 250px); */
     margin-left: 250px;
 }
 
@@ -150,6 +150,22 @@
 }
 
 
+/* Gambar profile di sidebar */
+
+.sidebar .user #profile-img {
+    width: 60px;
+    /* Sesuaikan dengan ukuran yang diinginkan */
+    height: 60px;
+    /* Pastikan gambar tetap berbentuk bulat */
+    border-radius: 50%;
+    /* Membuat gambar berbentuk bulat */
+    object-fit: cover;
+    /* Agar gambar terpotong proporsional */
+    margin-right: 10px;
+    /* Memberikan sedikit jarak antara gambar dan teks */
+}
+
+
 /* Submenu styling */
 
 .submenu {
@@ -193,18 +209,25 @@
     /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); */
 }
 
-.profile-image {
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
-    overflow: hidden;
-    margin: 0 auto 15px;
-    border: 15px solid #38cdf5;
-}
 
-.profile-image img {
-    width: 100%;
-    height: auto;
+/* Menyembunyikan ikon edit secara default */
+
+#edit-photo-icon {
+    position: absolute;
+    bottom: 5px;
+    /* Sedikit di bawah sudut gambar */
+    right: 5px;
+    /* Sedikit di kanan sudut gambar */
+    font-size: 1.5rem;
+    color: white;
+    background-color: rgba( 0, 0, 0, 0.5);
+    /* Warna latar belakang transparan hitam */
+    padding: 5px;
+    border-radius: 50%;
+    /* Ikon berbentuk bulat */
+    cursor: pointer;
+    display: none;
+    /* Ikon tidak muncul secara default */
 }
 
 .profile-name {
@@ -255,27 +278,72 @@ a {
 .jadwal-content {
     font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
     display: flex;
-    align-items: center;
-    min-height: 100vh;
+    flex-direction: column;
+    /* Stack elements vertically */
+    align-items: flex-start;
+    /* Align items to the left */
     margin-left: 150px;
-    /* background-color: #d9534f; */
+    background-color: #d9534f;
+    padding-top: 5px;
+    /* Very small padding at the top */
+}
+
+.section-name {
+    font-size: 24px;
+    font-weight: bold;
+    color: white;
+    margin: 0;
+    /* Remove any default margin */
+}
+
+.button-container {
+    display: flex;
+    gap: 10px;
+    /* Reduced gap between buttons */
+    margin-top: 10px;
+    /* Reduced top margin */
+}
+
+.consultation-btn {
+    padding: 8px 16px;
+    /* Reduced button padding */
+    font-size: 14px;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    background-color: #00bfff;
+    color: white;
+    transition: background-color 0.3s;
+}
+
+.consultation-btn:hover {
+    background-color: #45a049;
 }
 
 .calendar-container {
     width: 700px;
-    /* background-color: #d9534f; */
-    justify-content: center;
+    background-color: #ffffff;
+    padding: 10px;
+    /* Reduced padding inside the calendar */
+    border-radius: 10px;
+    /* Optional: rounded corners for the calendar */
+    margin-top: 10px;
+    /* Reduced gap between buttons and calendar */
 }
 
 .calendar-header {
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
+    /* Align header content to the left */
     align-items: center;
-    margin-bottom: 20px;
-    /* background-color: #d9534f; */
     gap: 20px;
-    width: 100%;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
+    /* Reduced space below the header */
+}
+
+.calendar-nav {
+    font-size: 20px;
+    cursor: pointer;
 }
 
 .calendar-grid {
@@ -419,7 +487,28 @@ a {
 
 .checkbox-group input[type="checkbox"] {
     margin-right: 8px;
-    /* Space between checkbox and label */
+}
+
+#foto {
+    display: none;
+    visibility: hidden;
+}
+
+.file-upload {
+    position: relative;
+}
+
+#upload-btn {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#upload-btn:hover {
+    background-color: #0056b3;
 }
 
 
@@ -459,37 +548,114 @@ a {
 /* Responsive adjustments */
 
 @media (max-width: 600px) {
-<<<<<<< HEAD
-  .checkbox-group {
-    flex-direction: column;
-  }
-}
-/* Contoh gaya untuk textarea di edit mode
-#edit-tentang-saya,
-#edit-pendekatan-klinis {
-  width: 100%;
-  height: 100px;
-  padding: 10px;
-  margin-bottom: 10px;
-  font-size: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-} */
-textarea {
-  width: 100%;
-  padding: 10px;
-  margin: 10px 0;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-}
-
-textarea:focus {
-  outline: none;
-  border: 1px solid #007bff;
-}
-=======
     .checkbox-group {
         flex-direction: column;
     }
 }
->>>>>>> 78ac1df4ff284f891a5b3d2f456638c612877d21
+
+
+/* Contoh gaya untuk textarea di edit mode
+  #edit-tentang-saya,
+  #edit-pendekatan-klinis {
+    width: 100%;
+    height: 100px;
+    padding: 10px;
+    margin-bottom: 10px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  } */
+
+textarea {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+textarea:focus {
+    outline: none;
+    border: 1px solid #007bff;
+}
+
+.checkbox-group {
+    flex-direction: column;
+}
+
+
+/* Container for the profile image */
+
+
+/* Profile image container */
+
+.profile-container {
+    position: relative;
+    width: 150px;
+    height: 150px;
+    margin: auto;
+}
+
+
+/* Profile image styling */
+
+.profile-image {
+    position: relative;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin: 0 auto 15px;
+    border: 10px solid #38cdf5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.profile-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+
+/* Hidden overlay by default */
+
+.edit-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    /* Semi-transparent black */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    cursor: pointer;
+    /* Ensures the overlay is clickable */
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+    /* Prevent interaction when hidden */
+}
+
+
+/* Pencil icon styling */
+
+.edit-overlay i {
+    font-size: 1.5rem;
+    color: white;
+}
+
+
+/* Show overlay and pencil icon on hover */
+
+.profile-image:hover .edit-overlay {
+    opacity: 1;
+    pointer-events: auto;
+    /* Allow interaction when visible */
+    visibility: visible;
+    /* Tampilkan overlay saat hover */
+}
