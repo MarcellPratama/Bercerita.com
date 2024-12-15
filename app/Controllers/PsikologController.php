@@ -35,28 +35,61 @@ class PsikologController extends BaseController
     }
 
     public function updateProfile()
-    {
-        $session = session();
-        $userId = session()->get('kd_psikolog');
-        
-        $tentang_saya = $this->request->getPost('tentang_saya');
-        $pendekatan_klinis = $this->request->getPost('pendekatan_klinis');
-        $foto = $this->request->getFile('foto');
-        
-        $data = [
-            'tentang_saya' => $tentang_saya,
-            'pendekatan_klinis' => $pendekatan_klinis,
-        ];
+{
+    $session = session();
+    $userId = session()->get('kd_psikolog');
+    
+    $tentang_saya = $this->request->getPost('tentang_saya');
+    $pendekatan_klinis = $this->request->getPost('pendekatan_klinis');
+    $foto = $this->request->getFile('foto');
+    
+    $data = [
+        'tentang_saya' => $tentang_saya,
+        'pendekatan_klinis' => $pendekatan_klinis,
+    ];
 
-        if ($foto && $foto->isValid() && !$foto->hasMoved()) {
-            $newName = $foto->getRandomName();
-            $foto->move(FCPATH . 'uploads', $newName);
-            $updateData['foto'] = $newName;
-        }
-        $psikologModel = new PsikologModel();
-        $psikologModel->update($userId, $data);
-
-        // Mengirim respons sukses
-        return $this->response->setJSON(['success' => true, 'message' => 'Profil berhasil diperbarui.']);
+    // Cek jika ada foto yang di-upload
+    if ($foto && $foto->isValid() && !$foto->hasMoved()) {
+        $newName = $foto->getRandomName(); // Dapatkan nama file acak
+        $foto->move('uploads', $newName); // Pindahkan file ke folder uploads
+        $data['foto'] = $newName; // Update path foto di database
     }
+
+    $psikologModel = new PsikologModel();
+    $psikologModel->update($userId, $data); // Perbarui data psikolog di database
+
+    // Mengirim respons sukses
+    return $this->response->setJSON(['success' => true, 'message' => 'Profil berhasil diperbarui.']);
+}
+
+    public function simpanLayanan()
+{
+    $session = session();
+    $userId = session()->get('kd_psikolog'); // Ambil ID psikolog dari sesi
+
+    if (!$userId) {
+        return redirect()->back()->with('error', 'Anda harus login terlebih dahulu.');
+    }
+
+    $layanan = $this->request->getPost('kasus'); // Ambil array layanan yang diceklis
+
+    // Validasi jika layanan kosong atau lebih dari 4
+    if (!$layanan || count($layanan) > 4) {
+        return redirect()->back()->with('error', 'Anda hanya dapat memilih hingga 4 layanan.');
+    }
+
+    // Simpan ke database sebagai string JSON
+    $data = [
+        'layanan' => json_encode($layanan) // Mengubah array menjadi JSON
+    ];
+
+    $psikologModel = new PsikologModel();
+    $psikologModel->update($userId, $data);
+
+    // Set flashdata sukses
+    return redirect()->back()->with('success', 'Layanan berhasil disimpan.');
+}
+
+
+
 }

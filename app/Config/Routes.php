@@ -48,6 +48,7 @@ $routes->post('/simpan-catatan', 'catatanController::addCatatan');
 $routes->get('dashboardpsikolog', 'PsikologController::dashboard');
 
 $routes->post('/update-profile', 'PsikologController::updateProfile');
+$routes->post('/psikolog/simpanLayanan', 'PsikologController::simpanLayanan');
 // $routes->get('/edit-profile', 'PsikologController::editProfile');
 // $routes->post('/update-profile', 'PsikologController::updateProfile');
 
