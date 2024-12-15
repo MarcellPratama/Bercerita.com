@@ -25,7 +25,7 @@
     .sidebar {
         width: 245px;
         height: 112vh;
-        background-color: #00c2cb;
+        background: linear-gradient(to bottom, #77E4C8, #36C2CE, #478CCF);
         padding: 20px;
         display: flex;
         flex-direction: column;
@@ -52,7 +52,7 @@
         padding: 10px 20px;
         text-decoration: none;
         color: #b0bec5;
-        transition: background 0.3s;
+        transition: 0.3s;
         border-radius: 5px;
         font-size: 18px;
         color: white;
@@ -106,11 +106,13 @@
 
     .menu {
         list-style: none;
-        /* Remove bullet points */
         padding: 0;
-        /* Remove default padding */
         margin: 0;
-        /* Remove default margin */
+    }
+
+
+    .menu a:hover {
+        background-color: #03b5c1;
     }
 
     .menu a {
@@ -124,10 +126,6 @@
         padding: 10px;
         border-radius: 5px;
         transition: background-color 0.3s;
-    }
-
-    .menu a:hover {
-        background-color: #03b5c1;
     }
 
     .menu a.active {
@@ -304,9 +302,23 @@
         box-shadow: 0 0 4px rgba(0, 194, 203, 0.3);
     }
 
+    /* Submenu */
     .submenu {
         display: none;
-        /* Default, disembunyikan */
+        padding-left: 20px;
+        background-color: rgba(0, 194, 203, 0.1);
+        border-radius: 5px;
+    }
+
+    .submenu li a {
+        padding: 10px 15px;
+        font-size: 14px;
+        color: #b0bec5;
+        text-decoration: none;
+    }
+
+    .submenu li a:hover {
+        color: #fff;
     }
 
     .modal {
@@ -398,7 +410,7 @@
 
         <div class="container-table">
             <div class="search-container mb-3">
-                <form method="get" action="/adminVerifikasi" style="width: 100%; display: flex; align-items: center;">
+                <form method="get" action="kelolaMading" style="width: 100%; display: flex; align-items: center;">
                     <i class="fas fa-search search-icon"></i>
                     <input type="text" name="search" id="searchInput" class="form-control" placeholder="Cari"
                         value="<?= isset($search) ? esc($search) : '' ?>" style="padding-left: 30px;" />
@@ -419,7 +431,8 @@
                     <tr>
                         <td><?= esc($catatanItem['kode_catatan']); ?></td>
                         <td><?= esc($catatanItem['tanggal_dibuat']); ?></td>
-                        <td><?= esc($catatanItem['isi_catatan']); ?></td>
+                        <td class="isi_catatan"><?= esc($catatanItem['isi_catatan']); ?></td>
+
                         <td>
                             <span class="action-btn trash" title="Sampah"
                                 data-id="<?= $catatanItem['kode_catatan']; ?>">
@@ -478,11 +491,10 @@
                     <button class="btn btn-danger" id="btnKonfirmasiTolak">Ya</button>
                 </div>
             </div>
-
-
         </div>
     </div>
 </body>
+
 <script>
 function toggleSubmenu(element) {
     const submenu = element.nextElementSibling;
@@ -644,52 +656,50 @@ document.addEventListener("DOMContentLoaded", function() {
     renderPagination();
 });
 
-
 document.addEventListener("DOMContentLoaded", function() {
-    const searchInput = document.getElementById("searchInput"); // Input pencarian
-    const tableBody = document.getElementById("tableBody"); // Tabel tempat data ditampilkan
-    const originalRows = Array.from(tableBody.rows); // Salin data asli untuk filter
+    const searchInput = document.getElementById("searchInput"); // Elemen input pencarian
+    const tableBody = document.getElementById("tableBody"); // Elemen tabel data
+    const originalRows = Array.from(tableBody.rows); // Salin semua baris asli sebagai referensi
 
     // Fungsi untuk melakukan pencarian
     function performSearch() {
-        const searchQuery = searchInput.value.trim()
-            .toLowerCase(); // Ambil input pencarian dan ubah ke lowercase
+        const searchQuery = searchInput.value.trim().toLowerCase(); // Ambil input pencarian dalam lowercase
 
-        // Jika input kosong, kembalikan semua data
+        // Jika input kosong, tampilkan semua data
         if (!searchQuery) {
             tableBody.innerHTML = ""; // Kosongkan tabel
-            originalRows.forEach((row) => tableBody.appendChild(row)); // Tampilkan semua data
+            originalRows.forEach((row) => tableBody.appendChild(row)); // Tampilkan ulang semua baris
             return;
         }
 
-        // Filter baris berdasarkan input pencarian (awalan username)
+        // Filter data yang sesuai dengan input pencarian
         const filteredRows = originalRows.filter((row) => {
-            const username = row.querySelector(".username").textContent
-                .toLowerCase(); // Ambil username di baris
-            return username.includes(searchQuery); // Cek apakah username diawali oleh input
+            const isiCatatan = row.querySelector(".isi_catatan").textContent
+                .toLowerCase(); // Ambil data catatan
+            return isiCatatan.includes(searchQuery); // Cek apakah catatan mengandung input
         });
 
-        // Perbarui tabel dengan hasil pencarian
+        // Tampilkan data hasil filter
         tableBody.innerHTML = ""; // Kosongkan tabel
         if (filteredRows.length > 0) {
-            filteredRows.forEach((row) => tableBody.appendChild(row)); // Tambahkan baris yang cocok
+            filteredRows.forEach((row) => tableBody.appendChild(row)); // Tambahkan baris hasil pencarian
         } else {
-            tableBody.innerHTML =
-                `<tr><td colspan="5">Tidak ada data ditemukan.</td></tr>`; // Jika tidak ada hasil
+            // Jika tidak ada data ditemukan, tampilkan pesan
+            tableBody.innerHTML = `<tr><td colspan="5">Tidak ada data ditemukan.</td></tr>`;
         }
     }
 
-    // Tambahkan debounce untuk mengurangi jumlah pencarian
+    // Fungsi debounce untuk mencegah eksekusi berlebihan
     function debounce(func, delay) {
         let timeout;
         return function(...args) {
-            clearTimeout(timeout);
-            timeout = setTimeout(() => func.apply(this, args), delay);
+            clearTimeout(timeout); // Hapus timeout sebelumnya
+            timeout = setTimeout(() => func.apply(this, args), delay); // Eksekusi fungsi setelah delay
         };
     }
 
-    // Pasang event listener pada input dengan debounce
-    searchInput.addEventListener("input", debounce(performSearch, 300));
+    // Menambahkan event listener dengan debounce
+    searchInput.addEventListener("input", debounce(performSearch, 500)); // 500ms debounce delay
 });
 </script>
 

@@ -25,7 +25,7 @@
     .sidebar {
         width: 245px;
         height: 111vh;
-        background-color: #00c2cb;
+        background: linear-gradient(to bottom, #77E4C8, #36C2CE, #478CCF);
         padding: 20px;
         display: flex;
         flex-direction: column;
@@ -127,7 +127,7 @@
         padding: 10px 20px;
         text-decoration: none;
         color: #b0bec5;
-        transition: background 0.3s;
+        transition: 0.3s;
         border-radius: 5px;
         font-size: 18px;
         color: white;
@@ -152,7 +152,7 @@
     .submenu {
         display: none;
         padding-left: 20px;
-        background-color: #00c2cb;
+        background-color: rgba(0, 194, 203, 0.1);
         border-radius: 5px;
     }
 
@@ -404,6 +404,16 @@
         text-align: center;
         /* Pusatkan teks di tombol */
     }
+
+    .fas.fa-check.disabled,
+    .fas.fa-times.disabled {
+        color: gray;
+        /* Ubah warna ikon menjadi abu-abu */
+        pointer-events: none;
+        /* Menonaktifkan klik pada ikon */
+        opacity: 0.5;
+        /* Mengurangi opacity ikon untuk menunjukkan bahwa itu tidak aktif */
+    }
     </style>
 </head>
 
@@ -468,12 +478,17 @@
                         <td><?= esc($user['status_verifikasi']); ?></td>
 
                         <td>
-                            <!-- Reject Button -->
-                            <span class="action-btn reject" title="Tolak" data-id="<?= $user['id']; ?>"><i
-                                    class="fas fa-times"></i></span>
-                            <!-- Approve Button -->
-                            <span class="action-btn approve" title="Setujui" data-id="<?= $user['id']; ?>"><i
-                                    class="fas fa-check"></i></span>
+                            <!-- Tombol Reject -->
+                            <span class="action-btn reject" title="Tolak" data-id="<?= $user['id']; ?>"
+                                data-status="<?= $user['status_verifikasi']; ?>">
+                                <i class="fas fa-times"></i>
+                            </span>
+                            <!-- Tombol Approve -->
+                            <span class="action-btn approve" title="Setujui" data-id="<?= $user['id']; ?>"
+                                data-status="<?= $user['status_verifikasi']; ?>">
+                                <i class="fas fa-check"></i>
+                            </span>
+
                             <!-- View Button -->
                             <?php if ($user['kategori'] === 'Mahasiswa Psikologi'): ?>
                             <a href="/adminLihatDetailMhs/<?= $user['id']; ?>" class="action-btn view"
@@ -529,70 +544,95 @@
         </div>
     </div>
 </body>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
-// Apprtion
+// Event listener untuk tombol "Approve"
 const approveButtons = document.querySelectorAll('.action-btn.approve');
 approveButtons.forEach(button => {
     button.addEventListener('click', function() {
         const userId = this.getAttribute('data-id');
-        fetch(`/verifikasi/approve/${userId}`)
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    // alert('User approved!');
-                    location.reload(); // Reload the page to reflect changes
-                } else {
-                    alert('Error: ' + data.message); // Show error message
-                }
-            })
-            .catch(error => {
-                alert('An error occurred: ' + error
-                    .message); // Handle any errors from the fetch request
-            });
-    });
-});
+        const status = this.getAttribute('data-status'); // Ambil status pengguna
 
-document.addEventListener("DOMContentLoaded", function() {
-    const rejectButtons = document.querySelectorAll('.action-btn.reject');
-    const modalTolak = document.getElementById('modalTolak');
-    const btnBatal = document.getElementById('btnBatal');
-    const btnKonfirmasiTolak = document.getElementById('btnKonfirmasiTolak');
-    let userIdTolak = null;
+        // Jika status sudah 'approved' atau 'rejected', jangan tampilkan modal
+        if (status === 'Diterima' || status === 'Ditolak') {
+            return; // Tidak lakukan apa-apa jika sudah ada status
+        }
 
-    // Show the modal when the "Tolak" button (reject) is clicked
-    rejectButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            userIdTolak = this.getAttribute('data-id'); // Get user ID from the button
-            modalTolak.style.display = 'block'; // Show the modal
-        });
-    });
+        const approveIcon = this.querySelector('.fas.fa-check'); // Ambil ikon approve
 
-    // Close the modal when the "Batal" button is clicked
-    btnBatal.addEventListener('click', function() {
-        modalTolak.style.display = 'none'; // Hide the modal
-    });
+        // Menampilkan modal konfirmasi
+        const approveModal = document.getElementById('topUpModal');
+        approveModal.style.display = 'block'; // Menampilkan modal
 
-    // Confirm rejection when the "Ya" button is clicked
-    btnKonfirmasiTolak.addEventListener('click', function() {
-        if (userIdTolak) {
-            fetch(`/verifikasi/reject/${userIdTolak}`)
+        // Kirim request approve ke server setelah modal ditutup atau setelah dikonfirmasi
+        const modalCloseBtn = document.getElementById('modalCloseBtn');
+        modalCloseBtn.addEventListener('click', function() {
+            fetch(`/verifikasi/approve/${userId}`)
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
-                        // alert('Pengguna berhasil ditolak.');
-                        location.reload(); // Reload the page to reflect the changes
+                        location.reload(); // Reload halaman setelah verifikasi berhasil
+                        approveIcon.classList.add(
+                            'disabled'); // Disable ikon setelah approve
                     } else {
-                        alert('Terjadi kesalahan: ' + data.message); // Show error message
+                        alert('Error: ' + data.message); // Show error message
                     }
+                    approveModal.style.display = 'none'; // Menutup modal setelah selesai
                 })
                 .catch(error => {
-                    alert('Terjadi kesalahan: ' + error.message); // Handle any errors
+                    alert('An error occurred: ' + error.message);
+                    approveModal.style.display = 'none';
                 });
-        }
-        modalTolak.style.display = 'none'; // Hide the modal after confirming rejection
+        });
     });
 });
 
+// Event listener untuk tombol "Reject"
+const rejectButtons = document.querySelectorAll('.action-btn.reject');
+rejectButtons.forEach(button => {
+    button.addEventListener('click', function() {
+        const userId = this.getAttribute('data-id');
+        const status = this.getAttribute('data-status'); // Ambil status pengguna
+
+        // Jika status sudah 'approved' atau 'rejected', jangan tampilkan modal
+        if (status === 'Diterima' || status === 'Ditolak') {
+            return; // Tidak lakukan apa-apa jika sudah ada status
+        }
+
+        const rejectIcon = this.querySelector('.fas.fa-times'); // Ambil ikon reject
+
+        // Menampilkan modal konfirmasi untuk menolak
+        const rejectModal = document.getElementById('modalTolak');
+        rejectModal.style.display = 'block'; // Menampilkan modal
+
+        // Menangani klik "Ya" untuk menolak
+        const rejectConfirmBtn = document.getElementById('btnKonfirmasiTolak');
+        rejectConfirmBtn.addEventListener('click', function() {
+            fetch(`/verifikasi/reject/${userId}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // alert('Berhasil menolak pengguna!');
+                        location.reload(); // Reload halaman setelah menolak
+                        rejectIcon.classList.add('disabled'); // Disable ikon setelah reject
+                    } else {
+                        alert('Error: ' + data.message); // Tampilkan pesan error
+                    }
+                    rejectModal.style.display = 'none'; // Menutup modal setelah selesai
+                })
+                .catch(error => {
+                    alert('Terjadi kesalahan: ' + error.message);
+                    rejectModal.style.display = 'none';
+                });
+        });
+
+        // Menangani klik "Batal" untuk membatalkan penolakan
+        const rejectCancelBtn = document.getElementById('btnBatal');
+        rejectCancelBtn.addEventListener('click', function() {
+            rejectModal.style.display = 'none'; // Menutup modal jika batal
+        });
+    });
+});
 
 function toggleSubmenu(element) {
     const submenu = element.nextElementSibling;
@@ -703,31 +743,6 @@ document.addEventListener("DOMContentLoaded", function() {
     renderPagination();
 });
 
-
-document.addEventListener("DOMContentLoaded", function() {
-    // Select all approve buttons (checkmark buttons)
-    const approveButtons = document.querySelectorAll(".action-btn.approve");
-    const modal = document.getElementById("topUpModal");
-    const modalCloseBtn = document.getElementById("modalCloseBtn");
-
-    // Function to show the modal
-    function showModal() {
-        modal.style.display = "block";
-    }
-
-    // Function to close the modal
-    function closeModal() {
-        modal.style.display = "none";
-    }
-
-    // Attach event listeners to each approve button
-    approveButtons.forEach(button => {
-        button.addEventListener("click", showModal);
-    });
-
-    // Close the modal when the OK button is clicked
-    modalCloseBtn.addEventListener("click", closeModal);
-});
 document.addEventListener("DOMContentLoaded", function() {
     const searchInput = document.getElementById("searchInput"); // Input pencarian
     const tableBody = document.getElementById("tableBody"); // Tabel tempat data ditampilkan

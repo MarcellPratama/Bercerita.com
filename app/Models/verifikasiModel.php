@@ -63,7 +63,7 @@ class verifikasiModel extends Model
     {
         return $this->belongsTo(RegistrasiModel::class, 'kd_registrasi', 'kd_registrasi');
     }
-
+    
     public function getByUsername($username)
 {
     // Ambil data verifikasi berdasarkan username
