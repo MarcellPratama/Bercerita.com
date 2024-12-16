@@ -180,23 +180,6 @@ class userController extends BaseController
                 return redirect()->to('/login');
             }
         }
-        // // Check if user is a psychologist
-        // $psikolog = $psikologModel->where('username', $username)->first();
-        // if ($psikolog) {
-        //     if (password_verify($password, $psikolog['password'])) {
-        //         session()->set([
-        //             'username' => $username,
-        //             'role' => 'psikolog',
-        //             'kd_psikolog' => $psikolog['kd_psikolog'] // Pastikan ini disimpan di sesi
-        //         ]);
-        //         return redirect()->to('/beranda');
-        //     } else {
-        //         session()->setFlashdata('error', 'Nama pengguna/kata sandi tidak sesuai.');
-        //         return redirect()->to('/login');
-        //     }
-        // }
-
-
     
     // Login untuk Klien
     $client = $klienModel->where('username', $username)->first();
@@ -249,7 +232,7 @@ if ($psikolog) {
                 return redirect()->to('/login');
             case 'Diterima':
                 session()->set([
-                    'user_id' => $psikolog['kd_psikolog'],
+                    'kd_psikolog' => $psikolog['kd_psikolog'],
                     'username' => $psikolog['username'],
                     'role' => 'psikolog'
                 ]);
