@@ -132,110 +132,21 @@
 
         <div class="psikolog-list mt-5" id="psikologContainer">
             <div class="row d-flex justify-content-center">
-                <div class="col-md-3 mb-3 filter-item">
-                    <div class="card">
-                        <img class="card-img-top" src="<?= base_url('images/psikolog1.jpeg') ?>" alt="Card image">
-                        <div class="card-img-overlay">
-                            <h4 class="card-title">Alex Kurniawan M.Psi</h4>
-                            <p class="card-text">Berpengalaman dalam menganani kasus terkait kecemasan dan gangguan depresi.</p>
-                            <div class="d-flex justify-content-between">
-                                <a href="/pemesanan" class="btn btn-primary">Buat Janji</a>
-                                <a href="#" class="detail-link">Selengkapnya...</a>
+                <?php foreach ($listPsikolog as $list): ?>
+                    <div class="col-md-3 mb-3 filter-item">
+                        <div class="card">
+                            <img class="card-img-top" src="<?= base_url($list['foto']) ?>" alt="Card image">
+                            <div class="card-img-overlay">
+                                <h4 class="card-title"><?= esc($list['username']) ?></h4>
+                                <p class="card-text"><?= esc($list['tentang_saya']) ?></p>
+                                <div class="d-flex justify-content-between">
+                                    <a href="/pemesanan" class="btn btn-primary">Buat Janji</a>
+                                    <a href="#" class="detail-link">Selengkapnya...</a>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-md-3 mb-3 filter-item">
-                    <div class="card">
-                        <img class="card-img-top" src="<?= base_url('images/psikolog2.jpeg') ?>" alt="Card image">
-                        <div class="card-img-overlay">
-                            <h4 class="card-title">Nayara Karista M.Psi</h4>
-                            <p class="card-text">Berpengalaman dalam menganani kasus terkait kecemasan dan gangguan depresi.</p>
-                            <div class="d-flex justify-content-between">
-                                <a href="#" class="btn btn-primary">Buat Janji</a>
-                                <a href="#" class="detail-link">Selengkapnya...</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 mb-3 filter-item">
-                    <div class="card">
-                        <img class="card-img-top" src="<?= base_url('images/psikolog3.jpeg') ?>" alt="Card image">
-                        <div class="card-img-overlay">
-                            <h4 class="card-title">Anindya Mustika M.Psi</h4>
-                            <p class="card-text">Berpengalaman menangani kasus terkait ggangguan Mood, Depresi, gangguan Kecemasan, gangguan kepribadian, serta Non Suicidal Self Injury.</p>
-                            <div class="d-flex justify-content-between">
-                                <a href="#" class="btn btn-primary">Buat Janji</a>
-                                <a href="#" class="detail-link">Selengkapnya...</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 mb-3 filter-item">
-                    <div class="card">
-                        <img class="card-img-top" src="<?= base_url('images/psikolog3.jpeg') ?>" alt="Card image">
-                        <div class="card-img-overlay">
-                            <h4 class="card-title">Anindya Mustika M.Psi</h4>
-                            <p class="card-text">Berpengalaman menangani kasus terkait ggangguan Mood, Depresi, gangguan Kecemasan, gangguan kepribadian, serta Non Suicidal Self Injury.</p>
-                            <div class="d-flex justify-content-between">
-                                <a href="#" class="btn btn-primary">Buat Janji</a>
-                                <a href="#" class="detail-link">Selengkapnya...</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 mb-3 filter-item">
-                    <div class="card">
-                        <img class="card-img-top" src="<?= base_url('images/psikolog3.jpeg') ?>" alt="Card image">
-                        <div class="card-img-overlay">
-                            <h4 class="card-title">Anindya Mustika M.Psi</h4>
-                            <p class="card-text">Berpengalaman menangani kasus terkait ggangguan Mood, Depresi, gangguan Kecemasan, gangguan kepribadian, serta Non Suicidal Self Injury.</p>
-                            <div class="d-flex justify-content-between">
-                                <a href="#" class="btn btn-primary">Buat Janji</a>
-                                <a href="#" class="detail-link">Selengkapnya...</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 mb-3 filter-item">
-                    <div class="card">
-                        <img class="card-img-top" src="<?= base_url('images/psikolog3.jpeg') ?>" alt="Card image">
-                        <div class="card-img-overlay">
-                            <h4 class="card-title">Anindya Mustika M.Psi</h4>
-                            <p class="card-text">Berpengalaman menangani kasus terkait ggangguan Mood, Depresi, gangguan Kecemasan, gangguan kepribadian, serta Non Suicidal Self Injury.</p>
-                            <div class="d-flex justify-content-between">
-                                <a href="#" class="btn btn-primary">Buat Janji</a>
-                                <a href="#" class="detail-link">Selengkapnya...</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 mb-3 filter-item">
-                    <div class="card">
-                        <img class="card-img-top" src="<?= base_url('images/psikolog3.jpeg') ?>" alt="Card image">
-                        <div class="card-img-overlay">
-                            <h4 class="card-title">Anindya Mustika M.Psi</h4>
-                            <p class="card-text">Berpengalaman menangani kasus terkait ggangguan Mood, Depresi, gangguan Kecemasan, gangguan kepribadian, serta Non Suicidal Self Injury.</p>
-                            <div class="d-flex justify-content-between">
-                                <a href="#" class="btn btn-primary">Buat Janji</a>
-                                <a href="#" class="detail-link">Selengkapnya...</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 mb-3 filter-item">
-                    <div class="card">
-                        <img class="card-img-top" src="<?= base_url('images/psikolog3.jpeg') ?>" alt="Card image">
-                        <div class="card-img-overlay">
-                            <h4 class="card-title">Anindya Mustika M.Psi</h4>
-                            <p class="card-text">Berpengalaman menangani kasus terkait ggangguan Mood, Depresi, gangguan Kecemasan, gangguan kepribadian, serta Non Suicidal Self Injury.</p>
-                            <div class="d-flex justify-content-between">
-                                <a href="#" class="btn btn-primary">Buat Janji</a>
-                                <a href="#" class="detail-link">Selengkapnya...</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <?php endforeach; ?>
             </div>
         </div>
     </div>

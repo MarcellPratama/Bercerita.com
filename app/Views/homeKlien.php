@@ -38,7 +38,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="/todolist" class="nav-link">
+                        <a href="/beranda" class="nav-link">
                             <svg width="32" height="32" viewBox="0 0 40 37" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
                                 <path
@@ -266,61 +266,26 @@
             <h1 class="fw-bold text-center">Temukan Ruang yang Cocok Denganmu!</h1>
 
             <div class="row mt-5">
-                <div class="col-md-6 mb-4">
-                    <div class="card">
-                        <div class="row">
-                            <div class="col-md-4">
-                                <img class="card-img rounded-circle me-3" src="<?= base_url('images/Forum1.jpg') ?>">
+                <?php foreach ($forums as $forum): ?>
+                    <div class="col-md-6 mb-4">
+                        <a href="/forumKlien">
+                            <div class="card">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <img class="card-img rounded-circle me-3" src="<?= base_url($forum['foto']) ?>">
+                                    </div>
+                                    <div class="col-md-8 align-self-center">
+                                        <h2 class="fw-bold"><?= esc($forum['nama_forum']) ?></h2>
+                                        <p style="font-weight: 600;"><?= esc($forum['kategori_forum']) ?></p>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="col-md-8 align-self-center">
-                                <h2 class="fw-bold">Never Alone</h2>
-                                <p style="font-weight: 600;">Isolasi Sosial dan Kesepian</p>
-                            </div>
-                        </div>
+                        </a>
                     </div>
-                </div>
-                <div class="col-md-6 mb-4">
-                    <div class="card">
-                        <div class="row">
-                            <div class="col-md-4">
-                                <img class="card-img rounded-circle me-3" src="<?= base_url('images/Forum2.jpg') ?>">
-                            </div>
-                            <div class="col-md-8 align-self-center">
-                                <h2 class="fw-bold">You Strong</h2>
-                                <p style="font-weight: 600;">Trauma dan Penyembuhan</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 mb-4">
-                    <div class="card">
-                        <div class="row">
-                            <div class="col-md-4">
-                                <img class="card-img rounded-circle me-3" src="<?= base_url('images/Forum3.jpg') ?>">
-                            </div>
-                            <div class="col-md-8 align-self-center">
-                                <h2 class="fw-bold">Terus Bernapas!</h2>
-                                <p style="font-weight: 600;">Tips dan Dukungan</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 mb-4">
-                    <div class="card">
-                        <div class="row">
-                            <div class="col-md-4">
-                                <img class="card-img rounded-circle me-3" src="<?= base_url('images/Forum4.jpg') ?>">
-                            </div>
-                            <div class="col-md-8 align-self-center">
-                                <h2 class="fw-bold">Tempat Pulang!</h2>
-                                <p style="font-weight: 600;">Tips dan Dukungan</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <?php endforeach; ?>
             </div>
             <div class="text-center">
-                <button class="btn btn-primary mt-3">Lihat Lebih Banyak</button>
+                <button onclick="location.href='/forumKlien'" class="btn btn-primary mt-3">Lihat Lebih Banyak</button>
             </div>
         </div>
     </div>
@@ -330,66 +295,31 @@
         <div class="container my-5">
             <h1 class="fw-bold text-center">Bagaimana Perasaanmu Hari Ini?</h1>
 
+            <?php
+            // Daftar kelas kartu
+            $cardClasses = ['green', 'blue', 'yellow', 'pink', 'purple'];
+            ?>
+
+            <!-- Daftar Jejak Perasaan -->
             <div class="row mt-5">
-                <div class="col-md-3">
-                    <div class="card green">
-                        <div class="card-body">
-                            <p class="card-text">Harus Pulang Kemana???</p>
+                <?php foreach ($catatan as $index => $note): ?>
+                    <?php
+                    // Pilih kelas kartu secara berurutan
+                    $classIndex = $index % count($cardClasses);
+                    $cardClass = $cardClasses[$classIndex];
+                    ?>
+
+                    <div class="col-md-3 <?= ($index % 2 === 1) ? 'mt-5' : '' ?>">
+                        <div class="card <?= $cardClass ?>">
+                            <div class="card-body">
+                                <p class="card-text"><?= esc($note['isi_catatan']) ?></p>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-md-3 mt-5">
-                    <div class="card blue">
-                        <div class="card-body">
-                            <p class="card-text">Teruslah bernapas walau dunia selalu menolakmu</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="card yellow">
-                        <div class="card-body">
-                            <p class="card-text">Aku sudah kehilangan semuanya</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 mt-5">
-                    <div class="card pink">
-                        <div class="card-body">
-                            <p class="card-text">Keluarga harusnya menjadi rumah yang nyaman, tapi bagiku tidak</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="card pink2">
-                        <div class="card-body">
-                            <p class="card-text">AKU CAPEK...</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 mt-5">
-                    <div class="card purple">
-                        <div class="card-body">
-                            <p class="card-text">Melihat orang lain bahagia terasa menyenangkan</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="card green1">
-                        <div class="card-body">
-                            <p class="card-text">Tidak ada tempat lagi yang dapat aku sebut rumah</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 mt-5">
-                    <div class="card purple1">
-                        <div class="card-body">
-                            <p class="card-text">Apakah orang sepertiku pantas untuk bahagia??</p>
-                        </div>
-                    </div>
-                </div>
+                <?php endforeach; ?>
             </div>
             <div class="text-center mt-4">
-                <button class="btn btn-primary mt-3">Ayo! Tinggalkan Jejak Perasaanmu</button>
+                <button onclick="location.href='/jejakPerasaan'" class="btn btn-primary mt-3">Ayo! Tinggalkan Jejak Perasaanmu</button>
             </div>
         </div>
     </div>
@@ -402,7 +332,7 @@
             <div class="row mt-5 header">
                 <div class="col-md-6">
                     <h2>Selamat Datang di</h2>
-                    <img src="<?= base_url('images/Logo Bercerita.com2.png') ?>" class="logo">
+                    <img src="<?= base_url('images/Logo_Bercerita.com2.png') ?>" class="logo">
                 </div>
             </div>
 
