@@ -10,10 +10,6 @@ class PsikologController extends BaseController
     {
         
         $psikologModel = new PsikologModel();
-        // echo '<pre>';
-        // print_r(session()->get());
-        // echo '</pre>';
-        // exit;
         $userId = session()->get('kd_psikolog');
         if (!$userId) {
             return redirect()->to('/login')->with('error', 'Anda harus login terlebih dahulu.');
@@ -33,34 +29,32 @@ class PsikologController extends BaseController
 
         return view('dashboardpsikolog', ['psikolog' => $psikolog]);
     }
-
     public function updateProfile()
-{
-    $session = session();
-    $userId = session()->get('kd_psikolog');
+    {
+        $userId = session()->get('kd_psikolog');
+        
+        $tentang_saya = $this->request->getPost('tentang_saya');
+        $pendekatan_klinis = $this->request->getPost('pendekatan_klinis');
+        $foto = $this->request->getFile('foto');
+        
+        $data = [
+            'tentang_saya' => $tentang_saya,
+            'pendekatan_klinis' => $pendekatan_klinis,
+        ];
     
-    $tentang_saya = $this->request->getPost('tentang_saya');
-    $pendekatan_klinis = $this->request->getPost('pendekatan_klinis');
-    $foto = $this->request->getFile('foto');
+        // Cek jika ada foto yang di-upload
+        if ($foto && $foto->isValid() && !$foto->hasMoved()) {
+            $newName = $foto->getRandomName(); // Dapatkan nama file acak
+            $foto->move('uploads', $newName); // Pindahkan file ke folder uploads
+            $data['foto'] = $newName; // Update path foto di database
+        }
     
-    $data = [
-        'tentang_saya' => $tentang_saya,
-        'pendekatan_klinis' => $pendekatan_klinis,
-    ];
-
-    // Cek jika ada foto yang di-upload
-    if ($foto && $foto->isValid() && !$foto->hasMoved()) {
-        $newName = $foto->getRandomName(); // Dapatkan nama file acak
-        $foto->move('uploads', $newName); // Pindahkan file ke folder uploads
-        $data['foto'] = $newName; // Update path foto di database
+        $psikologModel = new PsikologModel();
+        $psikologModel->update($userId, $data); // Perbarui data psikolog di database
+    
+        // Mengirim respons sukses
+        return $this->response->setJSON(['success' => true, 'message' => 'Profil berhasil diperbarui.']);
     }
-
-    $psikologModel = new PsikologModel();
-    $psikologModel->update($userId, $data); // Perbarui data psikolog di database
-
-    // Mengirim respons sukses
-    return $this->response->setJSON(['success' => true, 'message' => 'Profil berhasil diperbarui.']);
-}
 
     public function simpanLayanan()
 {
@@ -88,8 +82,6 @@ class PsikologController extends BaseController
 
     // Set flashdata sukses
     return redirect()->back()->with('success', 'Layanan berhasil disimpan.');
+
 }
-
-
-
 }

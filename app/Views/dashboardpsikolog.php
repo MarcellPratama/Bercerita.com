@@ -7,6 +7,8 @@
       href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css"
       rel="stylesheet"
     />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" 
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     
     <link rel="stylesheet" href="<?= base_url('/css/dbpsikolog.css') ?>">
     
@@ -22,7 +24,7 @@
         <i class="bi bi-list" id="btn"></i>
       </div>
       <div class="user">
-      <img id="profile-img" src="<?= base_url('uploads/' . $psikolog['foto']) ?>" />
+      <img id="profile-img" src="<?= base_url(($psikolog['foto'])) ?>" alt="Profile Picture">
         <div class="halo">
           <p class="bold">Halo</p>
           <p><?= esc($psikolog['username']) ?></p>
@@ -42,10 +44,10 @@
             <span class="nav-item">Jadwal Konsultasi</span>
           </a>
           <span class="tooltip">Jadwal Konsultasi</span>
-          <div class="submenu" id="submenu">
+          <!-- <div class="submenu" id="submenu">
             <a href="#" id="konsultasi-online">Konsultasi Online</a>
             <a href="#" id="konsultasi-offline">Konsultasi Tatap Muka</a>
-          </div>
+          </div> -->
         </li>
         <li>
           <a href="#" id="layanan-btn">
@@ -68,7 +70,7 @@
             <div id="profile-content">
             <div class="profile-card">
             <div class="profile-image">
-              <img id="profile-img" src="<?= base_url('uploads/' . $psikolog['foto']) ?>" alt="Profile Picture">
+              <img id="profile-img" src="<?= base_url(($psikolog['foto'])) ?>" alt="Profile Picture">
                 <i id="edit-photo-icon" class="bi bi-pencil-square" style="display:none;"></i>
                 <input type="file" id="foto" style="display:none" />
             </div>
@@ -92,21 +94,57 @@
           </div>
         </div>
       <div class="jadwal-content" id="jadwal-content" style="display: none">
-        <div class="section-name">Jadwal Konsultasi</div>
-            <!-- Buttons for Tatap Muka and Chat -->
-        <div class="button-container">
-            <button id="tatap-muka-btn" class="consultation-btn">Tatap Muka</button>
-            <button id="chat-btn" class="consultation-btn">Chat</button>
-        </div>
-        <div class="calendar-container">
-          <div class="calendar-header">
-            <span id="prev-month" class="calendar-nav">&lt;</span>
-            <span id="month-year" class="month"></span>
-            <span id="next-month" class="calendar-nav">&gt;</span>
+          <h1>Jadwal Konsultasi</h1>
+          <div class="button-group">
+              <button id="tm", class="active">Tatap muka</button>
+              <button id="chat">Chat</button>
+              <button id="kelola">Kelola Jadwal</button>
           </div>
-          <div class="calendar-grid" id="calendar-grid"></div>
-        </div>
+          <div id="session-chat">
+            <div class="session">
+                <div class="session-title">Sesi Chat Hari ini</div>
+                <?php if (!empty($todaySessions)): ?>
+                    <?php foreach ($todaySessions as $session): ?>
+                        <div class="session-item">
+                            <div><?= $session['time'] ?><br><?= $session['name'] ?></div>
+                            <div>
+                                <button class="chat-button">Chat</button>
+                                <button class="complete-button">Selesai</button>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <p>No sessions available for today.</p>
+                <?php endif; ?>
+            </div>
+
+            <div class="session">
+                <div class="session-title">Sesi Chat Besok</div>
+                <?php if (!empty($tomorrowSessions)): ?>
+                    <?php foreach ($tomorrowSessions as $session): ?>
+                        <div class="session-item">
+                            <div><?= $session['time'] ?><br><?= $session['name'] ?></div>
+                            <div>
+                                <button class="chat-button">Chat</button>
+                                <button class="complete-button">Selesai</button>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <p>No sessions available for tomorrow.</p>
+                <?php endif; ?>
+            </div>
+            </div>
+            <div class="calendar-container" id="calendar-container" style="display: none;">
+            <div class="calendar-header">
+              <span id="prev-month" class="calendar-nav">&lt;</span>
+              <span id="month-year" class="month"></span>
+              <span id="next-month" class="calendar-nav">&gt;</span>
+            </div>
+            <div class="calendar-grid" id="calendar-grid"></div>
+          </div>
       </div>
+      
       <div class="layanan" id="layanan" style="display: none">
         <div class="section-name-layanan">Layanan</div><br><br>
         <div class="layanan-content" id="layanan-content"><br><br><br><br>
@@ -149,8 +187,41 @@
                   <input type="text" id="lainnya" name="lainnya">
               </div>
               <button type="submit" class="submit-btn">Simpan</button>
-            </div>
-        </form>
+          </form>
+        </div>
+      </div>
+      <div id="kelola-content" class="kelola-content" style="display: none;">
+       <div class="container-content">
+          <div class="schedule">
+            <h3>Jadwal saat ini</h3>
+            <ul>
+                <li><strong>Sabtu</strong> <span>09.30 - 12.00</span></li>
+                <li><strong>Minggu</strong> <span>Closed</span></li>
+                <li><strong>Senin</strong> <span>09.30 - 12.00</span></li>
+                <li><strong>Selasa</strong> <span>10.30 - 12.00</span></li>
+                <li><strong>Rabu</strong> <span>09.00 - 12.00</span></li>
+                <li><strong>Kamis</strong> <span>09.30 - 12.00</span></li>
+            </ul>
+        </div>
+
+        <div class="edit-jadwal">
+            <h3>Edit Jadwal</h3>
+            <label for="hari">Hari</label>
+            <select id="hari">
+                <option>Senin</option>
+                <option>Selasa</option>
+                <option>Rabu</option>
+                <option>Kamis</option>
+                <option>Jumat</option>
+                <option>Sabtu</option>
+                <option>Minggu</option>
+            </select>
+            <label for="jam">Jam</label>
+            <input type="number" value="12" min="0" max="23"> :
+            <input type="number" value="01" min="0" max="59">
+            <button type="submit" id="simpan-jadwal">Simpan</button>
+        </div>
+        </div>
       </div>
     </div>
     </div>
@@ -174,11 +245,14 @@
 
     jadwalBtn.onclick = function (e) {
       e.preventDefault();
-      if (submenu.style.maxHeight) {
-        submenu.style.maxHeight = null;
-      } else {
-        submenu.style.maxHeight = submenu.scrollHeight + "px";
-      }
+      profileContent.style.display = "none";
+      jadwalContent.style.display = "block";
+      layanancnt.style.display = "none";
+      // if (submenu.style.maxHeight) {
+      //   submenu.style.maxHeight = null;
+      // } else {
+      //   submenu.style.maxHeight = submenu.scrollHeight + "px";
+      // }
     };
 
     profileBtn.addEventListener("click", function (e) {
@@ -194,22 +268,23 @@
     layanancnt.style.display = "flex";
     jadwalContent.style.display = "none";
     profileContent.style.display = "none";
-  });
-
-
-    konsultasiOnline.addEventListener("click", function (e) {
-      e.preventDefault();
-      layanancnt.style.display = "none";
-      profileContent.style.display = "none";
-      jadwalContent.style.display = "flex";
     });
 
-    konsultasiTatapMuka.addEventListener("click", function (e) {
-      e.preventDefault();
-      layanancnt.style.display = "none";
-      profileContent.style.display = "none";
-      jadwalContent.style.display = "flex";
+    document.getElementById('chat').addEventListener('click', function() {
+      document.getElementById('calendar-container').style.display = 'none';
+      document.getElementById('session-chat').style.display = 'block';
+      document.getElementById('kelola-content').style.display = 'none';
     });
+    document.getElementById('tm').addEventListener('click', function() {
+      document.getElementById('calendar-container').style.display = 'block';
+      document.getElementById('session-chat').style.display = 'none';
+      document.getElementById('kelola-content').style.display = 'none';
+    });
+    document.getElementById('kelola').addEventListener('click', function() {
+      document.getElementById('calendar-container').style.display = 'none';
+      document.getElementById('session-chat').style.display = 'none';
+      document.getElementById('kelola-content').style.display = 'block';
+    })
 
     const monthNames = [
       "January",
@@ -272,7 +347,7 @@
     generateCalendar(currentMonth, currentYear);
 
     // Enable editing for profile
-  document.getElementById("edit-profile-btn").addEventListener("click", function (e) {
+    document.getElementById("edit-profile-btn").addEventListener("click", function (e) {
     e.preventDefault();
     document.getElementById("tentang-saya-text").contentEditable = true;
     document.getElementById("pendekatan-klinis-text").contentEditable = true;
@@ -332,7 +407,7 @@
       .then(data => {
         if (data.success) {
           alert("Profil berhasil diperbarui.");
-          location.reload(); // Reload page to see updated changes
+          location.reload(); 
         } else {
           alert(data.message || "Terjadi kesalahan saat menyimpan profil.");
         }

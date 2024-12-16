@@ -161,7 +161,8 @@
         <form id="registerForm" action="/prosesRegistrasi" method="post" enctype="multipart/form-data"
             onsubmit="disableSubmitButton()">
             <label for="category">Kategori</label>
-            <select id="category" name="category" onchange="loadAdditionalInputs()">
+            <select id="category" name="category" onchange="loadAdditionalInputs()"
+                onkeydown="handleEnter(event, 'username')">
                 <option value="">Pilih Kategori</option>
                 <option value="klien">Klien</option>
                 <option value="mhs">Mahasiswa Psikologi</option>
@@ -169,13 +170,16 @@
             </select>
 
             <label for="username">Nama Pengguna</label>
-            <input type="text" id="username" name="username" placeholder="Nama pengguna" required>
+            <input type="text" id="username" name="username" placeholder="Nama pengguna" required
+                onkeydown="handleEnter(event, 'password')">
 
             <label for="password">Kata Sandi</label>
-            <input type="password" id="password" name="password" placeholder="Kata sandi" required>
+            <input type="password" id="password" name="password" placeholder="Kata sandi" required
+                onkeydown="handleEnter(event, 'email')">
 
             <label for="email">Email</label>
-            <input type="email" id="email" name="email" placeholder="Email" required>
+            <input type="email" id="email" name="email" placeholder="Email" required
+                onkeydown="handleEnter(event, 'file-upload')">
 
             <!-- Tempat untuk menambahkan input tambahan berdasarkan kategori -->
             <div id="additionalInputs"></div>
@@ -222,10 +226,10 @@
         if (category === "mhs") {
             additionalInputs.innerHTML = `
             <label for="nim">NIM</label>
-            <input type="text" id="nim" name="nim" placeholder="Nomor Induk Mahasiswa" required>
+            <input type="text" id="nim" name="nim" placeholder="Nomor Induk Mahasiswa" required onkeydown="handleEnter(event, 'asal_univ')">
 
             <label for="asal_univ">Asal Universitas</label>
-            <input type="text" id="asal_univ" name="asal_univ" placeholder="Asal Universitas" required>
+            <input type="text" id="asal_univ" name="asal_univ" placeholder="Asal Universitas" required onkeydown="handleEnter(event, 'ktm-upload')">
 
             <label for="fotoKTM">Mengunggah KTM</label>
             <div class="file-upload">
@@ -238,7 +242,7 @@
         } else if (category === "psikolog") {
             additionalInputs.innerHTML = `
             <label for="domisili">Domisili</label>
-            <input type="text" id="domisili" name="domisili" placeholder="Domisili" required>
+            <input type="text" id="domisili" name="domisili" placeholder="Domisili" required onkeydown="handleEnter(event, 'ktp-upload')">
 
             <label for="ktp-upload">Mengunggah Foto KTP</label>
             <div class="file-upload">
@@ -273,6 +277,16 @@
     document.addEventListener('DOMContentLoaded', function() {
         document.querySelector('.btn-submit').disabled = true;
     });
+
+    function handleEnter(event, nextFieldId) {
+        if (event.key === 'Enter') {
+            event.preventDefault();
+            const nextField = document.getElementById(nextFieldId);
+            if (nextField) {
+                nextField.focus();
+            }
+        }
+    }
 
     function showUploadStatus() {
         const fileInput = document.getElementById('file-upload');
