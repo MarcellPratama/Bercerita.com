@@ -49,7 +49,7 @@ class PsikologController extends BaseController
     $tentangSaya = $this->request->getPost('tentang_saya');
     $pendekatanKlinis = $this->request->getPost('pendekatan_klinis');
     $profilePicture = $this->request->getFile('foto');
-    $tarif = $this->request->getPost('tarif');
+    $tarif = $this->request->getPost('tarif-text');
 
     // Siapkan data untuk diupdate
     $dataToUpdate = [];
@@ -69,6 +69,13 @@ class PsikologController extends BaseController
         $newProfilePicture = $profilePicture->getRandomName();
         $profilePicture->move('uploads/FOTO/', $newProfilePicture);
         $dataToUpdate['foto'] = '/uploads/FOTO/' . $newProfilePicture;
+    }
+    if (isset($tarif) && $tarif !== '') {
+        $tarifClean = preg_replace('/[^\d.,]/', '', str_replace(',', '.', $tarif)); 
+        if (!is_numeric($tarifClean) || floatval($tarifClean) <= 0) {
+            return redirect()->back()->with('error', 'Tarif harus berupa angka positif.');
+        }
+        $dataToUpdate['tarif'] = floatval($tarifClean);
     }
     
 
