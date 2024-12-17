@@ -46,4 +46,11 @@ class psikologModel extends Model
         // Kembalikan ID baru dengan format "PSK[number]"
         return 'PSK' . str_pad($nextIdNumber, 4, '0', STR_PAD_LEFT); // Contoh: PSK0001
     }
+    public function updateProfilePhoto($userId, $data)
+{
+    return $this->db->table('psikolog')
+        ->where('id', $userId)
+        ->update($data);
+}
+
 }

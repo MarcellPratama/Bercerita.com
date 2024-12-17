@@ -6,6 +6,54 @@ use App\Models\PsikologModel;
 
 class PsikologController extends BaseController
 {
+
+    public function updateProfilePhoto()
+{
+    $psikologModel = new PsikologModel();
+
+    // Ambil data user berdasarkan username yang ada di session
+    $loggedInUsername = session()->get('username');
+    $userData = $psikologModel->where('username', $loggedInUsername)->first();
+    
+    if (!$userData) {
+        return redirect()->back()->with('error', 'Data psikolog tidak ditemukan.');
+    }
+
+    // Ambil input dari form
+    $tentangSaya = $this->request->getPost('tentang_saya');
+    $pendekatanKlinis = $this->request->getPost('pendekatan_klinis');
+    $profilePicture = $this->request->getFile('foto');
+
+    // Siapkan data untuk diupdate
+    $dataToUpdate = [];
+
+    // Update field "Tentang Saya"
+    if (isset($tentangSaya)) { // Tangani baik isi kosong maupun ada input
+        $dataToUpdate['tentang_saya'] = $tentangSaya === '' ? null : $tentangSaya;
+    }
+
+    // Update field "Pendekatan Klinis"
+    if (isset($pendekatanKlinis)) { // Tangani baik isi kosong maupun ada input
+        $dataToUpdate['pendekatan_klinis'] = $pendekatanKlinis === '' ? null : $pendekatanKlinis;
+    }
+
+    // Update Foto Profil
+    if ($profilePicture && $profilePicture->isValid()) {
+        // Proses upload foto profil
+        $newProfilePicture = $profilePicture->getRandomName();
+        $profilePicture->move('uploads/FOTO/', $newProfilePicture);
+        $dataToUpdate['foto'] = '/uploads/FOTO/' . $newProfilePicture;
+    }
+
+    // Update data jika ada perubahan
+    if (!empty($dataToUpdate)) {
+        $psikologModel->update($userData['kd_psikolog'], $dataToUpdate);
+        return redirect()->back()->with('success', 'Profil berhasil diperbarui.');
+    }
+
+    return redirect()->back()->with('info', 'Tidak ada perubahan pada profil.');
+}
+
     public function dashboard()
     {
         $userId = session()->get('kd_psikolog');
@@ -33,34 +81,6 @@ class PsikologController extends BaseController
     }
     
 
-  
-    public function updateProfile()
-    {
-        $session = session();
-        $userId = session()->get('kd_psikolog');
-        
-        $tentang_saya = $this->request->getPost('tentang_saya');
-        $pendekatan_klinis = $this->request->getPost('pendekatan_klinis');
-        $foto = $this->request->getFile('foto');
-        
-        $data = [
-            'tentang_saya' => $tentang_saya,
-            'pendekatan_klinis' => $pendekatan_klinis,
-        ];
-    
-        // Cek jika ada foto yang di-upload
-        if ($foto && $foto->isValid() && !$foto->hasMoved()) {
-            $newName = $foto->getRandomName(); // Dapatkan nama file acak
-            $foto->move('uploads', $newName); // Pindahkan file ke folder uploads
-            $data['foto'] = $newName; // Update path foto di database
-        }
-    
-        $psikologModel = new PsikologModel();
-        $psikologModel->update($userId, $data); // Perbarui data psikolog di database
-    
-        // Mengirim respons sukses
-        return $this->response->setJSON(['success' => true, 'message' => 'Profil berhasil diperbarui.']);
-    }
 
     public function simpanLayanan()
 {

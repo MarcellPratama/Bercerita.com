@@ -1,0 +1,51 @@
+/* style.css */
+@import url('https://fonts.googleapis.com/css2');
+
+body {
+    background: linear-gradient(to bottom, #478CCF, #36C2CE, #77E4C8);
+    width: 100%;
+    height: 100vh;
+    background-size: cover; /* Adjust to fit the entire area without cutting */
+    background-repeat: no-repeat;
+    font-family: 'Poppins', sans-serif;
+
+    .calendar .day {
+        height: 40px;
+        width: 40px;
+        border-radius: 10%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: auto;
+        cursor: pointer;
+    }
+    .day.available {
+        background-color: #50d8e0;
+        color: white;
+        font-weight: bold;
+    }
+    .day.unavailable {
+        background-color: #c3c3c3;
+        color: white;
+    }
+    .day.booked {
+        background-color: #b70000;
+        color: white;
+    }
+    .day.selected {
+        background-color: #ff9800;
+        color: white;
+        font-weight: bold;
+    }
+    .time-btn {
+        border: 1px solid #c3c3c3;
+        border-radius: 25px;
+        width: 80px;
+        text-align: center;
+        cursor: pointer;
+    }
+    .time-btn.active {
+        background-color: #50d8e0;
+        color: white;
+    }
+}

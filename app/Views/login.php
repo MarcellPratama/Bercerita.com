@@ -123,14 +123,16 @@
                 <div class="input-container">
                     <div class="input-wrapper">
                         <i class="fas fa-user"></i>
-                        <input type="text" id="username" name="username" placeholder="Nama pengguna">
+                        <input type="text" id="username" name="username" placeholder="Nama pengguna"
+                            onkeydown="handleKeyDown(event, 'password')">
                     </div>
                     <p class="error-message" id="usernameError">Nama pengguna harus diisi</p>
                 </div>
                 <div class="input-container">
                     <div class="input-wrapper">
                         <i class="fas fa-lock"></i>
-                        <input type="password" id="password" name="password" placeholder="Kata sandi">
+                        <input type="password" id="password" name="password" placeholder="Kata sandi"
+                            onkeydown="handleKeyDown(event, 'loginButton')">
                     </div>
                     <p class="error-message" id="passwordError">Kata sandi harus diisi</p>
                 </div>
@@ -142,7 +144,7 @@
                 </div>
                 <?php endif; ?>
 
-                <button type="submit" class="button" onclick="validateForm()">MASUK</button>
+                <button type="submit" class="button" id="loginButton" onclick="validateForm()">MASUK</button>
             </form>
             <div style="margin-top: 20px; color: white;">
                 <span>Belum punya akun? <a href="/registrasi" style="color: #007bff; text-decoration: none;">Daftar,
@@ -152,6 +154,13 @@
     </div>
 
     <script>
+    function handleKeyDown(event, nextFieldId) {
+        if (event.key === 'Enter') {
+            event.preventDefault();
+            document.getElementById(nextFieldId).focus();
+        }
+    }
+
     function showError(input, message) {
         const error = input.parentElement.parentElement.querySelector('.error-message');
         error.textContent = message;

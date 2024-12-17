@@ -6,7 +6,38 @@
 }
 
 .halo {
-    color: #333;
+    color: white;
+}
+
+
+/* Styling untuk profile image di sidebar */
+
+#profile-img-sidebar {
+    width: 60px;
+    /* Ukuran lebar gambar */
+    height: 60px;
+    /* Ukuran tinggi gambar */
+    border-radius: 50%;
+    /* Membuat gambar berbentuk lingkaran */
+    object-fit: cover;
+    /* Memastikan gambar tidak terdistorsi */
+    /* Menambahkan border putih untuk tampilan bersih */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    /* Memberikan efek bayangan */
+    margin-left: 5px;
+    /* Memusatkan gambar di dalam elemen sidebar */
+    display: block;
+    /* Memastikan gambar adalah elemen blok */
+}
+
+
+/* Tambahan efek hover pada gambar */
+
+#profile-img-sidebar:hover {
+    transform: scale(1.1);
+    /* Sedikit memperbesar gambar saat dihover */
+    transition: transform 0.3s ease-in-out;
+    /* Efek transisi */
 }
 
 .sidebar {
@@ -259,6 +290,8 @@
     border-radius: 50px;
     transition: background-color 0.3s;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    margin-top: 20px;
+    margin-bottom: 50px;
 }
 
 .edit-button:hover {
@@ -492,6 +525,10 @@ a {
 #foto {
     display: none;
     visibility: hidden;
+    position: absolute;
+    /* Pastikan tidak mengambil ruang */
+    top: -9999px;
+    left: -9999px;
 }
 
 .file-upload {
@@ -589,11 +626,19 @@ textarea:focus {
 
 /* Profile image container */
 
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .profile-container {
-    position: relative;
-    width: 150px;
-    height: 150px;
-    margin: auto;
+    display: flex;
+    justify-content: center;
+    /* Menjaga elemen di tengah secara horizontal */
+    align-items: center;
+    /* Menjaga elemen di tengah secara vertikal */
+    margin: 0 auto;
 }
 
 
@@ -605,11 +650,12 @@ textarea:focus {
     height: 150px;
     border-radius: 50%;
     overflow: hidden;
-    margin: 0 auto 15px;
     border: 10px solid #38cdf5;
     display: flex;
     justify-content: center;
     align-items: center;
+    margin: 0 auto;
+    /* Untuk memastikan berada di tengah */
 }
 
 .profile-image img {

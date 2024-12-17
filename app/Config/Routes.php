@@ -46,7 +46,7 @@ $routes->post('/simpan-catatan', 'catatanController::addCatatan');
 
 $routes->get('dashboardpsikolog', 'PsikologController::dashboard');
 
-$routes->post('/update-profile', 'PsikologController::updateProfile');
+// $routes->post('/update-profile', 'PsikologController::updateProfile');
 // $routes->get('/edit-profile', 'PsikologController::editProfile');
 // $routes->post('/update-profile', 'PsikologController::updateProfile');
 
@@ -60,3 +60,5 @@ $routes->delete('mading/deleteMading/(:segment)', 'adminController::deleteMading
 
 $routes->get('/adminLihatDetailPsiko/(:any)', 'AdminController::cekVerifikasiPsikolog/$1');
 $routes->get('/adminLihatDetailMahasiswa/(:any)', 'adminController::cekVerifikasiMhsPsikologi/$1');
+
+$routes->post('/psikolog/updateProfilePhoto', 'PsikologController::updateProfilePhoto');

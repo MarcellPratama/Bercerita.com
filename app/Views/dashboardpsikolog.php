@@ -2,36 +2,29 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
     <link rel="stylesheet" href="<?= base_url('/css/dbpsikolog.css') ?>">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
-
-
-    <title>Document</title>
+    <title>Profil Psikolog</title>
 </head>
 
 <body>
     <div class="main-container">
         <div class="sidebar">
             <div class="top">
-                <div class="logo">
-                    <img src="base_url('/images/Logo_Bercerita.com2.png')" alt="" />
-                </div>
+
                 <i class="bi bi-list" id="btn"></i>
             </div>
+            <br> <br>
             <div class="user">
                 <?php
-// Check if the `foto` field already contains the path
-if (strpos($psikolog['foto'], 'uploads/FOTO/') !== false) {
-    $imageSrc = base_url($psikolog['foto']);
-} else {
-    $imageSrc = base_url('uploads/FOTO/' . $psikolog['foto']);
-}
-?>
-                <img id="profile-img" src="<?= $imageSrc ?>" alt="Profile Image">
-
+                $imageSrc = !empty($psikolog['foto']) && strpos($psikolog['foto'], 'uploads/FOTO/') !== false
+                    ? base_url($psikolog['foto'])
+                    : base_url('uploads/FOTO/' . ($psikolog['foto'] ?? 'default.jpg'));
+                ?>
+                <img id="profile-img-sidebar" src="<?= $imageSrc ?>" alt="Profile Image">
                 <div class="halo">
                     <p class="bold">Halo</p>
                     <p><?= esc($psikolog['username']) ?></p>
@@ -72,331 +65,169 @@ if (strpos($psikolog['foto'], 'uploads/FOTO/') !== false) {
                 </li>
             </ul>
         </div>
-        <!-- Content -->
+    </div>
+
+
+    <form id="profile-form" method="post" enctype="multipart/form-data"
+        action="<?= base_url('/psikolog/updateProfilePhoto') ?>">
         <div class="content">
             <div id="profile-content">
                 <div class="profile-card">
+                    <div class="profile-container">
+                        <div class="profile-image">
 
-                    <?php
-// Normalize the `foto` value
-if (!empty($psikolog['foto'])) {
-    $imageSrc = strpos($psikolog['foto'], 'uploads/FOTO/') !== false
-        ? base_url($psikolog['foto'])
-        : base_url('uploads/FOTO/' . $psikolog['foto']);
-} else {
-    $imageSrc = base_url('uploads/FOTO/default.jpg'); // Fallback to a default image
-}
-?>
- <div class="profile-image">
-    <img id="profile-img" src="<?= $imageSrc ?>" alt="Profile Image">
-    <div class="edit-overlay" id="edit-overlay">
-        <i class="fas fa-pencil-alt"></i>
-    </div>
-    <input type="file" id="foto" style="display: none;" />
-</div>
+                            <img id="profile-img" src="<?= $imageSrc ?>" alt="Profile Image">
 
-                    <div class="profile-name"><?= esc($psikolog['username']) ?></div>
-                    <br />
+                            <div class="edit-overlay" id="edit-overlay">
+                                <i class="fas fa-pencil-alt"></i>
+                            </div>
+                        </div>
+                        <input type="file" id="foto" name="foto" style="display: none;" />
+                    </div>
+
+                    <div class="profile-name"> <?= esc($psikolog['username']) ?></div>
+                    <br>
                     <i class="bi bi-person-bounding-box" style="font-size: 1.5rem"></i>
                     <div class="section-title">Tentang Saya</div>
-                    <!-- Menggunakan contenteditable untuk memungkinkan perubahan langsung -->
-                    <div id="tentang-saya-text" contenteditable="false">
+                    <textarea id="tentang-saya-text" name="tentang_saya" style="display:none;"
+                        rows="1"><?= empty($psikolog['tentang_saya']) ? '' : esc($psikolog['tentang_saya']) ?></textarea>
+                    <div id="tentang-saya-text-view" contenteditable="false">
                         <?= empty($psikolog['tentang_saya']) ? '-' : esc($psikolog['tentang_saya']) ?></div>
+
                     <br><br>
                     <i class="bi bi-chat-heart" style="font-size: 1.5rem"></i>
                     <div class="section-title">Pendekatan Klinis</div>
-                    <div id="pendekatan-klinis-text" contenteditable="false">
+                    <textarea id="pendekatan-klinis-text" name="pendekatan_klinis" style="display:none;"
+                        rows="1"><?= empty($psikolog['pendekatan_klinis']) ? '' : esc($psikolog['pendekatan_klinis']) ?></textarea>
+                    <div id="pendekatan-klinis-text-view" contenteditable="false">
                         <?= empty($psikolog['pendekatan_klinis']) ? '-' : esc($psikolog['pendekatan_klinis']) ?>
                     </div>
                     <br><br>
                     <i class="bi bi-geo-alt" style="font-size: 1.5rem"></i>
                     <div class="section-title">Domisili</div>
-                    <div class="section-content"><?= esc($psikolog['domisili']) ?></div>
+                    <div class="section-content"> <?= esc($psikolog['domisili']) ?> </div>
 
                     <a href="#" id="edit-profile-btn" class="edit-button">Edit Profile</a>
                     <button id="save-profile-btn" class="submit-btn" style="display:none;">Simpan</button>
-                    <!-- Tombol simpan untuk menyimpan perubahan -->
                 </div>
-            </div>
-            <div class="jadwal-content" id="jadwal-content" style="display: none">
-                <div class="section-name">Jadwal Konsultasi</div>
-                <!-- Buttons for Tatap Muka and Chat -->
-                <div class="button-container">
-                    <button id="tatap-muka-btn" class="consultation-btn">Tatap Muka</button>
-                    <button id="chat-btn" class="consultation-btn">Chat</button>
-                </div>
-                <div class="calendar-container">
-                    <div class="calendar-header">
-                        <span id="prev-month" class="calendar-nav">&lt;</span>
-                        <span id="month-year" class="month"></span>
-                        <span id="next-month" class="calendar-nav">&gt;</span>
-                    </div>
-                    <div class="calendar-grid" id="calendar-grid"></div>
-                </div>
-            </div>
-            <div class="layanan" id="layanan" style="display: none">
-                <div class="section-name-layanan">Layanan</div><br><br>
-                <div class="layanan-content" id="layanan-content"><br><br><br><br>
-                    <label for="cases">Kasus Yang ditangani (Max. 4)</label>
-                    <form action="/psikolog/simpanLayanan" method="post">
-                        <div class="checkbox-group">
-                            <label for="kecemasan">
-                                <input type="checkbox" id="kecemasan" name="kasus[]" value="Kecemasan">
-                                Kecemasan
-                            </label>
-                            <label for="depresi">
-                                <input type="checkbox" id="depresi" name="kasus[]" value="Depresi">
-                                Depresi
-                            </label>
-
-                            <label for="kepercayaan_diri">
-                                <input type="checkbox" id="kepercayaan_diri" name="kasus[]" value="Kepercayaan diri">
-                                Kepercayaan diri
-                            </label>
-                            <label for="masalah_keluarga">
-                                <input type="checkbox" id="masalah_keluarga" name="kasus[]" value="Masalah Keluarga">
-                                Masalah Keluarga</label>
-                            <label for="gangguan_kepribadian">
-                                <input type="checkbox" id="gangguan_kepribaadian" name="kasus[]"
-                                    value="Gangguan Kepradian">
-                                Gangguan Kepribadian</label>
-                            <label for="kedukaan">
-                                <input type="checkbox" id="kedukaan" name="kasus[]" value="Keduakaan">
-                                Keduakaan</label>
-                            <label for="relasi_romantis">
-                                <input type="checkbox" id="relasi_romantis" name="kasus[]" value="Relasi Romantis">
-                                Relasi Romantis</label>
-                            <label for="burnout"><input type="checkbox" id="burnout" name="kasus[]" value="Burn out">
-                                Burn out</label>
-                            <label for="trauma_psikologis">
-                                <input type="checkbox" id="trauma_psikologis" name="kasus[]"
-                                    value="Trauma Psikologis">Trauma Psikologis</label>
-                        </div>
-
-                        <div class="other-case">
-                            <label for="lainnya">Lainnya...</label>
-                            <input type="text" id="lainnya" name="lainnya">
-                        </div>
-                        <button type="submit" class="submit-btn">Simpan</button>
-                </div>
-                </form>
             </div>
         </div>
-    </div>
+    </form>
 </body>
+
 <script>
-let btn = document.querySelector("#btn");
-let sidebar = document.querySelector(".sidebar");
-let profileBtn = document.getElementById("profile-btn");
-let jadwalBtn = document.getElementById("jadwal-btn");
-let profileContent = document.getElementById("profile-content");
-let jadwalContent = document.getElementById("jadwal-content");
-let submenu = document.getElementById("submenu");
-let konsultasiOnline = document.getElementById("konsultasi-online");
-let konsultasiTatapMuka = document.getElementById("konsultasi-offline");
-let layananBtn = document.getElementById("layanan-btn");
-let layanancnt = document.getElementById("layanan");
-
-btn.onclick = function() {
-    sidebar.classList.toggle("active");
-};
-
-jadwalBtn.onclick = function(e) {
-    e.preventDefault();
-    if (submenu.style.maxHeight) {
-        submenu.style.maxHeight = null;
-    } else {
-        submenu.style.maxHeight = submenu.scrollHeight + "px";
-    }
-};
-
-profileBtn.addEventListener("click", function(e) {
-    e.preventDefault();
-    profileContent.style.display = "block";
-    jadwalContent.style.display = "none";
-    layanancnt.style.display = "none";
-});
-
-layananBtn.addEventListener("click", function(e) {
-    e.preventDefault();
-    console.log('Button Layanan diklik'); // Debugging log
-    layanancnt.style.display = "flex";
-    jadwalContent.style.display = "none";
-    profileContent.style.display = "none";
-});
+const editProfileBtn = document.getElementById("edit-profile-btn");
+const saveProfileBtn = document.getElementById("save-profile-btn");
+const tentangSayaText = document.getElementById("tentang-saya-text");
+const pendekatanKlinisText = document.getElementById("pendekatan-klinis-text");
+const fotoInput = document.getElementById("foto");
+const profileImg = document.getElementById("profile-img");
+const tentangSayaTextView = document.getElementById("tentang-saya-text-view");
+const pendekatanKlinisTextView = document.getElementById("pendekatan-klinis-text-view");
+const btn = document.querySelector("#btn");
+const sidebar = document.querySelector(".sidebar");
+const editOverlay = document.getElementById("edit-overlay");
+const profileImgSidebar = document.getElementById("profile-img-sidebar");
 
 
-konsultasiOnline.addEventListener("click", function(e) {
-    e.preventDefault();
-    layanancnt.style.display = "none";
-    profileContent.style.display = "none";
-    jadwalContent.style.display = "flex";
-});
+// Fungsi untuk masuk ke mode edit
+function enableEditMode() {
+    // Menampilkan textarea untuk edit
+    tentangSayaText.style.display = "block";
+    pendekatanKlinisText.style.display = "block";
+    tentangSayaTextView.style.display = "none";
+    pendekatanKlinisTextView.style.display = "none";
 
-konsultasiTatapMuka.addEventListener("click", function(e) {
-    e.preventDefault();
-    layanancnt.style.display = "none";
-    profileContent.style.display = "none";
-    jadwalContent.style.display = "flex";
-});
+    // Menampilkan tombol simpan dan input foto
+    saveProfileBtn.style.display = "inline-block";
+    editProfileBtn.style.display = "none"; // Sembunyikan tombol "Edit Profil"
+    fotoInput.style.display = "inline-block";
 
-const monthNames = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
-];
-
-let currentMonth = new Date().getMonth();
-let currentYear = new Date().getFullYear();
-
-function generateCalendar(month, year) {
-    const calendarGrid = document.getElementById("calendar-grid");
-    calendarGrid.innerHTML = "";
-    document.getElementById("month-year").textContent =
-        monthNames[month] + " " + year;
-    const firstDay = new Date(year, month, 1).getDay();
-    const daysInMonth = new Date(year, month + 1, 0).getDate();
-
-    for (let i = 0; i < firstDay; i++) {
-        const emptyCell = document.createElement("div");
-        emptyCell.classList.add("calendar-day");
-        calendarGrid.appendChild(emptyCell);
-    }
-
-    for (let day = 1; day <= daysInMonth; day++) {
-        const dayCell = document.createElement("div");
-        dayCell.classList.add("calendar-day");
-        dayCell.textContent = day;
-        calendarGrid.appendChild(dayCell);
-    }
+    // Tambahkan border agar terlihat lebih jelas
+    tentangSayaText.style.border = "1px solid #ccc";
+    pendekatanKlinisText.style.border = "1px solid #ccc";
 }
 
-document.getElementById("prev-month").addEventListener("click", () => {
-    currentMonth--;
-    if (currentMonth < 0) {
-        currentMonth = 11;
-        currentYear--;
-    }
-    generateCalendar(currentMonth, currentYear);
-});
+// Fungsi untuk menyimpan perubahan
+function disableEditMode() {
+    // Mengembalikan tampilan ke mode tampilan
+    tentangSayaText.style.display = "none";
+    pendekatanKlinisText.style.display = "none";
+    tentangSayaTextView.style.display = "block";
+    pendekatanKlinisTextView.style.display = "block";
 
-document.getElementById("next-month").addEventListener("click", () => {
-    currentMonth++;
-    if (currentMonth > 11) {
-        currentMonth = 0;
-        currentYear++;
-    }
-    generateCalendar(currentMonth, currentYear);
-});
+    // Update konten tampilan dengan isi dari textarea
+    tentangSayaTextView.innerText = tentangSayaText.value;
+    pendekatanKlinisTextView.innerText = pendekatanKlinisText.value;
 
-generateCalendar(currentMonth, currentYear);
+    // Sembunyikan tombol simpan dan input foto
+    saveProfileBtn.style.display = "none";
+    editProfileBtn.style.display = "inline-block"; // Tampilkan kembali tombol "Edit Profil"
+    fotoInput.style.display = "none";
+}
 
-// Enable editing for profile
-document.getElementById("edit-profile-btn").addEventListener("click", function(e) {
+// Event listener untuk tombol "Edit Profil"
+editProfileBtn.addEventListener("click", function(e) {
     e.preventDefault();
-    document.getElementById("tentang-saya-text").contentEditable = true;
-    document.getElementById("pendekatan-klinis-text").contentEditable = true;
-    document.getElementById("save-profile-btn").style.display = "inline-block"; // Show save button
-    document.getElementById("foto").style.display = "inline-block"; // Show file input
-    document.getElementById("edit-overlay").style.display = "block"; // Show edit photo icon
-    document.getElementById("tentang-saya-text").style.border = "1px solid #ccc"; // Add border
-    document.getElementById("pendekatan-klinis-text").style.border = "1px solid #ccc"; // Add border
+    enableEditMode(); // Masuk ke mode edit
 });
 
-// Handle photo icon click
-document.getElementById("edit-overlay").addEventListener("click", function() {
-    document.getElementById("foto").click(); // Trigger file input when edit photo icon is clicked
+saveProfileBtn.addEventListener("click", function(e) {
+    e.preventDefault();
+
+    // Validasi format file foto (opsional)
+    if (fotoInput.files.length > 0) {
+        const file = fotoInput.files[0];
+        const validTypes = ['image/jpeg', 'image/png', 'image/jpg'];
+        if (!validTypes.includes(file.type)) {
+            alert("Format foto tidak valid! Hanya JPG dan PNG yang diizinkan.");
+            return;
+        }
+    }
+
+    // Periksa jika field 'Tentang Saya' sudah dihapus (kosong)
+    if (tentangSayaText.value.trim() === "") {
+        tentangSayaTextView.innerText = "-"; // Tampilkan placeholder "-"
+        tentangSayaText.value = ""; // Simpan nilai kosong di textarea
+    } else {
+        tentangSayaTextView.innerText = tentangSayaText.value; // Update dengan isian
+    }
+
+    // Periksa jika field 'Pendekatan Klinis' sudah dihapus (kosong)
+    if (pendekatanKlinisText.value.trim() === "") {
+        pendekatanKlinisTextView.innerText = "-"; // Tampilkan placeholder "-"
+        pendekatanKlinisText.value = ""; // Simpan nilai kosong di textarea
+    } else {
+        pendekatanKlinisTextView.innerText = pendekatanKlinisText.value; // Update dengan isian
+    }
+
+    // Kirim form untuk menyimpan perubahan
+    document.getElementById("profile-form").submit();
 });
 
-// Handle photo preview when a file is selected
-document.getElementById("foto").addEventListener("change", function(e) {
+
+
+btn.addEventListener("click", () => {
+    sidebar.classList.toggle("active");
+});
+
+
+editOverlay.addEventListener("click", function() {
+    fotoInput.click();
+});
+
+
+fotoInput.addEventListener("change", function(e) {
     const file = e.target.files[0];
     if (file) {
         const reader = new FileReader();
         reader.onload = function(e) {
-            document.getElementById("profile-img").src = e.target.result; // Update profile image preview
+            // Update gambar di sidebar dan tampilan utama secara real-time
+            profileImg.src = e.target.result;
+            profileImgSidebar.src = e.target.result;
         };
-        reader.readAsDataURL(file); // Read file as data URL
+        reader.readAsDataURL(file);
     }
-});
-
-// Save profile changes
-document.getElementById("save-profile-btn").addEventListener("click", function(e) {
-    e.preventDefault();
-
-    // Retrieve values
-    const tentangSaya = document.getElementById("tentang-saya-text").innerText;
-    const pendekatanKlinis = document.getElementById("pendekatan-klinis-text").innerText;
-    const foto = document.getElementById("foto").files[0];
-
-    // Validate data
-    if (!tentangSaya || !pendekatanKlinis) {
-        alert("Harap lengkapi semua field sebelum menyimpan.");
-        return;
-    }
-
-    // Prepare FormData
-    const formData = new FormData();
-    formData.append("tentang_saya", tentangSaya);
-    formData.append("pendekatan_klinis", pendekatanKlinis);
-    if (foto) {
-        formData.append("foto", foto);
-    }
-
-    fetch("/update-profile", {
-    method: "POST",
-    body: formData,
-})
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            alert("Profil berhasil diperbarui.");
-            
-            // Update URL gambar dengan timestamp untuk menghindari cache
-            document.getElementById("profile-img").src = data.newImageUrl + '?t=' + new Date().getTime();
-
-            // Pastikan overlay tetap di tengah
-            const editOverlay = document.getElementById("edit-overlay");
-            editOverlay.style.top = "50%";
-            editOverlay.style.left = "50%";
-            editOverlay.style.transform = "translate(-50%, -50%)";
-        } else {
-            alert(data.message || "Terjadi kesalahan saat menyimpan profil.");
-        }
-    })
-    .catch(error => {
-        console.error("Error:", error);
-        alert("Terjadi kesalahan saat menyimpan profil.");
-    });
-
-});
-
-
-// Select all checkboxes under the "Kasus Yang Ditangani" section
-const checkboxes = document.querySelectorAll('input[name="kasus[]"]');
-
-// Function to handle checkbox selection limit
-function handleCheckboxLimit() {
-    const selectedCheckboxes = document.querySelectorAll('input[name="kasus[]"]:checked');
-    if (selectedCheckboxes.length > 4) {
-        alert('Anda hanya dapat memilih hingga 4 kasus.');
-        // Deselect the last checked box
-        selectedCheckboxes[selectedCheckboxes.length - 1].checked = false;
-    }
-}
-
-// Add event listener to each checkbox
-checkboxes.forEach(checkbox => {
-    checkbox.addEventListener('change', handleCheckboxLimit);
 });
 </script>
 
