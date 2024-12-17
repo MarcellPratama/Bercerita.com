@@ -237,6 +237,14 @@ body {
         align-items: center;
     }
 
+    .card-text {
+        word-wrap: break-word; /* Memastikan kata panjang dibungkus */
+        overflow-wrap: break-word; /* Alternatif untuk beberapa browser */
+        overflow: hidden; /* Mencegah teks melebihi area kartu */
+        text-overflow: ellipsis; /* Tambahkan ellipsis jika diperlukan */
+        white-space: normal; /* Memastikan teks membungkus */
+    }
+
     .card.green { background-color: #CDFC93;}
     .card.blue { background-color: #71D7FF;}
     .card.yellow { background-color: #FFF68B;}

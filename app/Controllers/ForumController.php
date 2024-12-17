@@ -52,6 +52,7 @@ class ForumController extends BaseController
         if ($foto->isValid() && !$foto->hasMoved()) {
             $foto->move('uploads/forum/', $fotoName);
         }
+        
         $this->forumModel->save([
             'kode_forum' => $kodeForum,
             'nama_forum' => $this->request->getPost('nama_forum'),

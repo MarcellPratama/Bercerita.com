@@ -30,6 +30,7 @@ body {
             color: #282928; /* Ensuring the text color is white */
             display: flex;
             align-items: center;
+            object-fit: cover;
         }
         svg {
             margin-right: 10px;
@@ -78,6 +79,7 @@ body {
         width: 53px;
         height: 53px;
         margin-left: 10px;
+        object-fit: cover;
     }
 
     .headline {
@@ -128,7 +130,7 @@ body {
 
     .search {
         font-size:16px; 
-        width: 350px;
+        width: 500px;
         color:#f6f6f6; 
         border:none; 
         cursor:pointer; 
@@ -302,5 +304,83 @@ body {
             font-size: 0.875rem;
             margin-top: 5px;
         }
+    }
+
+    /* Psikolog Page */
+    .psikolog-list {
+        .card {
+            width: 311px;
+            height: 430px;
+            position: relative;
+            overflow: hidden;
+            border: none;
+        }
+    
+        .card-img-top {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Ensures the image covers the card without distortion */
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+    
+        .card-img-overlay {
+            position: absolute; /* Overlay posisinya absolut */
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 1)); /* Gradien sebagai latar belakang */
+            color: #f6f6f6; /* Mengubah warna teks agar terlihat jelas di atas overlay */
+            display: flex; /* Menggunakan flexbox untuk penyelarasan */
+            flex-direction: column; /* Susun konten secara vertikal */
+            justify-content: flex-end; /* Menyelaraskan konten ke bagian bawah */
+    
+            .btn-primary {
+                background-color: #36C2CE;
+                color: #282928;
+                font-size: 16px;
+                font-weight: 700;
+                font-family: 'Poppins', sans-serif;
+                border: none;
+            }
+    
+            .btn-primary:hover {
+                background-color: #478CCF;
+                color: #f6f6f6;
+            }
+    
+            .detail-link {
+                color: #f6f6f6;
+                font-weight: 700;
+                font-size: 16px;
+                text-decoration: none;
+            }
+    
+            .detail-link:hover {
+                text-decoration: underline;
+            }
+    
+            .card-title {
+                font-family: 'Poppins', sans-serif;
+                font-weight: 700;
+                font-size: 20px;
+            }
+    
+            .card-text {
+                font-family: 'Poppins', sans-serif;
+                font-weight: 400;
+                font-size: 14px;
+            }
+        }
+    }
+
+    .psikolog-list {
+        max-height: 520px;
+        overflow-y: auto;
+        overflow-x: hidden;
+        background-color: none;
+    }
+    
+    /* Custom Scrollbar */
+    .psikolog-list::-webkit-scrollbar {
+        display: none;
     }
 }

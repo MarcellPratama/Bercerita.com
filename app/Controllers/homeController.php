@@ -14,7 +14,17 @@ class homeController extends BaseController
 
     public function viewHomepage()
     {
-        return view('homepage');
+        $psikologModel = new PsikologModel();
+        $forumModel = new forumModel();
+        $catatanModel = new catatanModel();
+
+        $forums = $forumModel->orderBy('RAND()')->limit(4)->findAll();
+        $catatan = $catatanModel->orderBy('RAND()')->limit(8)->findAll();
+
+        return view('homepage', [
+            'forums' => $forums,
+            'catatan' => $catatan
+        ]);
     }
     public function index()
     {
@@ -24,16 +34,31 @@ class homeController extends BaseController
         $mahasiswaModel = new MahasiswaModel();
         $psikologModel = new PsikologModel();
         $adminModel = new AdminModel();
+        $forumModel = new forumModel();
+        $catatanModel = new catatanModel();
+
+        // Ambil 4 forum secara acak
+        $forums = $forumModel->orderBy('RAND()')->limit(4)->findAll();
+
+        $catatan = $catatanModel->orderBy('RAND()')->limit(8)->findAll();
 
         // Check user role and render the appropriate view
         $klienData = $klienModel->where('username', $loggedInUsername)->first();
         if ($klienData) {
-            return view('homeKlien', ['userData' => $klienData]);
+            return view('homeKlien', [
+                'userData' => $klienData,
+                'forums' => $forums,
+                'catatan' => $catatan
+            ]);
         }
 
         $mahasiswaData = $mahasiswaModel->where('username', $loggedInUsername)->first();
         if ($mahasiswaData) {
-            return view('homeKlien', ['userData' => $mahasiswaData]);
+            return view('homeKlien', [
+                'userData' => $mahasiswaData,
+                'forums' => $forums,
+                'catatan' => $catatan
+            ]);
         }
 
         $psikologData = $psikologModel->where('username', $loggedInUsername)->first();
@@ -64,7 +89,7 @@ class homeController extends BaseController
 
         $mahasiswaData = $mahasiswaModel->where('username', $loggedInUsername)->first();
         if ($mahasiswaData) {
-            return view('editProfileKlien', ['userData' => $mahasiswaData]);
+            return view('editprofileMHS', ['data' => $mahasiswaData]);
         }
     }
 
@@ -95,6 +120,32 @@ class homeController extends BaseController
         }
     }
 
+    public function konsultasiPage(): string
+    {
+        $loggedInUsername = session()->get('username');
+    
+        $klienModel = new KlienModel();
+        $psikologModel = new PsikologModel();
+        $mahasiswaModel = new mahasiswaModel();
+
+
+        $klienData = $klienModel->where('username', $loggedInUsername)->first();
+        $mhsData = $mahasiswaModel->where('username', $loggedInUsername)->first();
+        $psikolog = $psikologModel->findAll();
+
+        if ($klienData) {
+            return view('viewKonsultasi', [
+                'userData' => $klienData,
+                'listPsikolog' => $psikolog,
+            ]);
+        } elseif ($mhsData) {
+            return view('viewKonsultasi', [
+                'mhsData' => $mhsData,
+                'listPsikolog' => $psikolog
+            ]);
+        }
+    }
+
     public function jejakPerasaan(): string {
         $loggedInUsername = session()->get('username');
 
@@ -120,5 +171,13 @@ class homeController extends BaseController
                 'catatan' => $catatan
             ]);
         }
+    }
+
+    public function detailPsikolog($id) {
+        $psikologModel = new PsikologModel();
+
+        $psikolog = $psikologModel->where('kd_psikolog', $id)->first();
+
+        return view('detailPsikolog', ['psikolog' => $psikolog]);
     }
 }

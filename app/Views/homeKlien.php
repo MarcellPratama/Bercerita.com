@@ -16,7 +16,7 @@
 <body>
     <div class="beranda">
         <div class="offcanvas offcanvas-end" id="sidebar">
-            <div class="offcanvas-header">
+            <div class="offcanvas-header d-flex justify-content-center align-items-center">
                 <div class="offcanvas-title">
                     <?= strtoupper($userData['username']) ?> <img src="<?= base_url($userData['foto']) ?>"
                         alt="Foto Profil" class="profile rounded-circle">
@@ -38,7 +38,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="/todolist" class="nav-link">
+                        <a href="/beranda" class="nav-link">
                             <svg width="32" height="32" viewBox="0 0 40 37" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
                                 <path
@@ -48,21 +48,17 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <button class="nav-link" type="button" data-bs-toggle="collapse" data-bs-target="#accordion">
-                            <svg width="32" height="32" viewBox="0 0 37 37" fill="none"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <path
-                                    d="M23.639 26.7222C23.639 26.9948 23.5307 27.2562 23.338 27.449C23.1452 27.6417 22.8838 27.75 22.6112 27.75H8.22233C7.99622 27.75 7.78039 27.9555 7.59539 28.0892L4.11122 30.8333V14.3889C4.11122 14.1163 4.2195 13.8549 4.41225 13.6621C4.60499 13.4694 4.86641 13.3611 5.139 13.3611H9.10622V11.3055H5.139C4.32125 11.3055 3.53699 11.6304 2.95875 12.2086C2.38051 12.7869 2.05566 13.5711 2.05566 14.3889V32.8889C2.05719 33.0798 2.11185 33.2664 2.21351 33.428C2.31516 33.5896 2.4598 33.7196 2.63122 33.8036C2.79636 33.8787 2.97844 33.9088 3.15896 33.8907C3.33947 33.8726 3.512 33.8071 3.659 33.7008L8.95205 29.8055H22.7654C23.1549 29.8171 23.5427 29.7485 23.9046 29.604C24.2666 29.4596 24.595 29.2424 24.8696 28.9659C25.1442 28.6894 25.3591 28.3594 25.501 27.9964C25.6429 27.6335 25.7088 27.2453 25.6945 26.8558V25.6944H23.639V26.7222Z"
-                                    fill="black" />
-                                <path
-                                    d="M31.8612 4.11111H14.389C13.5712 4.11111 12.787 4.43596 12.2088 5.0142C11.6305 5.59244 11.3057 6.3767 11.3057 7.19445V19.5278C11.3057 20.3455 11.6305 21.1298 12.2088 21.708C12.787 22.2863 13.5712 22.6111 14.389 22.6111H28.3154L33.2282 26.4242C33.3742 26.5321 33.5463 26.5995 33.7268 26.6194C33.9073 26.6392 34.0899 26.6109 34.2559 26.5372C34.4308 26.4539 34.5786 26.3229 34.6823 26.1592C34.7859 25.9956 34.8412 25.8059 34.8418 25.6122V7.19445C34.8422 6.3942 34.5315 5.62512 33.9753 5.04975C33.4191 4.47438 32.661 4.13779 31.8612 4.11111ZM32.889 23.5772L29.2918 20.7714C29.1124 20.6322 28.8919 20.5563 28.6648 20.5556H14.389C14.1164 20.5556 13.855 20.4473 13.6622 20.2545C13.4695 20.0618 13.3612 19.8004 13.3612 19.5278V7.19445C13.3612 6.92186 13.4695 6.66045 13.6622 6.4677C13.855 6.27495 14.1164 6.16667 14.389 6.16667H31.8612C32.136 6.1916 32.3921 6.31613 32.5814 6.51679C32.7707 6.71745 32.8801 6.9804 32.889 7.25611V23.5772Z"
-                                    fill="black" />
+                        <a href="/konsultasi" class="nav-link">
+                            <!-- <button class="nav-link" type="button"> data-bs-toggle="collapse" data-bs-target="#accordion" -->
+                            <svg width="32" height="32" viewBox="0 0 37 37" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M23.639 26.7222C23.639 26.9948 23.5307 27.2562 23.338 27.449C23.1452 27.6417 22.8838 27.75 22.6112 27.75H8.22233C7.99622 27.75 7.78039 27.9555 7.59539 28.0892L4.11122 30.8333V14.3889C4.11122 14.1163 4.2195 13.8549 4.41225 13.6621C4.60499 13.4694 4.86641 13.3611 5.139 13.3611H9.10622V11.3055H5.139C4.32125 11.3055 3.53699 11.6304 2.95875 12.2086C2.38051 12.7869 2.05566 13.5711 2.05566 14.3889V32.8889C2.05719 33.0798 2.11185 33.2664 2.21351 33.428C2.31516 33.5896 2.4598 33.7196 2.63122 33.8036C2.79636 33.8787 2.97844 33.9088 3.15896 33.8907C3.33947 33.8726 3.512 33.8071 3.659 33.7008L8.95205 29.8055H22.7654C23.1549 29.8171 23.5427 29.7485 23.9046 29.604C24.2666 29.4596 24.595 29.2424 24.8696 28.9659C25.1442 28.6894 25.3591 28.3594 25.501 27.9964C25.6429 27.6335 25.7088 27.2453 25.6945 26.8558V25.6944H23.639V26.7222Z" fill="black" />
+                                <path d="M31.8612 4.11111H14.389C13.5712 4.11111 12.787 4.43596 12.2088 5.0142C11.6305 5.59244 11.3057 6.3767 11.3057 7.19445V19.5278C11.3057 20.3455 11.6305 21.1298 12.2088 21.708C12.787 22.2863 13.5712 22.6111 14.389 22.6111H28.3154L33.2282 26.4242C33.3742 26.5321 33.5463 26.5995 33.7268 26.6194C33.9073 26.6392 34.0899 26.6109 34.2559 26.5372C34.4308 26.4539 34.5786 26.3229 34.6823 26.1592C34.7859 25.9956 34.8412 25.8059 34.8418 25.6122V7.19445C34.8422 6.3942 34.5315 5.62512 33.9753 5.04975C33.4191 4.47438 32.661 4.13779 31.8612 4.11111ZM32.889 23.5772L29.2918 20.7714C29.1124 20.6322 28.8919 20.5563 28.6648 20.5556H14.389C14.1164 20.5556 13.855 20.4473 13.6622 20.2545C13.4695 20.0618 13.3612 19.8004 13.3612 19.5278V7.19445C13.3612 6.92186 13.4695 6.66045 13.6622 6.4677C13.855 6.27495 14.1164 6.16667 14.389 6.16667H31.8612C32.136 6.1916 32.3921 6.31613 32.5814 6.51679C32.7707 6.71745 32.8801 6.9804 32.889 7.25611V23.5772Z" fill="black" />
                             </svg> Konsultasi
-                        </button>
-                        <div class="collapse" id="accordion">
-                            <img src="<?= base_url('images/psikolog1.jpeg') ?>" class="profile rounded-circle"> Alex
-                            Kurniawan M.Psi
-                        </div>
+                            <!-- </button> -->
+                            <!-- <div class="collapse" id="accordion">
+                                <img src="<?= base_url('images/psikolog1.jpeg') ?>" class="profile rounded-circle"> Alex Kurniawan M.Psi
+                            </div> -->
+                        </a>
                     </li>
                     <li class="nav-item">
                         <a href="/jejakPerasaan" class="nav-link">
@@ -270,61 +266,26 @@
             <h1 class="fw-bold text-center">Temukan Ruang yang Cocok Denganmu!</h1>
 
             <div class="row mt-5">
-                <div class="col-md-6 mb-4">
-                    <div class="card">
-                        <div class="row">
-                            <div class="col-md-4">
-                                <img class="card-img rounded-circle me-3" src="<?= base_url('images/Forum1.jpg') ?>">
+                <?php foreach ($forums as $forum): ?>
+                    <div class="col-md-6 mb-4">
+                        <a href="/forumKlien">
+                            <div class="card">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <img class="card-img rounded-circle me-3" src="<?= base_url($forum['foto']) ?>">
+                                    </div>
+                                    <div class="col-md-8 align-self-center">
+                                        <h2 class="fw-bold"><?= esc($forum['nama_forum']) ?></h2>
+                                        <p style="font-weight: 600;"><?= esc($forum['kategori_forum']) ?></p>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="col-md-8 align-self-center">
-                                <h2 class="fw-bold">Never Alone</h2>
-                                <p style="font-weight: 600;">Isolasi Sosial dan Kesepian</p>
-                            </div>
-                        </div>
+                        </a>
                     </div>
-                </div>
-                <div class="col-md-6 mb-4">
-                    <div class="card">
-                        <div class="row">
-                            <div class="col-md-4">
-                                <img class="card-img rounded-circle me-3" src="<?= base_url('images/Forum2.jpg') ?>">
-                            </div>
-                            <div class="col-md-8 align-self-center">
-                                <h2 class="fw-bold">You Strong</h2>
-                                <p style="font-weight: 600;">Trauma dan Penyembuhan</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 mb-4">
-                    <div class="card">
-                        <div class="row">
-                            <div class="col-md-4">
-                                <img class="card-img rounded-circle me-3" src="<?= base_url('images/Forum3.jpg') ?>">
-                            </div>
-                            <div class="col-md-8 align-self-center">
-                                <h2 class="fw-bold">Terus Bernapas!</h2>
-                                <p style="font-weight: 600;">Tips dan Dukungan</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 mb-4">
-                    <div class="card">
-                        <div class="row">
-                            <div class="col-md-4">
-                                <img class="card-img rounded-circle me-3" src="<?= base_url('images/Forum4.jpg') ?>">
-                            </div>
-                            <div class="col-md-8 align-self-center">
-                                <h2 class="fw-bold">Tempat Pulang!</h2>
-                                <p style="font-weight: 600;">Tips dan Dukungan</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <?php endforeach; ?>
             </div>
             <div class="text-center">
-                <button class="btn btn-primary mt-3">Lihat Lebih Banyak</button>
+                <button onclick="location.href='/forumKlien'" class="btn btn-primary mt-3">Lihat Lebih Banyak</button>
             </div>
         </div>
     </div>
@@ -334,66 +295,31 @@
         <div class="container my-5">
             <h1 class="fw-bold text-center">Bagaimana Perasaanmu Hari Ini?</h1>
 
+            <?php
+            // Daftar kelas kartu
+            $cardClasses = ['green', 'blue', 'yellow', 'pink', 'purple'];
+            ?>
+
+            <!-- Daftar Jejak Perasaan -->
             <div class="row mt-5">
-                <div class="col-md-3">
-                    <div class="card green">
-                        <div class="card-body">
-                            <p class="card-text">Harus Pulang Kemana???</p>
+                <?php foreach ($catatan as $index => $note): ?>
+                    <?php
+                    // Pilih kelas kartu secara berurutan
+                    $classIndex = $index % count($cardClasses);
+                    $cardClass = $cardClasses[$classIndex];
+                    ?>
+
+                    <div class="col-md-3 <?= ($index % 2 === 1) ? 'mt-5' : '' ?>">
+                        <div class="card <?= $cardClass ?>">
+                            <div class="card-body">
+                                <p class="card-text"><?= esc($note['isi_catatan']) ?></p>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-md-3 mt-5">
-                    <div class="card blue">
-                        <div class="card-body">
-                            <p class="card-text">Teruslah bernapas walau dunia selalu menolakmu</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="card yellow">
-                        <div class="card-body">
-                            <p class="card-text">Aku sudah kehilangan semuanya</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 mt-5">
-                    <div class="card pink">
-                        <div class="card-body">
-                            <p class="card-text">Keluarga harusnya menjadi rumah yang nyaman, tapi bagiku tidak</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="card pink2">
-                        <div class="card-body">
-                            <p class="card-text">AKU CAPEK...</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 mt-5">
-                    <div class="card purple">
-                        <div class="card-body">
-                            <p class="card-text">Melihat orang lain bahagia terasa menyenangkan</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="card green1">
-                        <div class="card-body">
-                            <p class="card-text">Tidak ada tempat lagi yang dapat aku sebut rumah</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 mt-5">
-                    <div class="card purple1">
-                        <div class="card-body">
-                            <p class="card-text">Apakah orang sepertiku pantas untuk bahagia??</p>
-                        </div>
-                    </div>
-                </div>
+                <?php endforeach; ?>
             </div>
             <div class="text-center mt-4">
-                <button class="btn btn-primary mt-3">Ayo! Tinggalkan Jejak Perasaanmu</button>
+                <button onclick="location.href='/jejakPerasaan'" class="btn btn-primary mt-3">Ayo! Tinggalkan Jejak Perasaanmu</button>
             </div>
         </div>
     </div>
@@ -406,7 +332,7 @@
             <div class="row mt-5 header">
                 <div class="col-md-6">
                     <h2>Selamat Datang di</h2>
-                    <img src="<?= base_url('images/Logo Bercerita.com2.png') ?>" class="logo">
+                    <img src="<?= base_url('images/Logo_Bercerita.com2.png') ?>" class="logo">
                 </div>
             </div>
 
@@ -450,7 +376,7 @@
                                 <p class="card-text">Berpengalaman dalam menganani kasus terkait kecemasan dan gangguan
                                     depresi.</p>
                                 <div class="d-flex justify-content-between">
-                                    <a href="#" class="btn btn-primary">Buat Janji</a>
+                                    <a href="/chat" class="btn btn-primary">Buat Janji</a>
                                     <a href="#" class="detail-link">Selengkapnya...</a>
                                 </div>
                             </div>
