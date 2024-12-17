@@ -376,7 +376,7 @@
                                 <p class="card-text">Berpengalaman dalam menganani kasus terkait kecemasan dan gangguan
                                     depresi.</p>
                                 <div class="d-flex justify-content-between">
-                                    <a href="#" class="btn btn-primary">Buat Janji</a>
+                                    <a href="/chat" class="btn btn-primary">Buat Janji</a>
                                     <a href="#" class="detail-link">Selengkapnya...</a>
                                 </div>
                             </div>

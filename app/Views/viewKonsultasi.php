@@ -138,10 +138,10 @@
                             <img class="card-img-top" src="<?= base_url($list['foto']) ?>" alt="Card image">
                             <div class="card-img-overlay">
                                 <h4 class="card-title"><?= esc($list['username']) ?></h4>
-                                <p class="card-text"><?= esc($list['tentang_saya']) ?></p>
+                                <p class="card-text"><?= esc(mb_strimwidth($list['tentang_saya'], 0, 100, '...')) ?></p>
                                 <div class="d-flex justify-content-between">
                                     <a href="/pemesanan" class="btn btn-primary">Buat Janji</a>
-                                    <a href="#" class="detail-link">Selengkapnya...</a>
+                                    <a href="<?= base_url('psikolog/' . $list['kd_psikolog']) ?>" class="detail-link">Selengkapnya...</a>
                                 </div>
                             </div>
                         </div>

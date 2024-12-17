@@ -9,7 +9,7 @@
 
     <!-- Latest compiled JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <link rel="stylesheet" href="<?= base_url('css/detailPsikolog.css') ?>">
+    <link rel="stylesheet" href="<?= base_url('css/dbpsikolog.css') ?>">
     <title>Psikolog : <?= esc($psikolog['username']) ?></title>
 </head>
 
@@ -41,10 +41,6 @@
             <i class="bi bi-geo-alt" style="font-size: 1.5rem"></i>
             <div class="section-title">Domisili</div>
             <div class="section-content"><?= esc($psikolog['domisili']) ?></div>
-
-            <a href="#" id="edit-profile-btn" class="edit-button">Edit Profile</a>
-            <button id="save-profile-btn" class="submit-btn" style="display:none;">Simpan</button>
-
         </div>
     </div>
 </body>

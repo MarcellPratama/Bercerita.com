@@ -64,3 +64,5 @@ $routes->get('/adminLihatDetailPsiko/(:any)', 'AdminController::cekVerifikasiPsi
 $routes->get('/adminLihatDetailMahasiswa/(:any)', 'adminController::cekVerifikasiMhsPsikologi/$1');
 
 $routes->get('pemesanan', 'transaksiController::pemesananPage');
+$routes->get('/psikolog/(:segment)', 'homeController::detailPsikolog/$1');
+$routes->get('/chat', 'ChatController::index');

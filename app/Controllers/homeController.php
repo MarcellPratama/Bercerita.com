@@ -172,4 +172,12 @@ class homeController extends BaseController
             ]);
         }
     }
+
+    public function detailPsikolog($id) {
+        $psikologModel = new PsikologModel();
+
+        $psikolog = $psikologModel->where('kd_psikolog', $id)->first();
+
+        return view('detailPsikolog', ['psikolog' => $psikolog]);
+    }
 }
