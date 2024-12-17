@@ -45,11 +45,11 @@ $routes->post('/forum/delete/(:segment)', 'ForumController::deleteForum/$1');
 $routes->post('/simpan-catatan', 'catatanController::addCatatan');
 
 $routes->get('dashboardpsikolog', 'PsikologController::dashboard');
-
-$routes->post('/update-profile', 'PsikologController::updateProfile');
+$routes->post('/psikolog/updateProfilePhoto', 'PsikologController::updateProfilePhoto');
 $routes->post('/psikolog/simpanLayanan', 'PsikologController::simpanLayanan');
-// $routes->get('/edit-profile', 'PsikologController::editProfile');
-// $routes->post('/update-profile', 'PsikologController::updateProfile');
+$routes->post('/psikolog/simpanJadwal', 'PsikologController::simpanJadwal');
+// $routes->get('/jadwal', 'PsikologController::dashboard');
+
 
 $routes->get('/adminLihatDetailPsikolog/(:any)', 'adminController::lihatDetailPsikolog/$1');
 $routes->get('/adminLihatDetailMhs/(:any)', 'adminController::lihatDetailMhs/$1');
