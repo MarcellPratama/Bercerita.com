@@ -164,7 +164,7 @@ class userController extends BaseController
         $mahasiswaModel = new MahasiswaModel();
         $psikologModel = new PsikologModel();
         $adminModel = new adminModel();
-        
+
         // Check if user is admin
         $admin = $adminModel->where('username', $username)->first();
         if ($admin) {
@@ -180,120 +180,120 @@ class userController extends BaseController
                 return redirect()->to('/login');
             }
         }
-    
-    // Login untuk Klien
-    $client = $klienModel->where('username', $username)->first();
-    if ($client) {
-        if (password_verify($password, $client['password'])) {
-            session()->set([
-                'user_id' => $client['kd_klien'],
-                'username' => $client['username'],
-                'role' => 'client'
-            ]);
 
-            return redirect()->to('/beranda');
-        } else {
-            session()->setFlashdata('error', 'Nama pengguna/kata sandi tidak sesuai.');
-            return redirect()->to('/login');
-        }
-    }
-
-// Login untuk Psikolog
-$psikolog = $psikologModel->where('username', $username)->first();
-if ($psikolog) {
-    if (password_verify($password, $psikolog['password'])) {
-        // Cari data registrasi psikolog
-        $kd_registrasi = $registrasiModel->where('kd_psikolog', $psikolog['kd_psikolog'])->first();
-
-        // Jika data registrasi tidak ditemukan
-        if (!$kd_registrasi) {
-            session()->setFlashdata('error', 'Data registrasi tidak ditemukan.');
-            return redirect()->to('/login');
-        }
-
-        // Cari data verifikasi berdasarkan registrasi
-        $verifikasi = $verifikasiModel->where('kd_registrasi', $kd_registrasi['kd_registrasi'])->first();
-
-        // Jika data verifikasi tidak ditemukan
-        if (!$verifikasi) {
-            session()->setFlashdata('error', 'Akun Anda belum diverifikasi.');
-            return redirect()->to('/login');
-        }
-
-        // Proses validasi status verifikasi
-        if ($verifikasi['status'] === 'Belum Diverifikasi') {
-            session()->setFlashdata('error', 'Akun Anda belum diverifikasi oleh admin.');
-            return redirect()->to('/login');
-        }
-
-        switch ($verifikasi['status']) {
-            case 'Ditolak':
-                session()->setFlashdata('error', 'Maaf, akun Anda ditolak.');
-                return redirect()->to('/login');
-            case 'Diterima':
+        // Login untuk Klien
+        $client = $klienModel->where('username', $username)->first();
+        if ($client) {
+            if (password_verify($password, $client['password'])) {
                 session()->set([
-                    'kd_psikolog' => $psikolog['kd_psikolog'],
-                    'username' => $psikolog['username'],
-                    'role' => 'psikolog'
+                    'user_id' => $client['kd_klien'],
+                    'username' => $client['username'],
+                    'role' => 'client'
                 ]);
+
                 return redirect()->to('/beranda');
+            } else {
+                session()->setFlashdata('error', 'Nama pengguna/kata sandi tidak sesuai.');
+                return redirect()->to('/login');
+            }
         }
-    } else {
+
+        // Login untuk Psikolog
+        $psikolog = $psikologModel->where('username', $username)->first();
+        if ($psikolog) {
+            if (password_verify($password, $psikolog['password'])) {
+                // Cari data registrasi psikolog
+                $kd_registrasi = $registrasiModel->where('kd_psikolog', $psikolog['kd_psikolog'])->first();
+
+                // Jika data registrasi tidak ditemukan
+                if (!$kd_registrasi) {
+                    session()->setFlashdata('error', 'Data registrasi tidak ditemukan.');
+                    return redirect()->to('/login');
+                }
+
+                // Cari data verifikasi berdasarkan registrasi
+                $verifikasi = $verifikasiModel->where('kd_registrasi', $kd_registrasi['kd_registrasi'])->first();
+
+                // Jika data verifikasi tidak ditemukan
+                if (!$verifikasi) {
+                    session()->setFlashdata('error', 'Akun Anda belum diverifikasi.');
+                    return redirect()->to('/login');
+                }
+
+                // Proses validasi status verifikasi
+                if ($verifikasi['status'] === 'Belum Diverifikasi') {
+                    session()->setFlashdata('error', 'Akun Anda belum diverifikasi oleh admin.');
+                    return redirect()->to('/login');
+                }
+
+                switch ($verifikasi['status']) {
+                    case 'Ditolak':
+                        session()->setFlashdata('error', 'Maaf, akun Anda ditolak.');
+                        return redirect()->to('/login');
+                    case 'Diterima':
+                        session()->set([
+                            'kd_psikolog' => $psikolog['kd_psikolog'],
+                            'username' => $psikolog['username'],
+                            'role' => 'psikolog'
+                        ]);
+                        return redirect()->to('/beranda');
+                }
+            } else {
+                session()->setFlashdata('error', 'Nama pengguna/kata sandi tidak sesuai.');
+                return redirect()->to('/login');
+            }
+        }
+
+        // Login untuk Mahasiswa Psikologi
+        $mahasiswa = $mahasiswaModel->where('username', $username)->first();
+        if ($mahasiswa) {
+            if (password_verify($password, $mahasiswa['password'])) {
+                // Cari data registrasi mahasiswa
+                $kd_registrasi = $registrasiModel->where('kd_mahasiswa', $mahasiswa['kd_mahasiswa'])->first();
+
+                // Jika data registrasi tidak ditemukan
+                if (!$kd_registrasi) {
+                    session()->setFlashdata('error', 'Data registrasi tidak ditemukan.');
+                    return redirect()->to('/login');
+                }
+
+                // Cari data verifikasi berdasarkan registrasi
+                $verifikasi = $verifikasiModel->where('kd_registrasi', $kd_registrasi['kd_registrasi'])->first();
+
+                // Jika data verifikasi tidak ditemukan
+                if (!$verifikasi) {
+                    session()->setFlashdata('error', 'Akun Anda belum diverifikasi.');
+                    return redirect()->to('/login');
+                }
+
+                // Proses validasi status verifikasi
+                if ($verifikasi['status'] === 'Belum Diverifikasi') {
+                    session()->setFlashdata('error', 'Akun Anda belum diverifikasi oleh admin.');
+                    return redirect()->to('/login');
+                }
+
+                switch ($verifikasi['status']) {
+                    case 'Ditolak':
+                        session()->setFlashdata('error', 'Maaf, akun Anda ditolak.');
+                        return redirect()->to('/login');
+                    case 'Diterima':
+                        session()->set([
+                            'user_id' => $mahasiswa['kd_mahasiswa'],
+                            'username' => $mahasiswa['username'],
+                            'role' => 'mahasiswa'
+                        ]);
+                        return redirect()->to('/beranda');
+                }
+            } else {
+                session()->setFlashdata('error', 'Nama pengguna/kata sandi tidak sesuai.');
+                return redirect()->to('/login');
+            }
+        }
+
+        // Jika tidak ditemukan
         session()->setFlashdata('error', 'Nama pengguna/kata sandi tidak sesuai.');
         return redirect()->to('/login');
     }
-}
-
-  // Login untuk Mahasiswa Psikologi
-  $mahasiswa = $mahasiswaModel->where('username', $username)->first();
-  if ($mahasiswa) {
-      if (password_verify($password, $mahasiswa['password'])) {
-          // Cari data registrasi mahasiswa
-          $kd_registrasi = $registrasiModel->where('kd_mahasiswa', $mahasiswa['kd_mahasiswa'])->first();
-
-          // Jika data registrasi tidak ditemukan
-          if (!$kd_registrasi) {
-              session()->setFlashdata('error', 'Data registrasi tidak ditemukan.');
-              return redirect()->to('/login');
-          }
-
-          // Cari data verifikasi berdasarkan registrasi
-          $verifikasi = $verifikasiModel->where('kd_registrasi', $kd_registrasi['kd_registrasi'])->first();
-
-          // Jika data verifikasi tidak ditemukan
-          if (!$verifikasi) {
-              session()->setFlashdata('error', 'Akun Anda belum diverifikasi.');
-              return redirect()->to('/login');
-          }
-
-          // Proses validasi status verifikasi
-          if ($verifikasi['status'] === 'Belum Diverifikasi') {
-              session()->setFlashdata('error', 'Akun Anda belum diverifikasi oleh admin.');
-              return redirect()->to('/login');
-          }
-
-          switch ($verifikasi['status']) {
-              case 'Ditolak':
-                  session()->setFlashdata('error', 'Maaf, akun Anda ditolak.');
-                  return redirect()->to('/login');
-              case 'Diterima':
-                  session()->set([
-                      'user_id' => $mahasiswa['kd_mahasiswa'],
-                      'username' => $mahasiswa['username'],
-                      'role' => 'mahasiswa'
-                  ]);
-                  return redirect()->to('/beranda');
-          }
-      } else {
-          session()->setFlashdata('error', 'Nama pengguna/kata sandi tidak sesuai.');
-          return redirect()->to('/login');
-      }
-  }
-
-// Jika tidak ditemukan
-session()->setFlashdata('error', 'Nama pengguna/kata sandi tidak sesuai.');
-return redirect()->to('/login');
-}
 
     public function logout()
     {
@@ -336,15 +336,15 @@ return redirect()->to('/login');
             $dataToUpdate['username'] = $username;
         }
 
-         // Cek apakah ada perubahan password
-    if (!empty($newPassword)) {
-        if ($newPassword == $confirmPassword) {
-            // Hash password sebelum disimpan
-            $dataToUpdate['password'] = password_hash($newPassword, PASSWORD_BCRYPT);  // Update password (hashed)
-        } else {
-            return redirect()->back();
+        // Cek apakah ada perubahan password
+        if (!empty($newPassword)) {
+            if ($newPassword == $confirmPassword) {
+                // Hash password sebelum disimpan
+                $dataToUpdate['password'] = password_hash($newPassword, PASSWORD_BCRYPT);  // Update password (hashed)
+            } else {
+                return redirect()->back();
+            }
         }
-    }
 
         if (!empty($email) && $email != $userData['email']) {
             $dataToUpdate['email'] = $email;

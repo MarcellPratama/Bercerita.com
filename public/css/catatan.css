@@ -78,6 +78,7 @@ body {
         width: 53px;
         height: 53px;
         margin-left: 10px;
+        object-fit: cover;
     }
 
     .headline {

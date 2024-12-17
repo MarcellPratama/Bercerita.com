@@ -52,7 +52,7 @@ class ForumController extends BaseController
         if ($foto->isValid() && !$foto->hasMoved()) {
             $foto->move('uploads/forum/', $fotoName);
         }
-        
+
         $this->forumModel->save([
             'kode_forum' => $kodeForum,
             'nama_forum' => $this->request->getPost('nama_forum'),
@@ -80,5 +80,51 @@ class ForumController extends BaseController
 
         $this->forumModel->delete($kode_forum);
         return redirect()->to('/forum')->with('success', 'Forum berhasil dihapus');
+    }
+
+    public function joinForum()
+    {
+        // Ambil kd_klien dan kode_forum dari form
+        $kode_klien = $this->request->getPost('kode_klien');
+        $kode_forum = $this->request->getPost('kode_forum');
+
+        // Validasi input
+        if (!$kode_klien || !$kode_forum) {
+            return redirect()->back()->with('error', 'Data tidak lengkap.');
+        }
+
+        // Load model untuk validasi foreign key
+        $klienModel = new \App\Models\KlienModel();
+        $forumModel = new \App\Models\ForumModel();
+        $forumRelasiModel = new \App\Models\ForumRelasiModel();
+
+        $klienExists = $klienModel->where('kd_klien', $kode_klien)->first();
+        $forumExists = $forumModel->where('kode_forum', $kode_forum)->first();
+
+        if (!$klienExists || !$forumExists) {
+            return redirect()->back()->with('error', 'Data tidak valid.');
+        }
+
+        // Cek apakah klien sudah bergabung dengan forum
+        $existingRelasi = $forumRelasiModel
+            ->where('kd_klien', $kode_klien)
+            ->where('kode_forum', $kode_forum)
+            ->first();
+
+        if ($existingRelasi) {
+            // Jika sudah ada relasi, kembalikan pesan error
+            return redirect()->back()->with('error', 'Anda sudah bergabung ke forum ini.');
+        }
+
+        // Simpan ke tabel relasi jika belum ada
+        $data = [
+            'kd_klien' => $kode_klien,
+            'kode_forum' => $kode_forum
+        ];
+
+        $forumRelasiModel->insert($data);
+
+        // Redirect dengan pesan sukses
+        return redirect()->to('/forumKlien')->with('success', 'Berhasil bergabung ke forum.');
     }
 }

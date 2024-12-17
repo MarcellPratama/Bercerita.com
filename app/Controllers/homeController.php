@@ -20,10 +20,12 @@ class homeController extends BaseController
 
         $forums = $forumModel->orderBy('RAND()')->limit(4)->findAll();
         $catatan = $catatanModel->orderBy('RAND()')->limit(8)->findAll();
+        $psikolog = $psikologModel->orderBy('RAND()')->limit(3)->findAll();
 
         return view('homepage', [
             'forums' => $forums,
-            'catatan' => $catatan
+            'catatan' => $catatan,
+            'listPsikolog' => $psikolog
         ]);
     }
     public function index()
@@ -39,7 +41,7 @@ class homeController extends BaseController
 
         // Ambil 4 forum secara acak
         $forums = $forumModel->orderBy('RAND()')->limit(4)->findAll();
-
+        $psikolog = $psikologModel->orderBy('RAND()')->limit(3)->findAll();
         $catatan = $catatanModel->orderBy('RAND()')->limit(8)->findAll();
 
         // Check user role and render the appropriate view
@@ -48,7 +50,8 @@ class homeController extends BaseController
             return view('homeKlien', [
                 'userData' => $klienData,
                 'forums' => $forums,
-                'catatan' => $catatan
+                'catatan' => $catatan,
+                'listPsikolog' => $psikolog
             ]);
         }
 
@@ -57,7 +60,8 @@ class homeController extends BaseController
             return view('homeKlien', [
                 'userData' => $mahasiswaData,
                 'forums' => $forums,
-                'catatan' => $catatan
+                'catatan' => $catatan,
+                'listPsikolog' => $psikolog
             ]);
         }
 

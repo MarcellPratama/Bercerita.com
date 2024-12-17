@@ -44,20 +44,12 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <button class="nav-link" type="button" data-bs-toggle="collapse" data-bs-target="#accordion">
+                    <a href="/konsultasi" class="nav-link">
                         <svg width="32" height="32" viewBox="0 0 37 37" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path
-                                d="M23.639 26.7222C23.639 26.9948 23.5307 27.2562 23.338 27.449C23.1452 27.6417 22.8838 27.75 22.6112 27.75H8.22233C7.99622 27.75 7.78039 27.9555 7.59539 28.0892L4.11122 30.8333V14.3889C4.11122 14.1163 4.2195 13.8549 4.41225 13.6621C4.60499 13.4694 4.86641 13.3611 5.139 13.3611H9.10622V11.3055H5.139C4.32125 11.3055 3.53699 11.6304 2.95875 12.2086C2.38051 12.7869 2.05566 13.5711 2.05566 14.3889V32.8889C2.05719 33.0798 2.11185 33.2664 2.21351 33.428C2.31516 33.5896 2.4598 33.7196 2.63122 33.8036C2.79636 33.8787 2.97844 33.9088 3.15896 33.8907C3.33947 33.8726 3.512 33.8071 3.659 33.7008L8.95205 29.8055H22.7654C23.1549 29.8171 23.5427 29.7485 23.9046 29.604C24.2666 29.4596 24.595 29.2424 24.8696 28.9659C25.1442 28.6894 25.3591 28.3594 25.501 27.9964C25.6429 27.6335 25.7088 27.2453 25.6945 26.8558V25.6944H23.639V26.7222Z"
-                                fill="black" />
-                            <path
-                                d="M31.8612 4.11111H14.389C13.5712 4.11111 12.787 4.43596 12.2088 5.0142C11.6305 5.59244 11.3057 6.3767 11.3057 7.19445V19.5278C11.3057 20.3455 11.6305 21.1298 12.2088 21.708C12.787 22.2863 13.5712 22.6111 14.389 22.6111H28.3154L33.2282 26.4242C33.3742 26.5321 33.5463 26.5995 33.7268 26.6194C33.9073 26.6392 34.0899 26.6109 34.2559 26.5372C34.4308 26.4539 34.5786 26.3229 34.6823 26.1592C34.7859 25.9956 34.8412 25.8059 34.8418 25.6122V7.19445C34.8422 6.3942 34.5315 5.62512 33.9753 5.04975C33.4191 4.47438 32.661 4.13779 31.8612 4.11111ZM32.889 23.5772L29.2918 20.7714C29.1124 20.6322 28.8919 20.5563 28.6648 20.5556H14.389C14.1164 20.5556 13.855 20.4473 13.6622 20.2545C13.4695 20.0618 13.3612 19.8004 13.3612 19.5278V7.19445C13.3612 6.92186 13.4695 6.66045 13.6622 6.4677C13.855 6.27495 14.1164 6.16667 14.389 6.16667H31.8612C32.136 6.1916 32.3921 6.31613 32.5814 6.51679C32.7707 6.71745 32.8801 6.9804 32.889 7.25611V23.5772Z"
-                                fill="black" />
+                            <path d="M23.639 26.7222C23.639 26.9948 23.5307 27.2562 23.338 27.449C23.1452 27.6417 22.8838 27.75 22.6112 27.75H8.22233C7.99622 27.75 7.78039 27.9555 7.59539 28.0892L4.11122 30.8333V14.3889C4.11122 14.1163 4.2195 13.8549 4.41225 13.6621C4.60499 13.4694 4.86641 13.3611 5.139 13.3611H9.10622V11.3055H5.139C4.32125 11.3055 3.53699 11.6304 2.95875 12.2086C2.38051 12.7869 2.05566 13.5711 2.05566 14.3889V32.8889C2.05719 33.0798 2.11185 33.2664 2.21351 33.428C2.31516 33.5896 2.4598 33.7196 2.63122 33.8036C2.79636 33.8787 2.97844 33.9088 3.15896 33.8907C3.33947 33.8726 3.512 33.8071 3.659 33.7008L8.95205 29.8055H22.7654C23.1549 29.8171 23.5427 29.7485 23.9046 29.604C24.2666 29.4596 24.595 29.2424 24.8696 28.9659C25.1442 28.6894 25.3591 28.3594 25.501 27.9964C25.6429 27.6335 25.7088 27.2453 25.6945 26.8558V25.6944H23.639V26.7222Z" fill="black" />
+                            <path d="M31.8612 4.11111H14.389C13.5712 4.11111 12.787 4.43596 12.2088 5.0142C11.6305 5.59244 11.3057 6.3767 11.3057 7.19445V19.5278C11.3057 20.3455 11.6305 21.1298 12.2088 21.708C12.787 22.2863 13.5712 22.6111 14.389 22.6111H28.3154L33.2282 26.4242C33.3742 26.5321 33.5463 26.5995 33.7268 26.6194C33.9073 26.6392 34.0899 26.6109 34.2559 26.5372C34.4308 26.4539 34.5786 26.3229 34.6823 26.1592C34.7859 25.9956 34.8412 25.8059 34.8418 25.6122V7.19445C34.8422 6.3942 34.5315 5.62512 33.9753 5.04975C33.4191 4.47438 32.661 4.13779 31.8612 4.11111ZM32.889 23.5772L29.2918 20.7714C29.1124 20.6322 28.8919 20.5563 28.6648 20.5556H14.389C14.1164 20.5556 13.855 20.4473 13.6622 20.2545C13.4695 20.0618 13.3612 19.8004 13.3612 19.5278V7.19445C13.3612 6.92186 13.4695 6.66045 13.6622 6.4677C13.855 6.27495 14.1164 6.16667 14.389 6.16667H31.8612C32.136 6.1916 32.3921 6.31613 32.5814 6.51679C32.7707 6.71745 32.8801 6.9804 32.889 7.25611V23.5772Z" fill="black" />
                         </svg> Konsultasi
-                    </button>
-                    <div class="collapse" id="accordion">
-                        <img src="<?= base_url('images/psikolog1.jpeg') ?>" class="profile rounded-circle"> Alex
-                        Kurniawan M.Psi
-                    </div>
+                    </a>
                 </li>
                 <li class="nav-item">
                     <a href="/jejakPerasaan" class="nav-link">
@@ -145,9 +137,11 @@
                         </svg>
                     </button>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">Link 1</a></li>
-                        <li><a class="dropdown-item" href="#">Link 2</a></li>
-                        <li><a class="dropdown-item" href="#">Link 3</a></li>
+                        <li><a class="dropdown-item" href="#">Percintaan</a></li>
+                        <li><a class="dropdown-item" href="#">Keluarga</a></li>
+                        <li><a class="dropdown-item" href="#">Quarter Life Crisis</a></li>
+                        <li><a class="dropdown-item" href="#">Gangguan Mental</a></li>
+                        <li><a class="dropdown-item" href="#">Semua</a></li>
                     </ul>
                 </div>
             </div>
@@ -157,12 +151,13 @@
         <div class="forum-list">
             <div class="row mt-5" id="forumContainer">
                 <?php foreach ($forums as $forum): ?>
-                    <div class="col-md-6 mb-4 filter-item">
+                    <div class="col-md-6 mb-4 filter-item" data-category="<?= esc($forum['kategori_forum']) ?>">
                         <a href="#joinForum" data-bs-toggle="modal"
                             data-forum-foto="<?= base_url($forum['foto']) ?>"
                             data-forum-nama="<?= esc($forum['nama_forum']) ?>"
                             data-forum-kategori="<?= esc($forum['kategori_forum']) ?>"
-                            data-forum-deskripsi="<?= esc($forum['deskripsi']) ?>">
+                            data-forum-deskripsi="<?= esc($forum['deskripsi']) ?>"
+                            data-forum-kode="<?= esc($forum['kode_forum']) ?>">
                             <div class="card">
                                 <div class="row">
                                     <div class="col-md-4">
@@ -207,22 +202,13 @@
 
                 <!-- Modal footer -->
                 <div class="modal-footer">
-                    <button type="button" class="btn" data-bs-toggle="modal"
-                        data-bs-target="#confirmForum">Bergabung</button>
-                </div>
-            </div>
-        </div>
-    </div>
+                    <form action="<?= site_url('/forum/join'); ?>" method="post">
+                        <!-- Hidden Input untuk Data -->
+                        <input type="hidden" name="kode_klien" value="<?= esc($userData['kd_klien']); ?>">
+                        <input type="hidden" name="kode_forum" id="modalKodeForum" value="">
 
-    <!-- Modal Konfirmasi Join Forum -->
-    <div class="modal" id="confirmForum">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content modal-confirm">
-                <!-- Modal body -->
-                <div class="modal-body">
-                    <button type="button" class="btn-close" data-bs-toggle="modal" data-bs-target="#joinForum"></button>
-                    <p>Selamat Bergabung di Forum!</p>
-                    <button type="button" class="btn" data-bs-dismiss="modal">OK</button>
+                        <button type="submit" class="btn ms-auto">Bergabung</button>
+                    </form>
                 </div>
             </div>
         </div>
@@ -230,28 +216,60 @@
 
     <!-- Script JavaScript untuk Filter Real-Time Berdasarkan Title -->
     <script>
-        document.getElementById('searchInput').addEventListener('input', function() {
-            const query = this.value.toLowerCase();
-            const items = document.querySelectorAll('#forumContainer .filter-item');
-
-            items.forEach(item => {
-                const title = item.querySelector('h2').textContent.toLowerCase();
-
-                // Cek apakah title mengandung query pencarian
-                if (title.includes(query)) {
-                    item.style.display = ''; // Tampilkan item
-                } else {
-                    item.style.display = 'none'; // Sembunyikan item
-                }
-            });
-        });
-
         document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('searchInput');
+            const dropdownItems = document.querySelectorAll('.dropdown-menu .dropdown-item');
+            const forumItems = document.querySelectorAll('#forumContainer .filter-item');
+
+            let selectedCategory = "Semua"; // Default kategori
+
+            // Fungsi untuk filter forum berdasarkan kategori dan pencarian
+            function filterForums() {
+                const query = searchInput.value.toLowerCase(); // Ambil input pencarian
+
+                forumItems.forEach(item => {
+                    const title = item.querySelector('h2').textContent.toLowerCase();
+                    const category = item.getAttribute('data-category');
+
+                    // Cek apakah item sesuai dengan filter kategori dan pencarian
+                    const matchesCategory = (selectedCategory === "Semua" || category === selectedCategory);
+                    const matchesSearch = title.includes(query);
+
+                    if (matchesCategory && matchesSearch) {
+                        item.style.display = ''; // Tampilkan item
+                    } else {
+                        item.style.display = 'none'; // Sembunyikan item
+                    }
+                });
+            }
+
+            // Event listener untuk input pencarian (real-time)
+            searchInput.addEventListener('input', filterForums);
+
+            // Event listener untuk filter kategori dari dropdown
+            dropdownItems.forEach(item => {
+                item.addEventListener('click', function(e) {
+                    e.preventDefault();
+
+                    // Update kategori yang dipilih
+                    selectedCategory = this.textContent.trim();
+
+                    // Highlight kategori aktif
+                    dropdownItems.forEach(i => i.classList.remove('active'));
+                    this.classList.add('active');
+
+                    // Jalankan filter
+                    filterForums();
+                });
+            });
+
+            // Modal setup untuk forum detail
             const forumLinks = document.querySelectorAll('[data-bs-toggle="modal"]');
             const modalFoto = document.getElementById('modalForumFoto');
             const modalNama = document.getElementById('modalForumNama');
             const modalKategori = document.getElementById('modalForumKategori');
             const modalDeskripsi = document.getElementById('modalForumDeskripsi');
+            const kodeForum = document.getElementById('modalKodeForum');
 
             forumLinks.forEach(link => {
                 link.addEventListener('click', function() {
@@ -259,11 +277,13 @@
                     const nama = this.getAttribute('data-forum-nama');
                     const kategori = this.getAttribute('data-forum-kategori');
                     const deskripsi = this.getAttribute('data-forum-deskripsi');
+                    const kode = this.getAttribute('data-forum-kode');
 
                     modalFoto.src = foto;
                     modalNama.textContent = nama;
                     modalKategori.textContent = kategori;
                     modalDeskripsi.textContent = deskripsi;
+                    kodeForum.value = kode;
                 });
             });
         });

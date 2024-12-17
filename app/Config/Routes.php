@@ -65,4 +65,6 @@ $routes->get('/adminLihatDetailMahasiswa/(:any)', 'adminController::cekVerifikas
 
 $routes->get('pemesanan', 'transaksiController::pemesananPage');
 $routes->get('/psikolog/(:segment)', 'homeController::detailPsikolog/$1');
+
 $routes->get('/chat', 'ChatController::index');
+$routes->post('/forum/join', 'ForumController::joinForum');
