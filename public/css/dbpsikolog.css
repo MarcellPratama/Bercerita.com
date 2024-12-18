@@ -1,13 +1,14 @@
 /* style.css */
-@import url('https://fonts.googleapis.com/css2');
+@import url("https://fonts.googleapis.com/css2");
 
 body {
-    background: linear-gradient(to bottom, #478CCF, #36C2CE, #77E4C8);
-    width: 100%;
-    height: 100vh;
-    background-size: cover; /* Adjust to fit the entire area without cutting */
-    background-repeat: no-repeat;
-    font-family: 'Poppins', sans-serif;
+  /* background: linear-gradient(to bottom, #478ccf, #36c2ce, #77e4c8); */
+  width: 100%;
+  background-color: #fff;
+  height: 150vh;
+  background-size: cover; /* Adjust to fit the entire area without cutting */
+  background-repeat: no-repeat;
+  font-family: "Poppins", sans-serif;
 }
 
 * {
@@ -822,42 +823,85 @@ textarea:focus {
   color: #555;
 }
 
-/* Style untuk Edit Jadwal */
-.edit-jadwal {
-  background-color: #e0e0e0;
-  /* display: flex; */
-  padding: 15px;
-  border-radius: 5px;
-  width: 280px;
-  margin-top: -220px;
-  margin-left: 650px;
-}
-
-.edit-jadwal h3 {
-  font-size: 16px;
-  font-weight: bold;
-  margin-bottom: 10px;
-}
-
-.edit-jadwal label {
-  display: block;
-  margin-bottom: 5px;
-  font-size: 14px;
-  font-weight: bold;
-}
-
-.edit-jadwal select,
-.edit-jadwal input[type="number"] {
-  width: 150px;
-  padding: 5px;
-  margin-bottom: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-}
-
-.edit-jadwal input[type="number"] {
+h3 {
   text-align: center;
-  width: 70px;
+  margin-bottom: 15px;
+}
+
+/* Container Form */
+.edit-jadwal {
+  background: #fff;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  max-width: 800px;
+}
+
+.edit-jadwal table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.edit-jadwal th,
+.edit-jadwal td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: center;
+}
+
+.edit-jadwal th {
+  background-color: #f2f2f2;
+  font-weight: bold;
+}
+
+.edit-jadwal input[type="time"],
+.edit-jadwal select {
+  width: 90%;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  box-sizing: border-box;
+}
+
+/* Tombol Simpan */
+.edit-jadwal button {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  display: block;
+  margin: 15px auto 0 auto;
+}
+
+.edit-jadwal button:hover {
+  background-color: #0056b3;
+}
+
+/* Daftar Jadwal Tersimpan */
+.jadwal-tersimpan {
+  background: #fff;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  max-width: 800px;
+}
+
+.jadwal-tersimpan ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.jadwal-tersimpan li {
+  background: #f2f2f2;
+  margin-bottom: 5px;
+  padding: 10px;
+  border-radius: 3px;
+  border: 1px solid #ddd;
+  font-size: 14px;
 }
 
 /* Dropdown Menu */
@@ -966,4 +1010,81 @@ textarea:focus {
 
 .popup-box button:hover {
   background: #0056b3;
+}
+
+/* .calendar-day {
+  padding: 10px;
+  text-align: center;
+  border: 1px solid #ddd;
+} */
+
+.no-schedule {
+  background-color: red;
+  color: white;
+}
+
+.chat-schedule {
+  background-color: rgb(250, 123, 218);
+  color: black;
+}
+.tm-schedule {
+  background-color: #007bff;
+  color: #000;
+}
+.past-date {
+  color: #000;
+  opacity: 0.5;
+}
+#calendar-legend {
+  padding: 30px;
+  display: flex;
+  justify-content: start;
+  gap: 40px;
+  margin-top: 10px;
+  margin-left: 200px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  color: #333;
+}
+
+.legend-color {
+  width: 15px;
+  height: 15px;
+  display: inline-block;
+  margin-right: 5px;
+  border-radius: 3px;
+}
+
+#modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background: #fff;
+  padding: 20px;
+  border-radius: 5px;
+  position: relative;
+  text-align: center;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.modal-content .close {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 20px;
+  cursor: pointer;
 }
