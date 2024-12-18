@@ -8,6 +8,7 @@ use App\Models\psikologModel;
 use App\Models\adminModel;
 use App\Models\forumModel;
 use App\Models\catatanModel;
+use App\Models\forumRelasiModel;
 
 class homeController extends BaseController
 {
@@ -80,7 +81,8 @@ class homeController extends BaseController
         return redirect()->to('/login')->with('error', 'Akun tidak ditemukan.');
     }
 
-    public function EditProfile() {
+    public function EditProfile()
+    {
         $loggedInUsername = session()->get('username');
 
         $klienModel = new KlienModel();
@@ -97,10 +99,39 @@ class homeController extends BaseController
         }
     }
 
+    public function roomChat()
+    {
+        $loggedInUsername = session()->get('username');
+
+        $klienModel = new KlienModel();
+        $mahasiswaModel = new MahasiswaModel();
+        $forumRelasiModel = new forumRelasiModel();
+        $forumModel = new forumModel();
+
+        $klienData = $klienModel->where('username', $loggedInUsername)->first();
+        if ($klienData) {
+            $forums = $forumRelasiModel
+                    ->select('forum.*')
+                    ->join('forum', 'forum.kode_forum = forum_klien.kode_forum')
+                    ->where('forum_klien.kd_klien', $klienData['kd_klien'])
+                    ->findAll();
+
+            return view('roomForum', [
+                'userData' => $klienData,
+                'forums' => $forums
+            ]);
+        }
+
+        $mahasiswaData = $mahasiswaModel->where('username', $loggedInUsername)->first();
+        if ($mahasiswaData) {
+            return view('roomForum', ['data' => $mahasiswaData]);
+        }
+    }
+
     public function forum(): string
     {
         $loggedInUsername = session()->get('username');
-    
+
         $klienModel = new KlienModel();
         $forumModel = new forumModel();
         //$this->forumKlienModel = new forum_klienModel();
@@ -127,7 +158,7 @@ class homeController extends BaseController
     public function konsultasiPage(): string
     {
         $loggedInUsername = session()->get('username');
-    
+
         $klienModel = new KlienModel();
         $psikologModel = new PsikologModel();
         $mahasiswaModel = new mahasiswaModel();
@@ -150,7 +181,8 @@ class homeController extends BaseController
         }
     }
 
-    public function jejakPerasaan(): string {
+    public function jejakPerasaan(): string
+    {
         $loggedInUsername = session()->get('username');
 
         $klienModel = new KlienModel();
@@ -177,7 +209,8 @@ class homeController extends BaseController
         }
     }
 
-    public function detailPsikolog($id) {
+    public function detailPsikolog($id)
+    {
         $psikologModel = new PsikologModel();
 
         $psikolog = $psikologModel->where('kd_psikolog', $id)->first();

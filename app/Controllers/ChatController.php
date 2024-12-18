@@ -6,6 +6,6 @@ class ChatController extends BaseController
 {
     public function index()
     {
-        return view('chat');
+        return view('roomForum');
     }
 }

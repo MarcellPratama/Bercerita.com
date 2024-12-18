@@ -115,6 +115,7 @@
                     setiap cerita berharga</p>
             </div>
             <div class="col-md-6 d-flex justify-content-end">
+                <button onclick="location.href='/chat'" class="btn btn-primary d-flex align-items-center me-2" type="button">Room</button>
                 <!-- Input Form Pencarian -->
                 <form class="d-flex search me-2">
                     <input id="searchInput" class="form-control me-2" type="text" placeholder="Cari...">
