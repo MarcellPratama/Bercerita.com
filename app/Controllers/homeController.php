@@ -143,11 +143,13 @@ class homeController extends BaseController
         $forums = $forumModel->findAll();
 
         if ($klienData) {
+            $forums = $forumModel->findAll();
             return view('forumKlien', [
                 'userData' => $klienData,
                 'forums' => $forums,
             ]);
         } elseif ($mhsData) {
+            $forums = $forumModel->where('forum.kd_mahasiswa', $mhsData['kd_mahasiswa'])->findAll();
             return view('CRUD_Forum', [
                 'mhsData' => $mhsData,
                 'forums' => $forums

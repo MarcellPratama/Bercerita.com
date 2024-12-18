@@ -3,29 +3,40 @@
 namespace App\Controllers;
 
 use App\Models\forumModel;
+use App\Models\mahasiswaModel;
 
 class ForumController extends BaseController
 {
     protected $forumModel;
+    protected $mahasiswaModel;
 
     public function __construct()
     {
         $this->forumModel = new forumModel();
+        $this->mahasiswaModel = new mahasiswaModel();
     }
 
     public function index()
     {
-        $forums = $this->forumModel->findAll();
+        $kd_mahasiswa = session()->get('kd_mahasiswa');
+
+        if (!$kd_mahasiswa) {
+            return redirect()->to('/login')->with('error', 'Anda harus login sebagai mahasiswa.');
+        }
+
+        $forums = $this->forumModel->where('kd_mahasiswa', $kd_mahasiswa)->findAll();
+
         return view('CRUD_Forum', ['forums' => $forums]);
-    }
-    public function forumKlien()
-    {
-        $forums = $this->forumModel->findAll();
-        return view('forumKlien', ['forums' => $forums]);
     }
 
     public function addForum()
     {
+        // Ambil data kd_mahasiswa dari sesi login
+        $kd_mahasiswa = session()->get('kd_mahasiswa');
+        if (!$kd_mahasiswa) {
+            return redirect()->to('/login')->with('error', 'DEBUG');
+        }
+
         if (!$this->validate([
             'nama_forum' => 'required|min_length[3]',
             'kategori_forum' => 'required',
@@ -37,23 +48,22 @@ class ForumController extends BaseController
             return redirect()->back()->withInput()->with('error', $this->validator->getErrors());
         }
 
+        // Generate kode forum baru
         $lastForum = $this->forumModel->orderBy('kode_forum', 'DESC')->first();
-        if ($lastForum) {
-            $lastNumber = (int) substr($lastForum['kode_forum'], 2);
-            $newNumber = $lastNumber + 1;
-        } else {
-            $newNumber = 1;
-        }
-
+        $newNumber = $lastForum ? (int) substr($lastForum['kode_forum'], 2) + 1 : 1;
         $kodeForum = 'KF' . str_pad($newNumber, 3, '0', STR_PAD_LEFT);
 
+        // Upload file foto
         $foto = $this->request->getFile('foto');
-        $fotoName = $foto->getName();
+        $fotoName = $foto->getRandomName();
         if ($foto->isValid() && !$foto->hasMoved()) {
             $foto->move('uploads/forum/', $fotoName);
+        } else {
+            return redirect()->back()->with('error', 'Gagal mengunggah foto.');
         }
 
-        $this->forumModel->save([
+        // Simpan data ke database
+        $saved = $this->forumModel->save([
             'kode_forum' => $kodeForum,
             'nama_forum' => $this->request->getPost('nama_forum'),
             'kategori_forum' => $this->request->getPost('kategori_forum'),
@@ -61,17 +71,30 @@ class ForumController extends BaseController
             'tanggal' => $this->request->getPost('tanggal'),
             'jumlah_peserta' => $this->request->getPost('jumlah_peserta'),
             'foto' => 'uploads/forum/' . $fotoName,
+            'kd_mahasiswa' => $kd_mahasiswa,
         ]);
+
+        if (!$saved) {
+            return redirect()->back()->with('error', 'Gagal menyimpan forum ke database.');
+        }
 
         return redirect()->to('/forum')->with('success', 'Forum berhasil ditambahkan');
     }
 
+
     public function deleteForum($kode_forum)
     {
-        $forum = $this->forumModel->find($kode_forum);
+        $kd_mahasiswa = session()->get('kd_mahasiswa');
+        if (!$kd_mahasiswa) {
+            return redirect()->to('/login')->with('error', 'Anda harus login sebagai mahasiswa.');
+        }
+
+        $forum = $this->forumModel->where('kode_forum', $kode_forum)
+            ->where('kd_mahasiswa', $kd_mahasiswa)
+            ->first();
 
         if (!$forum) {
-            return redirect()->to('/forum')->with('error', 'Forum tidak ditemukan');
+            return redirect()->to('/forum')->with('error', 'Forum tidak ditemukan atau Anda tidak memiliki akses.');
         }
 
         if (!empty($forum['foto']) && file_exists($forum['foto'])) {

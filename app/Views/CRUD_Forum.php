@@ -140,12 +140,6 @@
         </div>
         <h3><?= strtoupper($mhsData['username'] ?? 'Nama Pengguna') ?></h3>
 
-        <!-- <div class="search-container">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search search-icon" viewBox="0 0 16 16">
-                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
-            </svg>
-            <input type="text" class="search-input" placeholder="Cari forum...">
-        </div> -->
         <form class="search-container">
             <input type="text" class="search-input" placeholder="Cari forum...">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search search-icon" viewBox="0 0 16 16">
@@ -231,7 +225,13 @@
                 </div>
                 <div class="form-group">
                     <label for="kategori_forum">Kategori Forum</label>
-                    <input type="text" id="kategori_forum" name="kategori_forum" placeholder="Masukkan kategori forum" required>
+                    <select id="kategori_forum" name="kategori_forum" required>
+                        <option value="">Pilih</option>
+                        <option value="percintaan">Percintaan</option>
+                        <option value="keluarga">Keluarga</option>
+                        <option value="quarter_life_crisis">Quarter Life Crisis</option>
+                        <option value="gangguan_mental">Gangguan Mental</option>
+                    </select>
                 </div>
                 <div class="form-group">
                     <label for="deskripsi">Deskripsi Forum</label>
@@ -267,32 +267,59 @@
             }
 
             span.onclick = function() {
-                modal.style.display = "none";
+                modal.style.animation = 'slideOut 0.3s ease-in';
+                setTimeout(() => modal.style.display = "none", 300);
             }
 
             window.onclick = function(event) {
                 if (event.target == modal) {
-                    modal.style.display = "none";
+                    modal.style.animation = 'slideOut 0.3s ease-in';
+                    setTimeout(() => modal.style.display = "none", 300);
                 }
             }
         });
 
+        function confirmDelete(url) {
+            if (confirm("Apakah Anda yakin ingin menghapus forum ini?")) {
+                window.location.href = url;
+            }
+        }
+
         document.getElementById('searchInput').addEventListener('input', function() {
             const query = this.value.toLowerCase();
-            const items = document.querySelectorAll('#forumContainer .filter-item');
+            const items = document.querySelectorAll('.filter-item');
 
             items.forEach(item => {
                 const title = item.querySelector('h2').textContent.toLowerCase();
-
-                // Cek apakah title mengandung query pencarian
                 if (title.includes(query)) {
-                    item.style.display = ''; // Tampilkan item
+                    item.style.display = '';
                 } else {
-                    item.style.display = 'none'; // Sembunyikan item
+                    item.style.display = 'none';
                 }
             });
         });
+        document.getElementById('tanggal').addEventListener('input', function() {
+            const today = new Date().toISOString().split('T')[0];
+            if (this.value > today) {
+                alert('Tanggal tidak boleh di masa depan!');
+                this.value = today;
+            }
+        });
     </script>
+
+    <style>
+        @keyframes slideOut {
+            from {
+                transform: translateY(0);
+                opacity: 1;
+            }
+
+            to {
+                transform: translateY(-20px);
+                opacity: 0;
+            }
+        }
+    </style>
 </body>
 
 </html>

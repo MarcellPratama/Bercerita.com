@@ -278,7 +278,8 @@ class userController extends BaseController
                         return redirect()->to('/login');
                     case 'Diterima':
                         session()->set([
-                            'user_id' => $mahasiswa['kd_mahasiswa'],
+                            'isLoggedIn' => true,
+                            'kd_mahasiswa' => $mahasiswa['kd_mahasiswa'],
                             'username' => $mahasiswa['username'],
                             'role' => 'mahasiswa'
                         ]);
