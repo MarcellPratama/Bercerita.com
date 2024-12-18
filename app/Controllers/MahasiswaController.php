@@ -32,29 +32,42 @@ class MahasiswaController extends BaseController
         $email = $this->request->getPost('email');
         $asalUniversitas = $this->request->getPost('asal_universitas');
         $nim = $this->request->getPost('nim');
-
-        // Cek apakah username sudah ada yang menggunakan
+    
         $mahasiswaModel = new MahasiswaModel();
+    
+        // Cek apakah username sudah digunakan oleh mahasiswa lain
         $existingUser = $mahasiswaModel->where('username', $username)->first();
         if ($existingUser && $existingUser['kd_mahasiswa'] != $kodeMahasiswa) {
             return redirect()->back()->with('error', 'Username sudah digunakan oleh mahasiswa lain.');
         }
-
-        // Update data mahasiswa
-        $data = [
-            'username' => $username,
-            'password' => password_hash($password, PASSWORD_BCRYPT),
-            'email' => $email,
-            'asal_univ' => $asalUniversitas,
-            'nim' => $nim,
-        ];
-
-        $mahasiswaModel->update($kodeMahasiswa, $data);
-
-        // Redirect ke halaman profil dengan pesan sukses
-        return redirect()->to('/mahasiswa/profile')->with('success', 'Profil berhasil diperbarui.');
+    
+        // Inisialisasi data yang akan diupdate
+        $data = [];
+    
+        if (!empty($username)) {
+            $data['username'] = $username;
+        }
+        if (!empty($password)) {
+            $data['password'] = password_hash($password, PASSWORD_BCRYPT);
+        }
+        if (!empty($email)) {
+            $data['email'] = $email;
+        }
+        if (!empty($asalUniversitas)) {
+            $data['asal_univ'] = $asalUniversitas;
+        }
+        if (!empty($nim)) {
+            $data['nim'] = $nim;
+        }
+    
+        // Update hanya jika ada data
+        if (!empty($data)) {
+            $mahasiswaModel->update($kodeMahasiswa, $data);
+            return redirect()->to('/mahasiswa/profile')->with('success', 'Profil berhasil diperbarui.');
+        } else {
+            return redirect()->back()->with('error', 'Tidak ada data yang diperbarui.');
+        }
     }
-
     // Mengupdate foto profil mahasiswa
     public function uploadProfilePicture()
     {

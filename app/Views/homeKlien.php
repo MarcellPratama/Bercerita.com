@@ -38,7 +38,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="/todolist" class="nav-link">
+                        <a href="/beranda" class="nav-link">
                             <svg width="32" height="32" viewBox="0 0 40 37" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
                                 <path
@@ -450,7 +450,7 @@
                                 <p class="card-text">Berpengalaman dalam menganani kasus terkait kecemasan dan gangguan
                                     depresi.</p>
                                 <div class="d-flex justify-content-between">
-                                    <a href="#" class="btn btn-primary">Buat Janji</a>
+                                    <a href="/chat" class="btn btn-primary">Buat Janji</a>
                                     <a href="#" class="detail-link">Selengkapnya...</a>
                                 </div>
                             </div>

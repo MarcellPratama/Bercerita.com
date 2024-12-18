@@ -61,4 +61,8 @@ $routes->delete('mading/deleteMading/(:segment)', 'adminController::deleteMading
 $routes->get('/adminLihatDetailPsiko/(:any)', 'AdminController::cekVerifikasiPsikolog/$1');
 $routes->get('/adminLihatDetailMahasiswa/(:any)', 'adminController::cekVerifikasiMhsPsikologi/$1');
 
+
 $routes->post('/psikolog/updateProfilePhoto', 'PsikologController::updateProfilePhoto');
+$routes->get('pemesanan', 'transaksiController::pemesananPage');
+$routes->get('/psikolog/(:segment)', 'homeController::detailPsikolog/$1');
+$routes->get('/chat', 'ChatController::index');

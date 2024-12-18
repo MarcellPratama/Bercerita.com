@@ -51,7 +51,8 @@ class homeController extends BaseController
         return redirect()->to('/login')->with('error', 'Akun tidak ditemukan.');
     }
 
-    public function EditProfile() {
+    public function EditProfile()
+    {
         $loggedInUsername = session()->get('username');
 
         $klienModel = new KlienModel();
@@ -64,14 +65,14 @@ class homeController extends BaseController
 
         $mahasiswaData = $mahasiswaModel->where('username', $loggedInUsername)->first();
         if ($mahasiswaData) {
-            return view('editProfileKlien', ['userData' => $mahasiswaData]);
+            return view('editprofileMHS', ['userData' => $mahasiswaData]);
         }
     }
 
     public function forum(): string
     {
         $loggedInUsername = session()->get('username');
-    
+
         $klienModel = new KlienModel();
         $forumModel = new forumModel();
         //$this->forumKlienModel = new forum_klienModel();
@@ -95,7 +96,8 @@ class homeController extends BaseController
         }
     }
 
-    public function jejakPerasaan(): string {
+    public function jejakPerasaan(): string
+    {
         $loggedInUsername = session()->get('username');
 
         $klienModel = new KlienModel();

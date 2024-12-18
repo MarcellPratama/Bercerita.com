@@ -7,7 +7,12 @@
     <title>Edit Profil Mahasiswa</title>
     <style>
     body {
-        background: linear-gradient(to bottom, #77E4C8, #36C2CE, #478CCF);
+        background: linear-gradient(to bottom, #478CCF, #36C2CE, #77E4C8);
+        width: 100%;
+        height: 100vh;
+        background-size: cover;
+        /* Adjust to fit the entire area without cutting */
+        background-repeat: no-repeat;
         font-family: 'Poppins', sans-serif;
         margin: 0;
         padding: 20px;
@@ -153,13 +158,13 @@
 
         <div class="profile_pic">
             <img id="profile-image"
-                src="<?= isset($data['foto']) ? base_url($data['foto']) : base_url('path/to/default-profile.png') ?>"
+                src="<?= isset($userData['foto']) ? base_url($userData['foto']) : base_url('path/to/default-profile.png') ?>"
                 alt="Foto Profil">
         </div>
         <input type="file" id="file-input" style="display: none;" accept="image/*" name="profile_pic"
             onchange="previewImage(event)">
-        <h3><?= strtoupper($data['username'] ?? 'Nama Pengguna') ?></h3>
-        <p style="opacity: 0.5;"><?= $data['email'] ?? 'Email Pengguna' ?></p>
+        <h3><?= strtoupper($userData['username'] ?? 'Nama Pengguna') ?></h3>
+        <p style="opacity: 0.5;"><?= $userData['email'] ?? 'Email Pengguna' ?></p>
     </div>
 
     <div class="separator"></div>
@@ -167,10 +172,11 @@
     <div class="form_container">
         <form action="<?= base_url('mahasiswa/updateProfile') ?>" method="POST" enctype="multipart/form-data"
             onsubmit="return validateForm(this)">
-            <input type="hidden" name="kode_mahasiswa" value="<?= $data['kd_mahasiswa'] ?? '' ?>">
+            <input type="hidden" name="kode_mahasiswa" value="<?= $userData['kd_mahasiswa'] ?? '' ?>">
             <div class="form_group">
                 <label for="username">Nama Pengguna</label>
-                <input type="text" id="username" name="username" value="<?= $data['username'] ?? '' ?>" placeholder="">
+                <input type="text" id="username" name="username" value="<?= $userData['username'] ?? '' ?>"
+                    placeholder="">
             </div>
             <div class="form_group">
                 <label for="password">Kata Sandi Baru</label>
@@ -180,16 +186,16 @@
             </div>
             <div class="form_group">
                 <label for="email">Email</label>
-                <input type="email" id="email" name="email" value="<?= $data['email'] ?? '' ?>" placeholder="">
+                <input type="email" id="email" name="email" value="<?= $userData['email'] ?? '' ?>" placeholder="">
             </div>
             <div class="form_group">
                 <label for="asal_universitas">Asal Universitas</label>
-                <input type="text" id="asal_universitas" name="asal_universitas" value="<?= $data['asal_univ'] ?? '' ?>"
-                    placeholder="">
+                <input type="text" id="asal_universitas" name="asal_universitas"
+                    value="<?= $userData['asal_univ'] ?? '' ?>" placeholder="">
             </div>
             <div class="form_group">
                 <label for="nim">NIM</label>
-                <input type="text" id="nim" name="nim" value="<?= $data['nim'] ?? '' ?>" placeholder="">
+                <input type="text" id="nim" name="nim" value="<?= $userData['nim'] ?? '' ?>" placeholder="">
             </div>
 
             <button class="save_button" type="submit" id="saveButton">Simpan</button>
