@@ -7,6 +7,6 @@ use CodeIgniter\Model;
 class forumRelasiModel extends Model
 {
     protected $table = 'forum_klien';
-    protected $primaryKey = 'id_relasi';
+    protected $primaryKey = 'id';
     protected $allowedFields = ['kd_klien', 'kode_forum'];
 }

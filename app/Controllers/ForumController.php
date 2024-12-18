@@ -78,7 +78,7 @@ class ForumController extends BaseController
             return redirect()->back()->with('error', 'Gagal menyimpan forum ke database.');
         }
 
-        return redirect()->to('/forum')->with('success', 'Forum berhasil ditambahkan');
+        return redirect()->to('/forumKlien')->with('success', 'Forum berhasil ditambahkan');
     }
 
 
@@ -94,7 +94,7 @@ class ForumController extends BaseController
             ->first();
 
         if (!$forum) {
-            return redirect()->to('/forum')->with('error', 'Forum tidak ditemukan atau Anda tidak memiliki akses.');
+            return redirect()->to('/forumKlien')->with('error', 'Forum tidak ditemukan atau Anda tidak memiliki akses.');
         }
 
         if (!empty($forum['foto']) && file_exists($forum['foto'])) {
@@ -102,7 +102,7 @@ class ForumController extends BaseController
         }
 
         $this->forumModel->delete($kode_forum);
-        return redirect()->to('/forum')->with('success', 'Forum berhasil dihapus');
+        return redirect()->to('/forumKlien')->with('success', 'Forum berhasil dihapus');
     }
 
     public function joinForum()

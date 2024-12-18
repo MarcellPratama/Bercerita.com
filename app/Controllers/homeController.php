@@ -8,7 +8,6 @@ use App\Models\psikologModel;
 use App\Models\adminModel;
 use App\Models\forumModel;
 use App\Models\catatanModel;
-use App\Models\forumRelasiModel;
 
 class homeController extends BaseController
 {
@@ -96,35 +95,6 @@ class homeController extends BaseController
         $mahasiswaData = $mahasiswaModel->where('username', $loggedInUsername)->first();
         if ($mahasiswaData) {
             return view('editprofileMHS', ['data' => $mahasiswaData]);
-        }
-    }
-
-    public function roomChat()
-    {
-        $loggedInUsername = session()->get('username');
-
-        $klienModel = new KlienModel();
-        $mahasiswaModel = new MahasiswaModel();
-        $forumRelasiModel = new forumRelasiModel();
-        $forumModel = new forumModel();
-
-        $klienData = $klienModel->where('username', $loggedInUsername)->first();
-        if ($klienData) {
-            $forums = $forumRelasiModel
-                    ->select('forum.*')
-                    ->join('forum', 'forum.kode_forum = forum_klien.kode_forum')
-                    ->where('forum_klien.kd_klien', $klienData['kd_klien'])
-                    ->findAll();
-
-            return view('roomForum', [
-                'userData' => $klienData,
-                'forums' => $forums
-            ]);
-        }
-
-        $mahasiswaData = $mahasiswaModel->where('username', $loggedInUsername)->first();
-        if ($mahasiswaData) {
-            return view('roomForum', ['data' => $mahasiswaData]);
         }
     }
 

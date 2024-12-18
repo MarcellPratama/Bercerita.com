@@ -66,5 +66,9 @@ $routes->get('/adminLihatDetailMahasiswa/(:any)', 'adminController::cekVerifikas
 $routes->get('pemesanan', 'transaksiController::pemesananPage');
 $routes->get('/psikolog/(:segment)', 'homeController::detailPsikolog/$1');
 
-$routes->get('/chat', 'homeController::roomChat');
+$routes->get('/chat', 'ChatController::index');
+$routes->get('/chatT', 'ChatController::train');
 $routes->post('/forum/join', 'ForumController::joinForum');
+
+$routes->post('/chat/save', 'ChatController::saveMessage');
+$routes->get('chat/getMessages/(:segment)', 'ChatController::getMessages/$1');

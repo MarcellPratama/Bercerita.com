@@ -97,7 +97,11 @@
                     <?php if (isset($forums) && !empty($forums)): ?>
                         <?php foreach ($forums as $forum): ?>
                             <li class="list-group-item" style="background-color: #2A6F97;">
-                                <a href="" style="text-decoration: none; color: black;">
+                                <a class="forum-link"
+                                    data-nama="<?= esc($forum['nama_forum']) ?>"
+                                    data-foto="<?= base_url($forum['foto']) ?>"
+                                    data-kode-forum="<?= esc($forum['kode_forum']) ?>"
+                                    style="text-decoration: none; color: black;">
                                     <div class="row">
                                         <div class="col-md-4">
                                             <div class="me-2">
@@ -120,47 +124,105 @@
             <!-- Chat Room -->
             <div class="col-md-9">
                 <div class="card">
-                    <div class="card-header text-white" style="background-color:#00336F;">
+                    <div class="card-header text-white" style="background-color:#00336F;" id="group-chat-header">
                         <h5 class="mb-0">Group Chat</h5>
                     </div>
-                    <div class="card-body overflow-auto" style="height: 450px;">
-                        <!-- Messages -->
-                        <div class="d-flex mb-3">
-                            <div class="me-2">
-                                <img src="https://via.placeholder.com/40" class="rounded-circle" alt="User">
-                            </div>
-                            <div>
-                                <div class="p-2 rounded" style="background-color: #89C2D9;">
-                                    <strong>John Doe</strong>
-                                    <p class="mb-0">Hello everyone! How's it going?</p>
-                                </div>
-                                <small class="text-muted">10:00 AM</small>
-                            </div>
-                        </div>
-
-                        <div class="d-flex mb-3 justify-content-end">
-                            <div>
-                                <div class="text-white p-2 rounded" style="background-color: #00336F;">
-                                    <strong>You</strong>
-                                    <p class="mb-0">Hi John! Everything is good.</p>
-                                </div>
-                                <small class="text-muted">10:05 AM</small>
-                            </div>
-                            <div class="ms-2">
-                                <img src="https://via.placeholder.com/40" class="rounded-circle" alt="You">
-                            </div>
-                        </div>
-                    </div>
+                    <div class="card-body overflow-auto" style="height: 450px;"></div>
                     <div class="card-footer">
                         <div class="input-group">
-                            <input type="text" class="form-control" placeholder="Type your message here...">
-                            <button class="btn" style="background-color: #2A6F97; color: #f6f6f6;" type="button">Send</button>
+                            <input type="text" class="form-control" placeholder="Type your message here..." id="message">
+                            <button class="btn" style="background-color: #2A6F97; color: #f6f6f6;" type="button" id="send">Send</button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Ambil semua elemen dengan class "forum-link"
+            const forumLinks = document.querySelectorAll('.forum-link');
+
+            // Tambahkan event listener untuk setiap elemen
+            forumLinks.forEach(link => {
+                link.addEventListener('click', function(event) {
+                    event.preventDefault(); // Cegah reload halaman
+
+                    // Ambil data dari atribut data
+                    const forumNama = this.getAttribute('data-nama');
+                    const forumFoto = this.getAttribute('data-foto');
+
+                    // Update header dengan nama dan foto forum
+                    const header = document.getElementById('group-chat-header');
+                    header.innerHTML = `
+                    <div class="d-flex align-items-center">
+                        <img src="${forumFoto}" class="rounded-circle me-2" style="width: 40px; height: 40px; object-fit: cover;">
+                        <h5 class="mb-0">${forumNama}</h5>
+                    </div>
+                `;
+                });
+            });
+        });
+
+        const ws = new WebSocket('ws://localhost:8082');
+        const chatBody = document.querySelector('.card-body');
+        const messageInput = document.getElementById('message');
+        const sendButton = document.getElementById('send');
+
+        // Fungsi untuk membuat bubble chat
+        function createChatBubble(message, type) {
+            const bubbleWrapper = document.createElement('div');
+            bubbleWrapper.className = `d-flex mb-3 ${type === 'sent' ? 'justify-content-end' : ''}`;
+
+            const bubbleContent = `
+            <div>
+                <div class="p-2 rounded" style="background-color: ${type === 'sent' ? '#00336F; color: #fff;' : '#89C2D9; color: #000;'}">
+                    <p class="mb-0">${message}</p>
+                </div>
+                <small class="text-muted">${new Intl.DateTimeFormat('id-ID', {
+                    timeZone: 'Asia/Jakarta',
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    hour12: true
+                }).format(new Date())}</small>
+            </div>
+        `;
+
+            if (type === 'sent') {
+                bubbleWrapper.innerHTML = `
+                ${bubbleContent}
+                <div class="ms-2">
+                    <img src="<?= base_url($userData['foto']) ?>" style="width:40px ; height:40px ; object-fit: cover" class="rounded-circle" alt="User">
+                </div>
+            `;
+            } else {
+                bubbleWrapper.innerHTML = `
+                <div class="me-2">
+                    <img src="https://via.placeholder.com/40" class="rounded-circle" alt="User">
+                </div>
+                ${bubbleContent}
+            `;
+            }
+
+            chatBody.appendChild(bubbleWrapper);
+            chatBody.scrollTop = chatBody.scrollHeight; // Auto scroll ke bawah
+        }
+
+        // Ketika menerima pesan dari server
+        ws.onmessage = function(event) {
+            createChatBubble(event.data, 'received');
+        };
+
+        // Kirim pesan ke server
+        sendButton.onclick = function() {
+            const message = messageInput.value.trim();
+            if (message) {
+                createChatBubble(message, 'sent');
+                ws.send(message);
+                messageInput.value = '';
+            }
+        };
+    </script>
 </body>
 
 </html>
