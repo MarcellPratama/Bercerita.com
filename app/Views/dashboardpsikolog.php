@@ -98,7 +98,7 @@
                     <div id="tentang-saya-text-view" contenteditable="false">
                         <?= empty($psikolog['tentang_saya']) ? '-' : esc($psikolog['tentang_saya']) ?></div>
 
-                    <br><br>
+                    <br>
                     <i class="bi bi-chat-heart" style="font-size: 1.5rem"></i>
                     <div class="section-title">Pendekatan Klinis</div>
                     <textarea id="pendekatan-klinis-text" name="pendekatan_klinis" style="display:none;"
@@ -106,12 +106,12 @@
                     <div id="pendekatan-klinis-text-view" contenteditable="false">
                         <?= empty($psikolog['pendekatan_klinis']) ? '-' : esc($psikolog['pendekatan_klinis']) ?>
                     </div>
-                    <br><br>
+                    <br>
                     <i class="bi bi-geo-alt" style="font-size: 1.5rem"></i>
                     <div class="section-title">Domisili</div>
                     <div class="section-content"> <?= esc($psikolog['domisili']) ?> </div>
 
-                    <br><br>
+                    <br>
                     <i class="bi bi-coin" style="font-size: 1.5rem;"></i>
                     <div class="section-title">Tarif Konsultasi</div>
                     <textarea id="tarif-text" name="tarif-text" style="display:none;"
@@ -119,6 +119,10 @@
                     <div id="tarif-text-view" contenteditable="false">
                         <?= empty($psikolog['tarif']) ? '' : 'Rp'. number_format((float)$psikolog['tarif'], 2, ',', '.') ?>
                     </div>
+                    <br>
+                    <i class="bi bi-bandaid" style="font-size: 1.5rem"></i>
+                    <div class="section-title">Layanan</div>
+                    <div class="section-content"> <?= esc($psikolog['layanan']) ?> </div>
                     
 
                     <a href="#" id="edit-profile-btn" class="edit-button">Edit Profile</a>
@@ -175,6 +179,22 @@
               <span id="next-month" class="calendar-nav">&gt;</span>
             </div>
             <div class="calendar-grid" id="calendar-grid"></div>
+            <!-- Modal untuk detail konsultasi -->
+            <div id="modal" style="display: none;">
+              <div class="modal-overlay"></div>
+              <div class="modal-content"></div>
+            </div>
+            <div id="calendar-legend">
+            <div class="legend-item">
+              <span class="legend-color" style="background-color: pink;"></span> Konsultasi Chat
+            </div>
+            <div class="legend-item">
+              <span class="legend-color" style="background-color: blue;"></span> Konsultasi Tatap muka
+            </div>
+            <div class="legend-item">
+              <span class="legend-color" style="background-color: red;"></span> Tutup
+            </div>
+          </div>
           </div>
       </div>
       
@@ -225,7 +245,7 @@
       </div>
       <div id="kelola-content" class="kelola-content" style="display: none;">
        <div class="container-content">
-          <div class="schedule">
+          <!-- <div class="schedule">
             <h3>Jadwal saat ini</h3>
             <ul>
               <?php if (!empty($jadwal)): ?>
@@ -239,32 +259,59 @@
                   <li>Jadwal belum tersedia.</li>
               <?php endif; ?>
             </ul>
-        </div>
-      <form action="/psikolog/simpanJadwal" method="post" >
-      <?= csrf_field() ?>
-        <div class="edit-jadwal">
-            <h3>Edit Jadwal</h3>
-            <label for="hari">Hari</label>
-            <select name="hari" id="hari">
-                <option>Senin</option>
-                <option>Selasa</option>
-                <option>Rabu</option>
-                <option>Kamis</option>
-                <option>Jumat</option>
-                <option>Sabtu</option>
-                <option>Minggu</option>
-            </select>
-            <label for="jam_buka">Jam Buka</label>
-            <input type="time" name="jam_buka" id="time-open" required>
-            <br>
-
-            <label for="jam_tutup">Jam Tutup</label>
-            <input type="time" name="jam_tutup" id="time-close" required>
-            <br>
-            <button type="submit" id="simpan-jadwal">Simpan</button>
-        </div>
-        </form>
-
+        </div> -->
+        <?php if (empty($jadwal)): ?>
+          <form action="/psikolog/simpanJadwal" method="post">
+              <?= csrf_field() ?>
+              <div class="edit-jadwal">
+                  <h3>Edit Jadwal</h3>
+                  <table>
+                      <thead>
+                          <tr>
+                              <th>Hari</th>
+                              <th>Jam Buka</th>
+                              <th>Jam Tutup</th>
+                              <th>Status</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                          <?php
+                          $days = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+                          foreach ($days as $day): ?>
+                              <tr>
+                                  <td><?= $day ?></td>
+                                  <td>
+                                      <input type="time" name="jadwal[<?= $day ?>][jam_buka]">
+                                  </td>
+                                  <td>
+                                      <input type="time" name="jadwal[<?= $day ?>][jam_tutup]">
+                                  </td>
+                                  <td>
+                                      <select name="jadwal[<?= $day ?>][status]" required>
+                                          <option value="Buka">Buka</option>
+                                          <option value="Tutup">Tutup</option>
+                                      </select>
+                                  </td>
+                              </tr>
+                          <?php endforeach; ?>
+                      </tbody>
+                  </table>
+                  <button type="submit">Simpan</button>
+              </div>
+          </form>
+          <?php else: ?>
+          <!-- Jadwal tersimpan -->
+          <div class="jadwal-tersimpan">
+              <h3>Jadwal Anda</h3>
+              <ul>
+                  <?php foreach ($jadwal as $row): ?>
+                      <li>
+                          <strong><?= $row['hari'] ?></strong>: <?= $row['jam_buka'] ?> - <?= $row['jam_tutup'] ?> (<?= $row['status'] ?>)
+                      </li>
+                  <?php endforeach; ?>
+              </ul>
+          </div>
+          <?php endif; ?>
            <!-- Popup untuk Pesan -->
           <?php if (session()->getFlashdata('error')): ?>
           <div id="popup-error" class="popup-overlay">
@@ -335,6 +382,7 @@ function enableEditMode() {
 // Fungsi untuk menyimpan perubahan
 function disableEditMode() {
     // Mengembalikan tampilan ke mode tampilan
+    
     tentangSayaText.style.display = "none";
     pendekatanKlinisText.style.display = "none";
     tariftext.style.display = "none";
@@ -475,31 +523,95 @@ fotoInput.addEventListener("change", function(e) {
       "November",
       "December",
     ];
+    const hariJadwal = <?= $hariJadwal ?>; // Hari jadwal praktik (dari backend)
+    const chatSchedules = <?= $chatSchedules ?>; // Konsultasi chat (dari backend)
+    const offlineSchedules = <?= $offlineSchedules ?>;
+    
+    const hariMapping = { 'Minggu': 0, 'Senin': 1, 'Selasa': 2, 'Rabu': 3, 'Kamis': 4, 'Jumat': 5, 'Sabtu': 6 };
 
     let currentMonth = new Date().getMonth();
     let currentYear = new Date().getFullYear();
 
     function generateCalendar(month, year) {
-      const calendarGrid = document.getElementById("calendar-grid");
-      calendarGrid.innerHTML = "";
-      document.getElementById("month-year").textContent =
-        monthNames[month] + " " + year;
-      const firstDay = new Date(year, month, 1).getDay();
-      const daysInMonth = new Date(year, month + 1, 0).getDate();
+    const calendarGrid = document.getElementById("calendar-grid");
+    calendarGrid.innerHTML = "";
+    document.getElementById("month-year").textContent = `${monthNames[month]} ${year}`;
 
-      for (let i = 0; i < firstDay; i++) {
-        const emptyCell = document.createElement("div");
-        emptyCell.classList.add("calendar-day");
-        calendarGrid.appendChild(emptyCell);
-      }
+    const today = new Date();
+    const todayString = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, "0")}-${String(today.getDate()).padStart(2, "0")}`;
 
-      for (let day = 1; day <= daysInMonth; day++) {
-        const dayCell = document.createElement("div");
-        dayCell.classList.add("calendar-day");
-        dayCell.textContent = day;
-        calendarGrid.appendChild(dayCell);
-      }
+    const firstDay = new Date(year, month, 1).getDay();
+    const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+    for (let i = 0; i < firstDay; i++) {
+      const emptyCell = document.createElement("div");
+      emptyCell.classList.add("calendar-day");
+      calendarGrid.appendChild(emptyCell);
     }
+
+    for (let day = 1; day <= daysInMonth; day++) {
+      const dayCell = document.createElement("div");
+      dayCell.classList.add("calendar-day");
+
+      const date = `${year}-${String(month + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+      const currentDay = new Date(year, month, day).getDay();
+
+      // Tanggal sudah lewat
+      if (new Date(date) < new Date(todayString)) {
+        dayCell.classList.add("past-date");
+      }
+
+      // Warna merah: Hari tidak ada di jadwal praktik
+      if (!hariJadwal.some(hari => hariMapping[hari] === currentDay)) {
+        dayCell.classList.add("no-schedule");
+      }
+
+      // Warna hijau: Konsultasi tatap muka
+      const offlineConsultation = offlineSchedules.find(offline => offline.tanggal === date);
+      if (offlineConsultation) {
+        dayCell.classList.add("tm-schedule");
+        dayCell.addEventListener("click", () => showDetail(offlineConsultation, 'tatap_muka'));
+      }
+
+      // Warna merah muda: Konsultasi chat
+      const chatConsultation = chatSchedules.find(chat => chat.tanggal === date);
+      if (chatConsultation) {
+        dayCell.classList.add("chat-schedule");
+        dayCell.addEventListener("click", () => showDetail(chatConsultation, 'chat'));
+      }
+
+      dayCell.textContent = day;
+      calendarGrid.appendChild(dayCell);
+    }
+  }
+    // Fungsi untuk menampilkan modal detail konsultasi
+function showDetail(detail, jenisKonsultasi) {
+  const modal = document.getElementById("modal");
+  modal.innerHTML = `
+    <div class="modal-content">
+      <span class="close" onclick="closeModal()">&times;</span>
+      <h3>Detail Konsultasi</h3>
+      <p><strong>Nama Klien:</strong> ${detail.nama}</p>
+      <p><strong>Waktu Konsultasi:</strong> ${detail.waktu}</p>
+      ${jenisKonsultasi === 'tatap_muka' ? `<p><strong>Tempat:</strong> ${detail.tempat}</p>` : ""}
+
+      <!-- Form untuk tombol selesai -->
+      ${jenisKonsultasi === 'tatap_muka' ? `
+      <form method="POST" action="/psikolog/update-status">
+        <input type="hidden" name="kd_pesan" value="${detail.id}">
+        <button type="submit">Selesai</button>
+      </form>
+      ` : ""}
+    </div>
+  `;
+  modal.style.display = "block";
+}
+
+// Fungsi untuk menutup modal
+function closeModal() {
+  const modal = document.getElementById("modal");
+  modal.style.display = "none";
+}
 
     document.getElementById("prev-month").addEventListener("click", () => {
       currentMonth--;
@@ -543,6 +655,5 @@ fotoInput.addEventListener("change", function(e) {
     function closePopup(id) {
         document.getElementById(id).style.display = 'none';
     }
-    
 </script>
 </html>

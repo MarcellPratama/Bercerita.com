@@ -21,7 +21,7 @@ class psikologModel extends Model
 
         // Panggil fungsi insert asli milik Model
         return parent::insert($data, $returnID);
-    }
+    } 
 
     // Fungsi untuk menghasilkan ID psikolog baru
     private function generateNewId()

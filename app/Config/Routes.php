@@ -49,8 +49,7 @@ $routes->get('dashboardpsikolog', 'PsikologController::dashboard');
 $routes->post('/psikolog/updateProfilePhoto', 'PsikologController::updateProfilePhoto');
 $routes->post('/psikolog/simpanLayanan', 'PsikologController::simpanLayanan');
 $routes->post('/psikolog/simpanJadwal', 'PsikologController::simpanJadwal');
-// $routes->get('/jadwal', 'PsikologController::dashboard');
-
+$routes->post('/psikolog/update-status', 'PsikologController::updateStatusSelesai');
 
 $routes->get('/adminLihatDetailPsikolog/(:any)', 'adminController::lihatDetailPsikolog/$1');
 $routes->get('/adminLihatDetailMhs/(:any)', 'adminController::lihatDetailMhs/$1');
