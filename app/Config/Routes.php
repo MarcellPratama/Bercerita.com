@@ -50,6 +50,8 @@ $routes->post('/psikolog/updateProfilePhoto', 'PsikologController::updateProfile
 $routes->post('/psikolog/simpanLayanan', 'PsikologController::simpanLayanan');
 $routes->post('/psikolog/simpanJadwal', 'PsikologController::simpanJadwal');
 $routes->post('/psikolog/update-status', 'PsikologController::updateStatusSelesai');
+$routes->get('api/chat/(:segment)', 'ChatController::getChatMessages/$1');
+
 
 $routes->get('/adminLihatDetailPsikolog/(:any)', 'adminController::lihatDetailPsikolog/$1');
 $routes->get('/adminLihatDetailMhs/(:any)', 'adminController::lihatDetailMhs/$1');

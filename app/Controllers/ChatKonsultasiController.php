@@ -17,7 +17,7 @@ class ChatController extends BaseController
             'message'    => $this->request->getPost('message'),
             'created_at' => date('Y-m-d H:i:s')                   // Waktu pengiriman
         ];
-
+        
         $chatModel->saveMessage($data);
 
         return $this->response->setJSON(['status' => 'success']);

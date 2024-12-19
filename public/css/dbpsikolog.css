@@ -1088,3 +1088,65 @@ h3 {
   font-size: 20px;
   cursor: pointer;
 }
+.chat-container {
+  margin-top: 20px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 10px;
+  background: #fff;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.chat-box {
+  max-height: 300px;
+  overflow-y: auto;
+  background: #f9f9f9;
+  border: 1px solid #ddd;
+  margin-bottom: 10px;
+  padding: 10px;
+}
+
+.message {
+  margin: 10px 0;
+}
+
+.message.received .content {
+  background: #ddd;
+  color: black;
+  padding: 10px;
+  border-radius: 5px;
+  text-align: left;
+}
+
+.message.sent .content {
+  background: #7ad1f9;
+  color: white;
+  padding: 10px;
+  border-radius: 5px;
+  text-align: right;
+}
+
+.input-box {
+  display: flex;
+}
+
+.input-box input {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  margin-right: 10px;
+}
+
+.input-box button {
+  padding: 10px;
+  background: #7ad1f9;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.input-box button:hover {
+  background: #5cbfe8;
+}

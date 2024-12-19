@@ -137,41 +137,56 @@
               <button id="chat">Chat</button>
               <button id="kelola">Kelola Jadwal</button>
           </div>
-          <div id="session-chat">
-            <div class="session">
-                <div class="session-title">Sesi Chat Hari ini</div>
-                <?php if (!empty($todaySessions)): ?>
-                    <?php foreach ($todaySessions as $session): ?>
-                        <div class="session-item">
-                            <div><?= $session['time'] ?><br><?= $session['name'] ?></div>
-                            <div>
-                                <button class="chat-button">Chat</button>
-                                <button class="complete-button">Selesai</button>
-                            </div>
-                        </div>
-                    <?php endforeach; ?>
-                <?php else: ?>
-                    <p>No sessions available for today.</p>
-                <?php endif; ?>
-            </div>
+          <?php 
+          $todaySessions = $sessionChat['todaySessions'] ?? [];
+          $tomorrowSessions = $sessionChat['tomorrowSessions'] ?? [];
+          ?>
 
-            <div class="session">
-                <div class="session-title">Sesi Chat Besok</div>
-                <?php if (!empty($tomorrowSessions)): ?>
-                    <?php foreach ($tomorrowSessions as $session): ?>
-                        <div class="session-item">
-                            <div><?= $session['time'] ?><br><?= $session['name'] ?></div>
-                            <div>
-                                <button class="chat-button">Chat</button>
-                                <button class="complete-button">Selesai</button>
-                            </div>
-                        </div>
-                    <?php endforeach; ?>
-                <?php else: ?>
-                    <p>No sessions available for tomorrow.</p>
-                <?php endif; ?>
-            </div>
-            </div>
+          <div id="session-chat">
+              <!-- Sesi Chat Hari Ini -->
+              <div class="session">
+                  <div class="session-title">Sesi Chat Hari ini</div>
+                  <?php if (!empty($todaySessions)): ?>
+                      <?php foreach ($todaySessions as $session): ?>
+                          <div class="session-item">
+                              <div>
+                                  <?= htmlspecialchars($session['time']) ?><br>
+                                  <Strong><?= htmlspecialchars($session['name'] ?? 'Tidak Diketahui') ?></Strong>
+                              </div>
+                              <div>
+                                  <button class="chat-button">Chat</button>
+                                  <button class="complete-button">Selesai</button>
+                              </div>
+                          </div>
+                      <?php endforeach; ?>
+                  <?php else: ?>
+                      <p>No sessions available for today.</p>
+                  <?php endif; ?>
+              </div>
+
+              <!-- Sesi Chat Besok -->
+              <div class="session">
+                  <div class="session-title">Sesi Chat Besok</div>
+                  <?php if (!empty($tomorrowSessions)): ?>
+                      <?php foreach ($tomorrowSessions as $session): ?>
+                          <div class="session-item">
+                              <div>
+                                  <?= htmlspecialchars($session['time']) ?><br>
+                                  <strong><?= htmlspecialchars($session['name'] ?? 'Tidak Diketahui') ?></strong>
+                              </div>
+                              <div>
+                                  <button class="chat-button">Chat</button>
+                                  <button class="complete-button">Selesai</button>
+                              </div>
+                          </div>
+                      <?php endforeach; ?>
+                  <?php else: ?>
+                      <p>No sessions available for tomorrow.</p>
+                  <?php endif; ?>
+              </div>
+          </div>
+
+
             <div class="calendar-container" id="calendar-container" style="display: none;">
             <div class="calendar-header">
               <span id="prev-month" class="calendar-nav">&lt;</span>

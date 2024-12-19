@@ -291,6 +291,7 @@ public function sessionChat()
     $today = date('Y-m-d');
     $tomorrow = date('Y-m-d', strtotime('+1 day'));
 
+
     // Ambil sesi hari ini
     $todaySessions = $pemesananModel
         ->select('waktu_konsultasi AS time, jenis_konsultasi, kd_mahasiswa, kd_klien')
@@ -307,10 +308,12 @@ public function sessionChat()
 
     // Tambahkan nama pengguna (klien atau mahasiswa)
     foreach ($todaySessions as &$session) {
+        $session['time'] = date('H:i', strtotime($session['time']));
         $session['name'] = $this->getUserName($session['kd_mahasiswa'], $session['kd_klien'], $klienModel, $mahasiswaModel);
     }
 
     foreach ($tomorrowSessions as &$session) {
+        $session['time'] = date('H:i', strtotime($session['time']));
         $session['name'] = $this->getUserName($session['kd_mahasiswa'], $session['kd_klien'], $klienModel, $mahasiswaModel);
     }
     $data = (['todaySessions' => $todaySessions,

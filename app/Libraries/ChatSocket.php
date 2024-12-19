@@ -2,16 +2,22 @@
 
 namespace App\Libraries;
 
+require __DIR__ . '/vendor/autoload.php';
+require __DIR__ . '/path/to/CodeIgniter/bootstrap.php'; // Path ke bootstrap CI4 Anda
+
 use Ratchet\MessageComponentInterface;
 use Ratchet\ConnectionInterface;
+use App\Models\ChatKonsultasiModel;
 
-class ChatServer implements MessageComponentInterface
+class ChatSocket implements MessageComponentInterface
 {
     protected $clients;
+    protected $ChatKonsultasiModel;
 
     public function __construct()
     {
         $this->clients = new \SplObjectStorage;
+        $this->ChatKonsultasiModel = new ChatKonsultasiModel(); // Inisialisasi model Chat
     }
 
     public function onOpen(ConnectionInterface $conn)
@@ -22,6 +28,19 @@ class ChatServer implements MessageComponentInterface
 
     public function onMessage(ConnectionInterface $from, $msg)
     {
+        $data = json_decode($msg, true); // Decode pesan JSON
+        if (isset($data['kd_pesan'], $data['sender'], $data['message'])) {
+            // Simpan pesan ke database
+            $this->ChatKonsultasiModel->insert([
+                'kd_pesan'   => $data['kd_pesan'],
+                'sender'     => $data['sender'],
+                'sender_id'  => $data['sender_id'], // Ambil ID pengirim
+                'message'    => $data['message'],
+                'created_at' => date('Y-m-d H:i:s')
+            ]);
+        }
+
+        // Kirim pesan ke klien lain
         foreach ($this->clients as $client) {
             if ($from !== $client) {
                 $client->send($msg);
