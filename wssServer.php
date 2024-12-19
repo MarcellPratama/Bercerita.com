@@ -51,8 +51,8 @@ $server = IoServer::factory(
             new ChatSocket()
         )
     ),
-    8081
+    8082
 );
 
-echo "Server WebSocket berjalan di ws://localhost:8081\n";
+echo "Server WebSocket berjalan di ws://localhost:8082\n";
 $server->run();
