@@ -128,7 +128,7 @@
 
 <body>
     <div class="menu">
-        <div class="back-icon" onclick="window.history.back();">
+        <div class="back-icon" onclick="location.href='/beranda'">
             <img src="<?= base_url('Images/kembali.png') ?>" alt="Back Icon">
         </div>
         <div class="profile_pic">
@@ -227,10 +227,10 @@
                     <label for="kategori_forum">Kategori Forum</label>
                     <select id="kategori_forum" name="kategori_forum" required>
                         <option value="">Pilih</option>
-                        <option value="percintaan">Percintaan</option>
-                        <option value="keluarga">Keluarga</option>
-                        <option value="quarter_life_crisis">Quarter Life Crisis</option>
-                        <option value="gangguan_mental">Gangguan Mental</option>
+                        <option value="Percintaan">Percintaan</option>
+                        <option value="Keluarga">Keluarga</option>
+                        <option value="Quarter Life Crisis">Quarter Life Crisis</option>
+                        <option value="Gangguan Mental">Gangguan Mental</option>
                     </select>
                 </div>
                 <div class="form-group">

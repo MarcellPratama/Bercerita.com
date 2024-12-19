@@ -80,7 +80,8 @@ class homeController extends BaseController
         return redirect()->to('/login')->with('error', 'Akun tidak ditemukan.');
     }
 
-    public function EditProfile() {
+    public function EditProfile()
+    {
         $loggedInUsername = session()->get('username');
 
         $klienModel = new KlienModel();
@@ -129,7 +130,7 @@ class homeController extends BaseController
     public function konsultasiPage(): string
     {
         $loggedInUsername = session()->get('username');
-    
+
         $klienModel = new KlienModel();
         $psikologModel = new PsikologModel();
         $mahasiswaModel = new mahasiswaModel();
@@ -152,7 +153,8 @@ class homeController extends BaseController
         }
     }
 
-    public function jejakPerasaan(): string {
+    public function jejakPerasaan(): string
+    {
         $loggedInUsername = session()->get('username');
 
         $klienModel = new KlienModel();
@@ -179,7 +181,8 @@ class homeController extends BaseController
         }
     }
 
-    public function detailPsikolog($id) {
+    public function detailPsikolog($id)
+    {
         $psikologModel = new PsikologModel();
 
         $psikolog = $psikologModel->where('kd_psikolog', $id)->first();
