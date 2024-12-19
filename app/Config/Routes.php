@@ -73,3 +73,6 @@ $routes->post('/forum/join', 'ForumController::joinForum');
 
 $routes->post('/chat/save', 'ChatController::saveMessage');
 $routes->get('chat/getMessages/(:segment)', 'ChatController::getMessages/$1');
+
+$routes->get('/chat', 'ChatMController::index');
+$routes->get('/test-save-message', 'ChatMController::testSaveMessage');
