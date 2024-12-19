@@ -141,7 +141,7 @@
     </div>
   </div>
 
-  <script src="/js/chat.js"></script>
+  <script src="/js/ChatM.js"></script>
   <script>
     const chatBox = document.getElementById('chat-box');
     const messageInput = document.getElementById('message');
